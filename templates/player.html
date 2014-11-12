@@ -34,15 +34,13 @@
 <div class="landing container-fluid">
 		<img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr-logo.png">
 		<div class="landing-card">
-			<h1 class="landing-title">Songs We Love</h1>
-			<h2 class="la-title">Our Favorite Songs Of 2014</h2>
-		<div class="go">
-			<li><a href="#">GO</a></li>
-		</div>
+			<h2 class="slug">Songs We Love 2014</h2>
+			<h1 class="title">Our mixtape of the best songs of the year</h1>
+			<a class="go js-go" href="#">GO</a>
 		</div>
 </div>
 
-<div class="current-song">
+<div class="current-song" style="display: none;">
 	<div class="song container-fluid">
 		<div class="song-info">
 			<img class="album-cover img-responsive" src="{{ S3_BASE_URL }}/assets/img/2chainz.jpg">
@@ -92,7 +90,7 @@
 </div>
 
 
-<div class="player">
+<div class="player" style="display: none;">
 	<div class="controls">
 		<a href="#" class="player-button"><i class="fa fa-pause"></i></a>
 	</div>
@@ -105,11 +103,12 @@
 </div>
 
 
-<div class="playlist-filters tags">
+<div class="playlist-filters tags" style="display: none;">
 	<h2>Filter playlist</h2>
 	<ul class="list-unstyled">
 		<li><a href="#">Playful</a></li>
 		<li><a href="#">Rap</a></li>
+		<li class="disabled"><a href="#">Southern Rap</a></li>
 		<li><a href="#">Charmingly Insidious</a></li>
 		<li><a href="#">Club Banger</a></li>
 	</ul>

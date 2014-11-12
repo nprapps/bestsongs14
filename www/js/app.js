@@ -1,6 +1,7 @@
 // Global jQuery references
 var $shareModal = null;
 var $commentCount = null;
+var $goButton = null;
 
 // Global state
 var firstShareLoad = true;
@@ -12,10 +13,12 @@ var onDocumentLoad = function(e) {
     // Cache jQuery references
     $shareModal = $('#share-modal');
     $commentCount = $('.comment-count');
+    $goButton = $('.js-go');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
+    $goButton.on('click', onGoButtonClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -25,8 +28,9 @@ var onDocumentLoad = function(e) {
         clippy.on('aftercopy', onClippyCopy);
     });
 
-    renderExampleTemplate();
-    getCommentCount(showCommentCount);
+    onWindowResize();
+    // renderExampleTemplate();
+    // getCommentCount(showCommentCount);
 }
 
 /*
@@ -88,6 +92,9 @@ var onClippyCopy = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
 }
 
+/*
+ * Fade in the next song of the playlist
+ */
 var showNewSong = function(e) {
     // $('.played-song').slideDown();
     $('.new-song').fadeIn();
@@ -97,5 +104,14 @@ var showNewSong = function(e) {
         }, 500);
     }, 200);
 }
+
+/*
+ * Fade in the next song of the playlist
+ */
+var onGoButtonClick = function(e) {
+    $('.current-song, .player, .playlist-filters').fadeIn();
+    $(this).fadeOut();
+}
+
 
 $(onDocumentLoad);
