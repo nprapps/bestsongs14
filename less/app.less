@@ -78,11 +78,11 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 
 		.album-cover {
-			.make-md-column(4);
+			.make-sm-column(4);
 		}
 
 		.song-info-wrapper {
-			.make-md-column(8);
+			.make-sm-column(8);
 		}
 	}
 }
@@ -90,6 +90,11 @@ h1,h2,h3,h4,h5,h6 {
 
 .album-cover {
 	margin-bottom: @line-height-computed;
+
+	@media screen and (max-width: @screen-xs-max){
+		width: 100% / 3;
+		float: left;
+	}
 }
 
 .song-title {
@@ -99,12 +104,13 @@ h1,h2,h3,h4,h5,h6 {
 .artist {
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
-	letter-spacing: 0.1em;
+	letter-spacing: 1px;
+	font-size: @font-size-base * 1.5;
 	color: @music-red-light;
 }
 
 .review-wrapper {
-	.clearfix;
+	clear: both;
 
 	.review {
 		background: @white;
@@ -163,24 +169,27 @@ h1,h2,h3,h4,h5,h6 {
 		text-transform: uppercase;
 		font-size: @font-size-small;
 		letter-spacing: 1px;
+		border-width: 2px;
+		border-style: solid;
 
 		.transition(0.2s all ease-in-out);
 	}
 
-	li:nth-child(1) a { background: @tag-1; }
-	li:nth-child(2) a { background: @tag-2; }
-	li:nth-child(3) a { background: @tag-3; }
-	li:nth-child(4) a { background: @tag-4; }
-	li:nth-child(5) a { background: @tag-5; }
-	li:nth-child(6) a { background: @tag-6; }
-	li:nth-child(7) a { background: @tag-7; }
-	li:nth-child(8) a { background: @tag-8; }
-	li:nth-child(9) a { background: @tag-9; }
-	li:nth-child(10) a { background: @tag-10; }
+	li:nth-child(1) a { border-color: @tag-1; color: @tag-1; }
+	li:nth-child(2) a { border-color: @tag-2; color: @tag-2; }
+	li:nth-child(3) a { border-color: @tag-3; color: @tag-3; }
+	li:nth-child(4) a { border-color: @tag-4; color: @tag-4; }
+	li:nth-child(5) a { border-color: @tag-5; color: @tag-5; }
+	li:nth-child(6) a { border-color: @tag-6; color: @tag-6; }
+	li:nth-child(7) a { border-color: @tag-7; color: @tag-7; }
+	li:nth-child(8) a { border-color: @tag-8; color: @tag-8; }
+	li:nth-child(9) a { border-color: @tag-9; color: @tag-9; }
+	li:nth-child(10) a { border-color: @tag-10; color: @tag-10; }
 
 	li a:hover {
 		text-decoration: none;
 		background: @white;
+		border-color: @white;
 		color: @music-dark;
 	}
 
@@ -214,23 +223,27 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-.fixed-player {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
+.player {
+	position: relative;
 	height: 80px;
 	background: fadeout(@music-dark,5%);
 	line-height: 80px;
+	margin: 0 @grid-gutter-width;
 
-	.controls,
-	.artist,
-	.song-title {
-		display: inline-block;
+	.controls {
 		vertical-align: middle;
 		margin-right: @grid-gutter-width / 2;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 100;
+	}
+
+	.artist,
+	.song-title {
 		position: relative;
 		z-index: 100;
+		margin-left: @grid-gutter-width / 2;
 	}
 
 	.player-button {
@@ -244,7 +257,9 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.artist {
-		font-size: @font-size-base * 1.8;
+		font-size: @font-size-base * 1.2;
+		margin-top: 10px;
+		margin-bottom: 5px;
 	}
 
 	.song-title {
@@ -260,6 +275,7 @@ h1,h2,h3,h4,h5,h6 {
 		right: 0;
 
 		.bar {
+			display: none;
 			position: absolute;
 			top: 0;
 			bottom: 0;
@@ -269,9 +285,41 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
+.playlist-filters {
+	margin: @grid-gutter-width;
+
+	h2 {
+		font-family: 'Knockout 31 4r';
+		text-transform: uppercase;
+		color: @music-dark;
+		font-size: @font-size-base * 1.2;
+		letter-spacing: 0.2rem;
+	}
+
+	li:nth-child(1) a { background: @tag-1; }
+	li:nth-child(2) a { background: @tag-2; }
+	li:nth-child(3) a { background: @tag-3; }
+	li:nth-child(4) a { background: @tag-4; }
+	li:nth-child(5) a { background: @tag-5; }
+	li:nth-child(6) a { background: @tag-6; }
+	li:nth-child(7) a { background: @tag-7; }
+	li:nth-child(8) a { background: @tag-8; }
+	li:nth-child(9) a { background: @tag-9; }
+	li:nth-child(10) a { background: @tag-10; }
+
+	li a:link {
+		color: @white;
+	}
+
+	li a:hover {
+		color: @music-dark;
+		background-color: @white;
+		border-color: @white;
+	}
+}
+
 .current-song {
 	position: relative;
-	min-height: 2000px;
 
 
 	// .song {
