@@ -59,6 +59,7 @@ body {
 	background: @blue-darker;
 	color: @white;
 	font-family: 'Gotham SSm',Helvetica,Arial,sans-serif;
+	padding-bottom: 120px;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -180,6 +181,10 @@ h1,h2,h3,h4,h5,h6 {
 		background: @white;
 		color: @music-dark;
 	}
+
+	.disabled {
+		opacity: 0.5;
+	}
 }
 
 .played-song {
@@ -213,7 +218,7 @@ h1,h2,h3,h4,h5,h6 {
 	left: 0;
 	right: 0;
 	height: 80px;
-	background: @music-dark;
+	background: fadeout(@music-dark,5%);
 	line-height: 80px;
 
 	.controls,
@@ -260,4 +265,16 @@ h1,h2,h3,h4,h5,h6 {
 			background-color: fadeout(@music-medium, 80%);
 		}
 	}
+}
+
+.current-song {
+	position: relative;
+	min-height: 2000px;
+
+
+	// .song {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// }
 }

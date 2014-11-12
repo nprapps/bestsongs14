@@ -88,4 +88,14 @@ var onClippyCopy = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
 }
 
+var showNewSong = function(e) {
+    // $('.played-song').slideDown();
+    $('.new-song').fadeIn();
+    _.delay(function(){
+        $('html, body').animate({
+            scrollTop: $(".new-song").offset().top
+        }, 500);
+    }, 200);
+}
+
 $(onDocumentLoad);
