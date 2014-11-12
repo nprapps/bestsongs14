@@ -150,6 +150,62 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
+
+
+.landing.container-fluid {
+	.logo.img-responsive {
+		display: inline-block;
+		margin-bottom: 60px;
+		max-width: 100px;
+		height: auto;
+	}
+
+	padding: 30px;
+	h1.landing-title { 
+		font-size: 60px;
+		margin-bottom: 40px;
+	}
+	
+	h2.landing-title { 
+		font-size: @font-size-large;
+	}
+
+	.make-md-column(12);
+	min-height: 700px;
+	top: 30px;
+	text-align: center;
+
+}
+
+	
+
+
+.go {
+	li {
+		display: inline-block;
+		margin-bottom: 5px;
+	}
+
+	li a {
+		display: block;
+		padding: 12px;
+		color: @white;
+		margin-top: 50px;
+		text-transform: uppercase;
+		font-size: @font-size-large;
+		letter-spacing: 1px;
+		background: @tag-1; 
+
+		.transition(0.2s all ease-in-out);
+	}
+
+	li a:hover {
+		text-decoration: none;
+		background: @white;
+		color: @music-dark;
+	}
+}
+
 .tags {
 	li {
 		display: inline-block;
@@ -271,7 +327,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .current-song {
 	position: relative;
-	min-height: 2000px;
+	min-height: 1500px;
 
 
 	// .song {
