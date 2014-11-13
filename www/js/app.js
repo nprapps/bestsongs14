@@ -2,6 +2,7 @@
 var $shareModal = null;
 var $commentCount = null;
 var $goButton = null;
+var $audioPlayer = null;
 
 // Global state
 var firstShareLoad = true;
@@ -14,7 +15,8 @@ var onDocumentLoad = function(e) {
     $shareModal = $('#share-modal');
     $commentCount = $('.comment-count');
     $goButton = $('.js-go');
-
+    $audioPlayer = $('#audio-player');
+    
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
@@ -33,9 +35,24 @@ var onDocumentLoad = function(e) {
     // renderExampleTemplate();
     // getCommentCount(showCommentCount);
     SONG_DATA = _.shuffle(SONG_DATA);
-
+    setupAudio();
 }
 
+var setupAudio = function() {
+     $audioPlayer.jPlayer({
+        ready: function () {
+            $(this).jPlayer('setMedia', {
+                mp3: '/assets/songs/folk_song.mp3'
+            });
+
+            // $(this).jPlayer('play');
+
+        },
+        // ended: obj.startArchiveStream,
+        supplied: 'mp3',
+        loop: false,
+    });
+}
 /*
  * Basic templating example.
  */
