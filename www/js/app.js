@@ -19,6 +19,7 @@ var onDocumentLoad = function(e) {
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
+    $(window).on('resize', onWindowResize);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -120,6 +121,18 @@ var onGoButtonClick = function(e) {
         }, 200);
 
 
+    $('.current-song, .player, .playlist-filters').fadeIn();
+
+    $('html, body').animate({
+        scrollTop: $('.current-song').offset().top
+    }, 2000);
+}
+
+/*
+ * Fade in the next song of the playlist
+ */
+var onWindowResize = function(e) {
+    $('.landing').css('height', $(window).height());
 }
 
 
