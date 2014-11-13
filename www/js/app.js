@@ -114,18 +114,18 @@ var onGoButtonClick = function(e) {
 
     $(this).fadeOut();
 
-    _.delay(function(){
-            $('html, body').animate({
-                scrollTop: $(".current-song").offset().top 
-            }, 500);
-        }, 200);
+    // _.delay(function(){
+    //         $('html, body').animate({
+    //             scrollTop: $(".current-song").offset().top 
+    //         }, 500);
+    //     }, 200);
 
 
     $('.current-song, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
         scrollTop: $('.current-song').offset().top
-    }, 2000);
+    }, 1000);
 }
 
 /*

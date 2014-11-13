@@ -3,15 +3,17 @@
 """
 Commands that update or process the application data.
 """
+import csv
 from datetime import datetime
 import json
 
-from fabric.api import task
+from fabric.api import task, local
 from facebook import GraphAPI
 from twitter import Twitter, OAuth
 
 import app_config
 import copytext
+
 
 @task(default=True)
 def update():
@@ -19,6 +21,21 @@ def update():
     Stub function for updating app-specific data.
     """
     #update_featured_social()
+
+@task
+def update_songs():
+    local('curl -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
+    
+    output = []
+
+    with open('data/songs.csv') as f:
+        rows = csv.DictReader(f)
+
+        for row in rows:
+            output.append(row)
+        
+    with open('www/live-data/songs.json', 'w') as f:
+        json.dump(output, f)
 
 @task
 def update_featured_social():
