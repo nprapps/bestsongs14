@@ -109,8 +109,17 @@ var showNewSong = function(e) {
  * Fade in the next song of the playlist
  */
 var onGoButtonClick = function(e) {
-    $('.current-song, .player, .playlist-filters').fadeIn();
+    $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
+
     $(this).fadeOut();
+
+    _.delay(function(){
+            $('html, body').animate({
+                scrollTop: $(".current-song").offset().top 
+            }, 500);
+        }, 200);
+
+
 }
 
 

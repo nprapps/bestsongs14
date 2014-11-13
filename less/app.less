@@ -80,10 +80,11 @@ h1,h2,h3,h4,h5,h6 {
 		.album-cover {
 			.make-sm-column(4);
 		}
-
+		
 		.song-info-wrapper {
 			.make-sm-column(8);
 		}
+
 	}
 }
 
@@ -208,7 +209,7 @@ h1,h2,h3,h4,h5,h6 {
 .tags {
 	li {
 		display: inline-block;
-		margin-bottom: 5px;
+		margin-bottom: 3px;
 	}
 
 	li a {
@@ -218,19 +219,77 @@ h1,h2,h3,h4,h5,h6 {
 		text-transform: uppercase;
 		font-size: @font-size-small;
 		letter-spacing: 1px;
+		border-width: 2px;
+		border-style: solid;
+		background: fadeout(@music-medium, 80%);
 		.transition(0.2s all ease-in-out);
 	}
 
-	li:nth-child(1) a { background: @tag-1; }
-	li:nth-child(2) a { background: @tag-2; }
-	li:nth-child(3) a { background: @tag-3; }
-	li:nth-child(4) a { background: @tag-4; }
-	li:nth-child(5) a { background: @tag-5; }
-	li:nth-child(6) a { background: @tag-6; }
-	li:nth-child(7) a { background: @tag-7; }
-	li:nth-child(8) a { background: @tag-8; }
-	li:nth-child(9) a { background: @tag-9; }
-	li:nth-child(10) a { background: @tag-10; }
+	li:nth-child(1) a { background: fadeout(@tag-1, 30%); }
+	li:nth-child(2) a { background: fadeout(@tag-2, 30%); }
+	li:nth-child(3) a { background: fadeout(@tag-3, 30%); }
+	li:nth-child(4) a { background: fadeout(@tag-4, 30%); }
+	li:nth-child(5) a { background: fadeout(@tag-5, 30%); }
+	li:nth-child(6) a { background: fadeout(@tag-6, 30%); }
+	li:nth-child(7) a { background: fadeout(@tag-7, 30%); }
+	li:nth-child(8) a { background: fadeout(@tag-8, 30%); }
+	li:nth-child(9) a { background: fadeout(@tag-9, 30%); }
+	li:nth-child(10) a { background: fadeout(@tag-10, 30%); }
+	li:nth-child(11) a { background: fadeout(@tag-1, 30%); }
+	li:nth-child(12) a { background: fadeout(@tag-2, 30%); }
+	li:nth-child(13) a { background: fadeout(@tag-3, 30%); }
+	li:nth-child(14) a { background: fadeout(@tag-4, 30%); }
+	li:nth-child(15) a { background: fadeout(@tag-5, 30%); }
+	li:nth-child(16) a { background: fadeout(@tag-6, 30%); }
+	li:nth-child(17) a { background: fadeout(@tag-7, 30%); }
+	li:nth-child(18) a { background: fadeout(@tag-8, 30%); }
+	li:nth-child(19) a { background: fadeout(@tag-9, 30%); }
+	li:nth-child(20) a { background: fadeout(@tag-10, 30%); }	
+	li:nth-child(21) a { background: fadeout(@tag-1, 30%); }	
+	li:nth-child(21) a { background: fadeout(@tag-1, 30%); }
+	li:nth-child(22) a { background: fadeout(@tag-2, 30%); }
+	li:nth-child(23) a { background: fadeout(@tag-3, 30%); }
+	li:nth-child(24) a { background: fadeout(@tag-4, 30%); }
+	li:nth-child(25) a { background: fadeout(@tag-5, 30%); }
+	li:nth-child(26) a { background: fadeout(@tag-6, 30%); }
+	li:nth-child(27) a { background: fadeout(@tag-7, 30%); }
+	li:nth-child(28) a { background: fadeout(@tag-8, 30%); }
+	li:nth-child(29) a { background: fadeout(@tag-9, 30%); }
+	li:nth-child(30) a { background: fadeout(@tag-10, 30%); }	
+	li:nth-child(31) a { background: fadeout(@tag-10, 30%); }	
+
+	li:nth-child(1) a { border-color: fadeout(@tag-1, 50%); }
+	li:nth-child(2) a { border-color: fadeout(@tag-2, 50%); }
+	li:nth-child(3) a { border-color: fadeout(@tag-3, 50%); }
+	li:nth-child(4) a { border-color: fadeout(@tag-4, 50%); }
+	li:nth-child(5) a { border-color: fadeout(@tag-5, 50%); }
+	li:nth-child(6) a { border-color: fadeout(@tag-6, 50%); }
+	li:nth-child(7) a { border-color: fadeout(@tag-7, 50%); }
+	li:nth-child(8) a { border-color: fadeout(@tag-8, 50%); }
+	li:nth-child(9) a { border-color: fadeout(@tag-9, 50%); }
+	li:nth-child(10) a { border-color: fadeout(@tag-10, 50%); }
+	li:nth-child(11) a { border-color: fadeout(@tag-1, 50%); }
+	li:nth-child(12) a { border-color: fadeout(@tag-2, 50%); }
+	li:nth-child(13) a { border-color: fadeout(@tag-3, 50%); }
+	li:nth-child(14) a { border-color: fadeout(@tag-4, 50%); }
+	li:nth-child(15) a { border-color: fadeout(@tag-5, 50%); }
+	li:nth-child(16) a { border-color: fadeout(@tag-6, 50%); }
+	li:nth-child(17) a { border-color: fadeout(@tag-7, 50%); }
+	li:nth-child(18) a { border-color: fadeout(@tag-8, 50%); }
+	li:nth-child(19) a { border-color: fadeout(@tag-9, 50%); }
+	li:nth-child(20) a { border-color: fadeout(@tag-10, 50%); }	
+	li:nth-child(21) a { border-color: fadeout(@tag-1, 50%); }	
+	li:nth-child(21) a { border-color: fadeout(@tag-1, 50%); }
+	li:nth-child(22) a { border-color: fadeout(@tag-2, 50%); }
+	li:nth-child(23) a { border-color: fadeout(@tag-3, 50%); }
+	li:nth-child(24) a { border-color: fadeout(@tag-4, 50%); }
+	li:nth-child(25) a { border-color: fadeout(@tag-5, 50%); }
+	li:nth-child(26) a { border-color: fadeout(@tag-6, 50%); }
+	li:nth-child(27) a { border-color: fadeout(@tag-7, 50%); }
+	li:nth-child(28) a { border-color: fadeout(@tag-8, 50%); }
+	li:nth-child(29) a { border-color: fadeout(@tag-9, 50%); }
+	li:nth-child(30) a { border-color: fadeout(@tag-10, 50%); }	
+	li:nth-child(31) a { border-color: fadeout(@tag-10, 50%); }		
 
 	li.disabled a {
 		border-width: 2px;
@@ -247,12 +306,34 @@ h1,h2,h3,h4,h5,h6 {
 	li.disabled:nth-child(8) a { background: transparent; border-color: @tag-8; color: @tag-8; }
 	li.disabled:nth-child(9) a { background: transparent; border-color: @tag-9; color: @tag-9; }
 	li.disabled:nth-child(10) a { background: transparent; border-color: @tag-10; color: @tag-10; }
+	li.disabled:nth-child(11) a { background: transparent; border-color: @tag-1; color: @tag-1; }
+	li.disabled:nth-child(12) a { background: transparent; border-color: @tag-2; color: @tag-2; }
+	li.disabled:nth-child(13) a { background: transparent; border-color: @tag-3; color: @tag-3; }
+	li.disabled:nth-child(14) a { background: transparent; border-color: @tag-4; color: @tag-4; }
+	li.disabled:nth-child(15) a { background: transparent; border-color: @tag-5; color: @tag-5; }
+	li.disabled:nth-child(16) a { background: transparent; border-color: @tag-6; color: @tag-6; }
+	li.disabled:nth-child(17) a { background: transparent; border-color: @tag-7; color: @tag-7; }
+	li.disabled:nth-child(18) a { background: transparent; border-color: @tag-8; color: @tag-8; }
+	li.disabled:nth-child(19) a { background: transparent; border-color: @tag-9; color: @tag-9; }
+	li.disabled:nth-child(20) a { background: transparent; border-color: @tag-10; color: @tag-10; }
+	li.disabled:nth-child(21) a { background: transparent; border-color: @tag-1; color: @tag-1; }
+	li.disabled:nth-child(22) a { background: transparent; border-color: @tag-2; color: @tag-2; }
+	li.disabled:nth-child(23) a { background: transparent; border-color: @tag-3; color: @tag-3; }
+	li.disabled:nth-child(24) a { background: transparent; border-color: @tag-4; color: @tag-4; }
+	li.disabled:nth-child(25) a { background: transparent; border-color: @tag-5; color: @tag-5; }
+	li.disabled:nth-child(26) a { background: transparent; border-color: @tag-6; color: @tag-6; }
+	li.disabled:nth-child(27) a { background: transparent; border-color: @tag-7; color: @tag-7; }
+	li.disabled:nth-child(28) a { background: transparent; border-color: @tag-8; color: @tag-8; }
+	li.disabled:nth-child(29) a { background: transparent; border-color: @tag-9; color: @tag-9; }
+	li.disabled:nth-child(30) a { background: transparent; border-color: @tag-10; color: @tag-10; }
+	li.disabled:nth-child(31) a { background: transparent; border-color: @tag-10; color: @tag-10; }
 
 	li a:hover {
 		text-decoration: none;
-		background: @white;
-		border-color: @white;
-		color: @music-dark;
+		opacity: .5;
+		// background: @white;
+		// border-color: @white;
+		// color: @music-dark;
 	}
 
 	.disabled {
@@ -347,44 +428,79 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-.playlist-filters {
-	margin: @grid-gutter-width;
 
+.filter-head {
+	// margin: @grid-gutter-width;
 	h2 {
 		font-family: 'Knockout 31 4r';
 		text-transform: uppercase;
 		color: @music-dark;
-		font-size: @font-size-base * 1.2;
+		font-size: @font-size-base * 1;
 		letter-spacing: 0.2rem;
+		float:left;		
 	}
 
-	li:nth-child(1) a { background: @tag-1; }
-	li:nth-child(2) a { background: @tag-2; }
-	li:nth-child(3) a { background: @tag-3; }
-	li:nth-child(4) a { background: @tag-4; }
-	li:nth-child(5) a { background: @tag-5; }
-	li:nth-child(6) a { background: @tag-6; }
-	li:nth-child(7) a { background: @tag-7; }
-	li:nth-child(8) a { background: @tag-8; }
-	li:nth-child(9) a { background: @tag-9; }
-	li:nth-child(10) a { background: @tag-10; }
+	p.song-count {
+		float:right;
+		color: @music-dark;
+		letter-spacing: 0.1rem;
+	} 
+}
+
+.playlist-filters {
+	margin: 0;
+	margin-top: 50px;
+
+	// li:nth-child(1) a { background: @tag-1; }
+	// li:nth-child(2) a { background: @tag-2; }
+	// li:nth-child(3) a { background: @tag-3; }
+	// li:nth-child(4) a { background: @tag-4; }
+	// li:nth-child(5) a { background: @tag-5; }
+	// li:nth-child(6) a { background: @tag-6; }
+	// li:nth-child(7) a { background: @tag-7; }
+	// li:nth-child(8) a { background: @tag-8; }
+	// li:nth-child(9) a { background: @tag-9; }
+	// li:nth-child(10) a { background: @tag-10; }	
+	// li:nth-child(11) a { background: @tag-1; }
+	// li:nth-child(12) a { background: @tag-2; }
+	// li:nth-child(13) a { background: @tag-3; }
+	// li:nth-child(14) a { background: @tag-4; }
+	// li:nth-child(15) a { background: @tag-5; }
+	// li:nth-child(16) a { background: @tag-6; }
+	// li:nth-child(17) a { background: @tag-7; }
+	// li:nth-child(18) a { background: @tag-8; }
+	// li:nth-child(19) a { background: @tag-9; }
+	// li:nth-child(20) a { background: @tag-10; }	
+	// li:nth-child(21) a { background: @tag-10; }	
+	// li:nth-child(21) a { background: @tag-1; }
+	// li:nth-child(22) a { background: @tag-2; }
+	// li:nth-child(23) a { background: @tag-3; }
+	// li:nth-child(24) a { background: @tag-4; }
+	// li:nth-child(25) a { background: @tag-5; }
+	// li:nth-child(26) a { background: @tag-6; }
+	// li:nth-child(27) a { background: @tag-7; }
+	// li:nth-child(28) a { background: @tag-8; }
+	// li:nth-child(29) a { background: @tag-9; }
+	// li:nth-child(30) a { background: @tag-10; }
 
 	li a:link {
 		color: @white;
 	}
 
 	li a:hover {
-		color: @music-dark;
-		background-color: @white;
-		border-color: @white;
+		opacity: 50%;
+		// color: @music-dark;
+		// background-color: @white;
+		// border-color: @white;
 	}
 }
 
 .current-song {
 	position: relative;
-
+	// top: 550px;
+	height: 500px;
 	// .song {
-	// 	position: absolute;
+		// position: absolute;
 	// 	top: 0;
 	// 	left: 0;
 	// }

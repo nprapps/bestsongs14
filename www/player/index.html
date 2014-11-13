@@ -38,7 +38,7 @@
     <!-- CSS -->
     
     
-    <link rel="stylesheet" type="text/css" href="../css/app.min.css?1415806129" />
+    <link rel="stylesheet" type="text/css" href="../css/app.min.css?1415905840" />
 
     
 <meta name="twitter:card" content="summary">
@@ -93,7 +93,16 @@
 	</div>
 </div> -->
 
-<div class="current-song">
+<div class="landing container-fluid">
+		<img class="logo img-responsive" src="http://127.0.0.1:8000/assets/img/npr-logo.png">
+		<div class="landing-card">
+			<h2 class="slug">Songs We Love 2014</h2>
+			<h1 class="title">Our mixtape of the best songs of the year</h1>
+			<a class="go js-go" href="#">GO</a>
+		</div>
+</div>
+
+<div class="current-song" style="display: none;">
 	<div class="song container-fluid">
 		<div class="song-info">
 			<img class="album-cover img-responsive" src="http://127.0.0.1:8000/assets/img/2chainz.jpg">
@@ -110,8 +119,7 @@
 
 					<ul class="list-unstyled">
 						<li><a href="#">Playful</a></li>
-						<li class="disabled"><a href="#">Rap</a></li>
-						<li><a href="#">Lars Gotrich</a></li>
+						<li><a href="#">Rap</a></li>
 					</ul>
 				</div>
 			</div>
@@ -135,7 +143,7 @@
 					<ul class="list-unstyled">
 						<li><a href="#">Charmingly Insidious</a></li>
 						<li><a href="#">Club Banger</a></li>
-						<li class="disabled"><a href="#">Bob Boilen</a></li>
+						<li><a href="#">Rap</a></li>
 					</ul>
 				</div>
 			</div>
@@ -144,17 +152,28 @@
 </div>
 
 
-<div class="fixed-player">
+<div class="player" style="display: none;">
 	<div class="controls">
 		<a href="#" class="player-button"><i class="fa fa-pause"></i></a>
 	</div>
 
-	<h2 class="artist">2 Chainz</h2>
-	<h1 class="song-title">&lsquo;Feds Watching&rsquo;</h1>
-
 	<div class="player-progress">
-		<div class="bar" style="width: 20%;"></div>
+		<h2 class="artist">2 Chainz</h2>
+		<h1 class="song-title">&lsquo;Feds Watching&rsquo;</h1>
+		<div class="bar" style="width: 10%;"></div>
 	</div>
+</div>
+
+
+<div class="playlist-filters tags" style="display: none;">
+	<h2>Filter playlist</h2>
+	<ul class="list-unstyled">
+		<li><a href="#">Playful</a></li>
+		<li><a href="#">Rap</a></li>
+		<li class="disabled"><a href="#">Southern Rap</a></li>
+		<li><a href="#">Charmingly Insidious</a></li>
+		<li><a href="#">Club Banger</a></li>
+	</ul>
 </div>
 
 
@@ -245,7 +264,7 @@
     
     
     
-    <script type="text/javascript" src="../js/app-footer.min.js?1415806133"></script>
+    <script type="text/javascript" src="../js/app-footer.min.js?1415905844"></script>
 
     
     
