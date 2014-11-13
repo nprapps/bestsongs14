@@ -32,6 +32,8 @@ var onDocumentLoad = function(e) {
     onWindowResize();
     // renderExampleTemplate();
     // getCommentCount(showCommentCount);
+    SONG_DATA = _.shuffle(SONG_DATA);
+
 }
 
 /*
