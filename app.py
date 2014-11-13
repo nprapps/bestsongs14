@@ -37,6 +37,9 @@ def player():
     with open('data/featured.json') as f:
         context['featured'] = json.load(f)
 
+    with open('data/songs.json') as f:
+        context['song_data'] = f.read()
+
     return make_response(render_template('player.html', **context))
 
 @app.route('/comments/')
