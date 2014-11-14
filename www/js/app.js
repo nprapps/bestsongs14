@@ -1,4 +1,5 @@
 // Global jQuery references
+var $body = null;
 var $shareModal = null;
 var $commentCount = null;
 var $goButton = null;
@@ -14,6 +15,7 @@ var playlist = [];
  */
 var onDocumentLoad = function(e) {
     // Cache jQuery references
+    $body = $('body');
     $shareModal = $('#share-modal');
     $commentCount = $('.comment-count');
     $goButton = $('.js-go');
@@ -23,6 +25,7 @@ var onDocumentLoad = function(e) {
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
+    $body.on('click', '.tags li a', onTagClick);
     $(window).on('resize', onWindowResize);
 
     // configure ZeroClipboard on share panel
