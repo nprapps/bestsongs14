@@ -11,6 +11,7 @@ var $playerTitle = null;
 var $currentTime = null;
 var $allTags = null;
 var $goContinue = null;
+var $moodButtons = null;
 
 
 // Global state
@@ -28,7 +29,7 @@ var onDocumentLoad = function(e) {
     $body = $('body');
     $shareModal = $('#share-modal');
     $commentCount = $('.comment-count');
-    $goButton = $('.js-go');
+    $goButton = $('.go');
     $audioPlayer = $('#audio-player');
     $currentSongWrapper = $('.current-song');
     $previouslyPlayed = $('.previously-played');
@@ -37,12 +38,14 @@ var onDocumentLoad = function(e) {
     $allTags = $('.playlist-filters.tags li a');
     $currentTime = $('.current-time');
     $goContinue = $('.continue');
+    $moodButtons = $('.landing .tags a');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
     $goContinue.on('click', onGoContinueClick);
+    $moodButtons.on('click', onMoodButtonClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
     $currentSongWrapper.on('click', '.skip', onSkipClick);
     $(window).on('resize', onWindowResize);
@@ -117,22 +120,9 @@ var playNextSong = function() {
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
+    console.log('selectedTags', selectedTags)
     if (playedSongs || selectedTags) {
-
         $goContinue.show();
-    }
-    var $matchedTagButtons = $([]);
-    if (selectedTags.length > 0 ) {
-        _.each(selectedTags, function(tag) {
-            var $filtered = $allTags.filter(function() {
-                return $(this).data('tag') === tag;
-            })
-            $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
-        });
-
-        if ($matchedTagButtons) {
-            $matchedTagButtons.removeClass('disabled');
-        }
     }
 }
 
@@ -285,16 +275,50 @@ var hideWelcome  = function() {
     }, 1000);
 }
 
-var onGoContinueClick = function(e) {
-    hideWelcome();
+var highlightSelectedTags = function() {
 
-    playlist = buildPlaylist(selectedTags);
-    playNextSong();
+    $allTags.addClass('disabled');
+
+    var $matchedTagButtons = $([]);
+    console.log(selectedTags);
+    if (selectedTags.length > 0 ) {
+        _.each(selectedTags, function(tag) {
+            var $filtered = $allTags.filter(function() {
+                return $(this).data('tag') === tag;
+            })
+            $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
+        });
+
+        if ($matchedTagButtons) {
+            $matchedTagButtons.removeClass('disabled');
+        }
+    }
+
 }
+
 var onGoButtonClick = function(e) {
     hideWelcome();
 
     playlist = SONG_DATA;
+    selectedTags = [];
+    highlightSelectedTags();
+    playNextSong();
+}
+
+var onGoContinueClick = function(e) {
+    hideWelcome();
+
+    playlist = buildPlaylist(selectedTags);
+    highlightSelectedTags();
+    playNextSong();
+}
+
+var onMoodButtonClick = function(e) {
+    hideWelcome();
+    selectedTags = [$(this).data('tag')];
+    simpleStorage.set('selectedTags', selectedTags);
+    playlist = buildPlaylist(selectedTags);
+    highlightSelectedTags();
     playNextSong();
 }
 
