@@ -9,6 +9,7 @@ var $previouslyPlayed = null;
 var $playerArtist = null;
 var $playerTitle = null;
 
+
 // Global state
 var firstShareLoad = true;
 var playedSongs = [];
@@ -30,6 +31,7 @@ var onDocumentLoad = function(e) {
     $previouslyPlayed = $('.previously-played');
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
+    $allTags = $('.playlist-filters.tags li a');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -53,7 +55,7 @@ var onDocumentLoad = function(e) {
     playlist = SONG_DATA;
 
     setupAudio();
-    loadPlayedSongs();
+    loadState();
 }
 
 var setupAudio = function() {
@@ -91,8 +93,6 @@ var playNextSong = function() {
     var html = JST.current(context);
     $currentSongWrapper.html(html);
 
-    nextSong
-
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
 
@@ -109,8 +109,23 @@ var playNextSong = function() {
 /*
  * Load previously played songs from browser state (cookie, whatever)
  */
-var loadPlayedSongs = function() {
+var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
+    selectedTags = simpleStorage.get('selectedTags') || [];
+    var $matchedTagButtons = $([]);
+    if (selectedTags.length > 0 ) {
+        _.each(selectedTags, function(tag) {
+            var $filtered = $allTags.filter(function() {
+                return $(this).data('tag') === tag;
+            })
+            console.log('filter', $filtered)
+            $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
+        });
+
+        if ($matchedTagButtons) {
+            $matchedTagButtons.removeClass('disabled');
+        }
+    }
 }
 
 /*
@@ -143,11 +158,10 @@ var onTagClick = function(e) {
     if (_.contains(selectedTags, tag)) {
         var index = selectedTags.indexOf(tag);
         selectedTags.splice(index, 1);
-
+        simpleStorage.set('selectedTags', selectedTags);
         $(this).addClass('disabled');
 
         playlist = buildPlaylist(selectedTags);
-        console.log(playlist);
 
         if (_.intersection(currentSong['tags'], selectedTags).length == 0) {
             playNextSong();
@@ -155,8 +169,8 @@ var onTagClick = function(e) {
     // adding a tag
     } else {
         selectedTags.push(tag);
+        simpleStorage.set('selectedTags', selectedTags);
         playlist = buildPlaylist(selectedTags);
-        console.log(playlist);
 
         $(this).removeClass('disabled');
 
