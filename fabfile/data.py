@@ -25,7 +25,7 @@ def update():
     
 @task
 def update_songs():
-    local('curl -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
+    local('curl --silent -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
     
     output = []
 
