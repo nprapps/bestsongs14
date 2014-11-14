@@ -5,12 +5,13 @@ var $commentCount = null;
 var $goButton = null;
 var $audioPlayer = null;
 var $currentSongWrapper = null;
-
+var $previouslyPlayed = null;
 
 // Global state
 var firstShareLoad = true;
 var playedSongs = [];
 var playlist = [];
+var currentSong = null;
 
 /*
  * Run on page load.
@@ -23,12 +24,14 @@ var onDocumentLoad = function(e) {
     $goButton = $('.js-go');
     $audioPlayer = $('#audio-player');
     $currentSongWrapper = $('.current-song');
+    $previouslyPlayed = $('.previously-played');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
     $body.on('click', '.tags li a', onTagClick);
+    $currentSongWrapper.on('click', '.skip', onSkipClick);
     $(window).on('resize', onWindowResize);
 
     // configure ZeroClipboard on share panel
@@ -59,14 +62,21 @@ var setupAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
+    if (currentSong) {
+        var context = $.extend(APP_CONFIG, currentSong);
+        var html = JST.played(context);
+        $previouslyPlayed.append(html);
+    }
+
     var nextSong = _.find(SONG_DATA, function(song) {
         return !(_.contains(playedSongs, song['unique_id']));
     })
 
+    // TODO
+    // What do we do if we don't find one? (we've played them all)
+
     var context = $.extend(APP_CONFIG, nextSong);
-
     var html = JST.current(context);
-
     $currentSongWrapper.html(html);
 
     var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
@@ -75,24 +85,15 @@ var playNextSong = function() {
         mp3: nextsongURL
     }).jPlayer('play');
 
-
-    // TODO
-    // What do we do if we don't find one? (we've played them all)
-
-    // render "last played" JST of current song
-    // render "currently playing" JST of next song
-    // replace current song with the next song
-    // add last song to stack of played songs (history)
-    // rebind events inside the two JST's (or have use jquery's live(), maybe)
-
-    markSongPlayed(nextSong);
+    currentSong = nextSong;
+    markSongPlayed(currentSong);
 }
 
 /*
  * Load previously played songs from browser state (cookie, whatever)
  */
 var loadPlayedSongs = function() {
-    playedSongs = simpleStorage.get('playedSongs') || [];
+    // playedSongs = simpleStorage.get('playedSongs') || [];
 }
 
 /*
