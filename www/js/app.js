@@ -4,6 +4,8 @@ var $shareModal = null;
 var $commentCount = null;
 var $goButton = null;
 var $audioPlayer = null;
+var $currentSongWrapper = null;
+
 
 // Global state
 var firstShareLoad = true;
@@ -20,6 +22,7 @@ var onDocumentLoad = function(e) {
     $commentCount = $('.comment-count');
     $goButton = $('.js-go');
     $audioPlayer = $('#audio-player');
+    $currentSongWrapper = $('.current-song');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -60,11 +63,18 @@ var playNextSong = function() {
         return !(_.contains(playedSongs, song['unique_id']));
     })
 
+    var context = $.extend(APP_CONFIG, nextSong);
+
+    var html = JST.current(context);
+
+    $currentSongWrapper.html(html);
+
     var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
     $audioPlayer.jPlayer('setMedia', {
         mp3: nextsongURL
     }).jPlayer('play');
+
 
     // TODO
     // What do we do if we don't find one? (we've played them all)
@@ -82,7 +92,7 @@ var playNextSong = function() {
  * Load previously played songs from browser state (cookie, whatever)
  */
 var loadPlayedSongs = function() {
-    playedSongs = simpleStorage.get('playedSongs');
+    playedSongs = simpleStorage.get('playedSongs') || [];
 }
 
 /*
@@ -213,7 +223,6 @@ var onGoButtonClick = function(e) {
     //             scrollTop: $(".current-song").offset().top
     //         }, 500);
     //     }, 200);
-
 
     $('.current-song, .player, .playlist-filters').fadeIn();
 
