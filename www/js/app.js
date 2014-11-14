@@ -61,6 +61,21 @@ var setupAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
+    
+    console.log(SONG_DATA)
+    var nextsong = _.findWhere(SONG_DATA, { played: 'false' })
+    console.log('nextsong', nextsong);
+
+    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextsong.mp3_file
+
+
+
+    $audioPlayer.jPlayer('setMedia', {
+        mp3: nextsongURL
+    }).jPlayer('play');
+
+
+
     // TODO
     // Loop over playlist until we find a song that hasn't been played
     // What do we do if we don't find one? (we've played them all)
@@ -80,6 +95,7 @@ var playNextSong = function() {
  */
 var loadPlayedSongs = function() {
     // TODO
+    // fetch from cookies ids?
 }
 
 /*
@@ -95,12 +111,12 @@ var markSongPlayed = function () {
  * Build a playlist from a set of tags.
  */
 var buildPlaylist = function(tags) {
-    var playlist = [];
+    var newPlaylist = [];
 
     // TODO
     // filter SONG_DATA, probably with _.filter()
 
-    return playlist;
+    return newPlaylist;
 }
 
 /*
