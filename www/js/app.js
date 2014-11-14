@@ -6,6 +6,8 @@ var $goButton = null;
 var $audioPlayer = null;
 var $currentSongWrapper = null;
 var $previouslyPlayed = null;
+var $playerArtist = null;
+var $playerTitle = null;
 
 // Global state
 var firstShareLoad = true;
@@ -26,6 +28,8 @@ var onDocumentLoad = function(e) {
     $audioPlayer = $('#audio-player');
     $currentSongWrapper = $('.current-song');
     $previouslyPlayed = $('.previously-played');
+    $playerArtist = $('.player .artist');
+    $playerTitle = $('.player .song-title');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -57,8 +61,14 @@ var setupAudio = function() {
         ended: playNextSong,
         supplied: 'mp3',
         loop: false,
+        timeupdate: onTimeUpdate
     });
 }
+
+var onTimeUpdate = function(e) {
+    var time_text = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
+    $('.current-time').text(time_text);
+};
 
 /*
  * Play the next song in the playlist.
@@ -80,6 +90,11 @@ var playNextSong = function() {
     var context = $.extend(APP_CONFIG, nextSong);
     var html = JST.current(context);
     $currentSongWrapper.html(html);
+
+    nextSong
+
+    $playerArtist.text(nextSong['artist'])
+    $playerTitle.text(nextSong['title'])
 
     var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
