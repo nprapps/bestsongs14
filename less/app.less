@@ -74,36 +74,44 @@ h1,h2,h3,h4,h5,h6 {
 
 .landing {
 	background: @white;
-	text-align: center;
+	text-align: right;
 	clear: both;
-	padding: 30px;
-	background-image: url('https://d1zjcuqflbd5k.cloudfront.net/files/acc_298/10CLv?response-content-disposition=inline;%20filename=Screen%20Capture%20on%202014-11-13%20at%2017-40-33.gif&Expires=1415918504&Signature=Qv8q7v2yNo3R9bTDL9OmgI9ADpBla8vYF2M3C9sxE3PzhXbc-3ZTKDoJP3H5KshLZN4WgANvhNH3MWiGDG7sqKAOrgRGCNvX1yAxHCw1XFjUFllKkQj70m60t5kn3wNdKJ48CDDd9PUe02R7bYShyU45-7j16gjGyKo3alOCzts_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA');
-	background-size: cover;
 	display: table;
 	width: 100%;
 
+	.poster {
+		display: table-cell;
+		width: 100% * 2/3;
+		background-image: url('../assets/img/cassette2.gif');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: left center;
+	}
+
 	.landing-content {
 		display: table-cell;
-		vertical-align: middle
+		vertical-align: middle;
+		background: rgba(255,255,255,0.8);
+		padding: 20px;
 	}
 
 	.logo.img-responsive {
 		display: inline-block;
-		margin-bottom: 10vh;
-		width: 20vw;
+		margin-bottom: 30px;
+		width: 200px;
 		max-height: 100%;
 	}
 
 	.slug {
 		text-transform: uppercase;
 		font-family: 'Knockout 31 4r';
-		font-size: 2.5vw;
+		font-size: 18px;
 		margin: 0 0 @line-height-computed / 2;
 		color: @music-red-light;
 	}
 
 	.title {
-		font-size: 9vw;
+		font-size: 60px;
 		line-height: 1;
 		font-family: 'Gotham';
 		margin: 0 0 @line-height-computed;
@@ -112,15 +120,15 @@ h1,h2,h3,h4,h5,h6 {
 
 	h2 {
 		color: #222;
-		font-size: 2.5vw;
-		margin-bottom: 10vh;
+		font-size: 18px;
+		margin-bottom: 30px;
 		font-family: 'Knockout 31 4r';
 		text-transform: uppercase;
 	}
 
 	h3 {
 		color: #666;
-		font-size: 1.5vw;
+		font-size: 14px;
 		text-transform: uppercase;
 	}
 }
@@ -132,7 +140,7 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 12px;
 	color: @white;
 	text-transform: uppercase;
-	font-size: 2vw;
+	font-size: 18px;
 	letter-spacing: 1px;
 	background: @music-red-light;
 	text-decoration: none;
@@ -140,9 +148,9 @@ h1,h2,h3,h4,h5,h6 {
 	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8zIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjMwcHgiIGhlaWdodD0iMzBweCIgdmlld0JveD0iMCAwIDMwIDMwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCAzMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+Cjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMjcuNzA5LDE1LjYzNCAxNS4zNTUsMjIuNTQ2IDMsMjkuNDU4IDMsMTUuNjM0IDMsMS44MSAxNS4zNTUsOC43MjIgIi8+Cjwvc3ZnPg==');
 	background-repeat: no-repeat;
 	background-position: 20px center;
-	line-height: 60px;
+	line-height: 40px;
 	padding-left: 60px;
-	margin-bottom: 60px;
+	margin-bottom: 30px;
 	padding-right: 20px;
 	.border-radius(10px);
 
