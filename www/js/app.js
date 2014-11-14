@@ -8,6 +8,8 @@ var $currentSongWrapper = null;
 var $previouslyPlayed = null;
 var $playerArtist = null;
 var $playerTitle = null;
+var $currentTime = null;
+var $allTags = null;
 
 
 // Global state
@@ -32,6 +34,7 @@ var onDocumentLoad = function(e) {
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters.tags li a');
+    $currentTime = $('.current-time');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -69,7 +72,7 @@ var setupAudio = function() {
 
 var onTimeUpdate = function(e) {
     var time_text = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
-    $('.current-time').text(time_text);
+    $currentTime.text(time_text);
 };
 
 /*
@@ -118,7 +121,6 @@ var loadState = function() {
             var $filtered = $allTags.filter(function() {
                 return $(this).data('tag') === tag;
             })
-            console.log('filter', $filtered)
             $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
         });
 
