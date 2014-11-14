@@ -73,7 +73,6 @@ h1,h2,h3,h4,h5,h6 {
 
 
 .landing {
-	background: @white;
 	text-align: right;
 	clear: both;
 	display: table;
@@ -81,24 +80,36 @@ h1,h2,h3,h4,h5,h6 {
 
 	.poster {
 		display: table-cell;
+		position: relative;
 		width: 100% * 2/3;
 		background-image: url('../assets/img/cassette2.gif');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: left center;
+
+		&:after {
+			content: ' ';
+			background: @tag-3;
+			opacity: 0.5;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
 	}
 
 	.landing-content {
 		display: table-cell;
 		vertical-align: middle;
-		background: rgba(255,255,255,0.8);
+		background: @white;
 		padding: 20px;
 	}
 
 	.logo.img-responsive {
 		display: inline-block;
 		margin-bottom: 30px;
-		width: 200px;
+		width: 150px;
 		max-height: 100%;
 	}
 
