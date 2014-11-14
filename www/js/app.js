@@ -18,7 +18,7 @@ var onDocumentLoad = function(e) {
     $commentCount = $('.comment-count');
     $goButton = $('.js-go');
     $audioPlayer = $('#audio-player');
-    
+
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
@@ -38,18 +38,23 @@ var onDocumentLoad = function(e) {
     setupAudio();
     loadPlayedSongs();
     buildPlaylist();
-    playNextSong();
 }
 
 var setupAudio = function() {
-     $audioPlayer.jPlayer({
+    for (i=0; i<SONG_DATA.length; i++) {
+        if (SONG_DATA[i].mp3_file == 'folk_song.mp3') {
+            var song = SONG_DATA[i];
+        }
+    }
+    markSongPlayed(song);
+
+    $audioPlayer.jPlayer({
         ready: function () {
             $(this).jPlayer('setMedia', {
                 mp3: '/assets/songs/folk_song.mp3'
             });
 
-            // $(this).jPlayer('play');
-
+            $(this).jPlayer('play');
         },
         ended: playNextSong,
         supplied: 'mp3',
@@ -61,23 +66,24 @@ var setupAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-    
-    console.log(SONG_DATA)
-    var nextsong = _.findWhere(SONG_DATA, { played: 'false' })
-    console.log('nextsong', nextsong);
-
-    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextsong.mp3_file
-
-
+    for (i=0; i<SONG_DATA.length; i++) {
+        for (j=0; j<playedSongs.length; j++) {
+            if (SONG_DATA[i].unique_id === playedSongs[j].id) {
+                continue;
+            } else {
+                var nextSong = SONG_DATA[i];
+                break;
+            }
+        }
+        break;
+    }
+    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong.mp3_file
 
     $audioPlayer.jPlayer('setMedia', {
         mp3: nextsongURL
     }).jPlayer('play');
 
-
-
     // TODO
-    // Loop over playlist until we find a song that hasn't been played
     // What do we do if we don't find one? (we've played them all)
 
     // render "last played" JST of current song
@@ -86,8 +92,7 @@ var playNextSong = function() {
     // add last song to stack of played songs (history)
     // rebind events inside the two JST's (or have use jquery's live(), maybe)
 
-    // Starting playing new song 
-    markSongPlayed();
+    markSongPlayed(nextSong);
 }
 
 /*
@@ -101,9 +106,10 @@ var loadPlayedSongs = function() {
 /*
  * Mark the current song as played and save state.
  */
-var markSongPlayed = function () {
-    // TODO
-    // Add song id to list of played songs
+var markSongPlayed = function (song) {
+    playedSongs.push(song.unique_id)
+    console.log(playedSongs);
+
     // Stash in cookie
 }
 
@@ -126,7 +132,7 @@ var onTagClick = function(e) {
     e.preventDefault();
 
     playlist = buildPlaylist();
-    
+
     // TODO
     // update display of songs in queue
     // if current song has this tag, stop it and playNextSong();
@@ -223,7 +229,7 @@ var onGoButtonClick = function(e) {
 
     // _.delay(function(){
     //         $('html, body').animate({
-    //             scrollTop: $(".current-song").offset().top 
+    //             scrollTop: $(".current-song").offset().top
     //         }, 500);
     //     }, 200);
 
@@ -233,6 +239,8 @@ var onGoButtonClick = function(e) {
     $('html, body').animate({
         scrollTop: $('.current-song').offset().top
     }, 1000);
+
+    playNextSong();
 }
 
 /*

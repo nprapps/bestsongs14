@@ -1,4 +1,4 @@
-unique_id,artist,album,title,copy,mp3_file,art_file,reviewer,review_img_file,played,tag_1,tag_2,tag_3,tag_4,tag_5
-2,2 Chainz,,Feds Watching,"A dry, tasteful romp twists Pharrell's croon and a guitar wail into hollow tones and itchy 808s, which makes 2 Chainz's preposterous-sounding claims just plausible enough.",folk_song.mp3,,Lars Gotrich,lars.jpg,false,red,blue,green,love,fun
-3,Alice Smith,,Shot,A retro-groovy retelling of Romeo and Juliet for the OKCupid generation.,spacial_winds.mp3,,Bob Boilen,bob.jpg,false,red,love,fun,green,
-4,Anna von Hausswolff,,Funeral For My Future Childen,"The song's title is brutal. But the Swedish singer renders ""Funeral for My Future Children"" as mournfully majestic as can be, with the unlikely accompaniment of a gigantic pipe organ.",thinking_tension_a.mp3,,Stephen Thompson,sthompson.jpg,false,red,blue,,,
+unique_id,artist,album,title,copy,mp3_file,art_file,reviewer,review_img_file,tag_1,tag_2,tag_3,tag_4,tag_5
+2,2 Chainz,,Feds Watching,"A dry, tasteful romp twists Pharrell's croon and a guitar wail into hollow tones and itchy 808s, which makes 2 Chainz's preposterous-sounding claims just plausible enough.",folk_song.mp3,,Lars Gotrich,lars.jpg,red,blue,green,love,fun
+3,Alice Smith,,Shot,A retro-groovy retelling of Romeo and Juliet for the OKCupid generation.,spacial_winds.mp3,,Bob Boilen,bob.jpg,red,love,fun,green,
+4,Anna von Hausswolff,,Funeral For My Future Childen,"The song's title is brutal. But the Swedish singer renders ""Funeral for My Future Children"" as mournfully majestic as can be, with the unlikely accompaniment of a gigantic pipe organ.",thinking_tension_a.mp3,,Stephen Thompson,sthompson.jpg,red,blue,,,
