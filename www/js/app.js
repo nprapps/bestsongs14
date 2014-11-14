@@ -57,7 +57,7 @@ var setupAudio = function() {
  */
 var playNextSong = function() {
     var nextSong = _.find(SONG_DATA, function(song) {
-        return !_.contains(playedSongs, song['unique_id']);
+        return !(_.contains(playedSongs, song['unique_id']));
     })
 
     var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
