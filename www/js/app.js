@@ -10,6 +10,7 @@ var $playerArtist = null;
 var $playerTitle = null;
 var $currentTime = null;
 var $allTags = null;
+var $goContinue = null;
 
 
 // Global state
@@ -35,11 +36,13 @@ var onDocumentLoad = function(e) {
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters.tags li a');
     $currentTime = $('.current-time');
+    $goContinue = $('.continue');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
+    $goContinue.on('click', onGoContinueClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
     $currentSongWrapper.on('click', '.skip', onSkipClick);
     $(window).on('resize', onWindowResize);
@@ -55,7 +58,6 @@ var onDocumentLoad = function(e) {
     onWindowResize();
 
     SONG_DATA = _.shuffle(SONG_DATA);
-    playlist = SONG_DATA;
 
     setupAudio();
     loadState();
@@ -115,6 +117,10 @@ var playNextSong = function() {
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
+    if (playedSongs || selectedTags) {
+
+        $goContinue.show();
+    }
     var $matchedTagButtons = $([]);
     if (selectedTags.length > 0 ) {
         _.each(selectedTags, function(tag) {
@@ -266,32 +272,32 @@ var showNewSong = function(e) {
     }, 200);
 }
 
-/*
- * Fade in the next song of the playlist
- */
-var onGoButtonClick = function(e) {
-    $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
+var hideWelcome  = function() {
+  $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
 
-    $(this).fadeOut();
-
-    // _.delay(function(){
-    //         $('html, body').animate({
-    //             scrollTop: $(".current-song").offset().top
-    //         }, 500);
-    //     }, 200);
+    $goButton.fadeOut();
+    $goContinue.fadeOut();
 
     $('.current-song, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
         scrollTop: $('.current-song').offset().top
     }, 1000);
+}
 
+var onGoContinueClick = function(e) {
+    hideWelcome();
+
+    playlist = buildPlaylist(selectedTags);
+    playNextSong();
+}
+var onGoButtonClick = function(e) {
+    hideWelcome();
+
+    playlist = SONG_DATA;
     playNextSong();
 }
 
-/*
- * Fade in the next song of the playlist
- */
 var onWindowResize = function(e) {
     $('.landing').css('height', $(window).height());
 }
