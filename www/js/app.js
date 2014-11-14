@@ -6,6 +6,8 @@ var $audioPlayer = null;
 
 // Global state
 var firstShareLoad = true;
+var playedSongs = [];
+var playlist = [];
 
 /*
  * Run on page load.
@@ -32,10 +34,11 @@ var onDocumentLoad = function(e) {
     });
 
     onWindowResize();
-    // renderExampleTemplate();
-    // getCommentCount(showCommentCount);
     SONG_DATA = _.shuffle(SONG_DATA);
     setupAudio();
+    loadPlayedSongs();
+    buildPlaylist();
+    playNextSong();
 }
 
 var setupAudio = function() {
@@ -48,11 +51,80 @@ var setupAudio = function() {
             // $(this).jPlayer('play');
 
         },
-        // ended: obj.startArchiveStream,
+        ended: playNextSong,
         supplied: 'mp3',
         loop: false,
     });
 }
+
+/*
+ * Play the next song in the playlist.
+ */
+var playNextSong = function() {
+    // TODO
+    // Loop over playlist until we find a song that hasn't been played
+    // What do we do if we don't find one? (we've played them all)
+
+    // render "last played" JST of current song
+    // render "currently playing" JST of next song
+    // replace current song with the next song
+    // add last song to stack of played songs (history)
+    // rebind events inside the two JST's (or have use jquery's live(), maybe)
+
+    // Starting playing new song 
+    markSongPlayed();
+}
+
+/*
+ * Load previously played songs from browser state (cookie, whatever)
+ */
+var loadPlayedSongs = function() {
+    // TODO
+}
+
+/*
+ * Mark the current song as played and save state.
+ */
+var markSongPlayed = function () {
+    // TODO
+    // Add song id to list of played songs
+    // Stash in cookie
+}
+
+/*
+ * Build a playlist from a set of tags.
+ */
+var buildPlaylist = function(tags) {
+    var playlist = [];
+
+    // TODO
+    // filter SONG_DATA, probably with _.filter()
+
+    return playlist;
+}
+
+/*
+ * Handle clicks on tags.
+ */
+var onTagClick = function(e) {
+    e.preventDefault();
+
+    playlist = buildPlaylist();
+    
+    // TODO
+    // update display of songs in queue
+    // if current song has this tag, stop it and playNextSong();
+}
+
+/*
+ * Skip the current song.
+ */
+var onSkipClick = function(e) {
+    e.preventDefault();
+
+    playNextSong();
+}
+
 /*
  * Basic templating example.
  */
