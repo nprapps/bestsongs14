@@ -37,6 +37,7 @@ var onDocumentLoad = function(e) {
     });
 
     onWindowResize();
+
     SONG_DATA = _.shuffle(SONG_DATA);
     setupAudio();
     loadPlayedSongs();
@@ -102,18 +103,17 @@ var playNextSong = function() {
  * Load previously played songs from browser state (cookie, whatever)
  */
 var loadPlayedSongs = function() {
-    // TODO
-    // fetch from cookies ids?
+    playedSongs = simpleStorage.get('playedSongs');
+    console.log(playedSongs);
 }
 
 /*
  * Mark the current song as played and save state.
  */
-var markSongPlayed = function (song) {
+var markSongPlayed = function(song) {
     playedSongs.push(song.unique_id)
-    console.log(playedSongs);
 
-    // Stash in cookie
+    simpleStorage.set('playedSongs', playedSongs);
 }
 
 /*
