@@ -18,12 +18,9 @@
 
 			<h3>Or choose a mood:</h3>
 			<ul class="tags list-unstyled">
-				<li><a href="#">Mellow</a></li>
-				<li><a href="#">Playful</a></li>
-				<li><a href="#">Ragey</a></li>
-				<li><a href="#">Feelin&rsquo; Frisky</a></li>
-				<li><a href="#">Road Songs</a></li>
-				<li><a href="#">Workout Mix</a></li>
+				{% for tag in MOOD_TAGS|sort %}
+				<li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
@@ -107,52 +104,9 @@
 	<p class="song-count">Songs: 15 out of 250</p>
 
 	<ul class="list-unstyled">
-		<li><a href="#">Playful</a></li>
-		<li><a href="#">Free-Style</a></li>
-		<li class="disabled"><a href="#">Down Tempo</a></li>
-		<li><a href="#">Insidious</a></li>
-		<li><a href="#">Fun</a></li>
-		<li><a href="#">Jazz</a></li>
-		<li><a href="#">Contra</a></li>
-		<li class="disabled"><a href="#">Southern Rap</a></li>
-		<li><a href="#">Rump Shaker</a></li>
-		<li><a href="#">Boozy</a></li>
-		<li><a href="#">Rock</a></li>
-		<li><a href="#">Rap</a></li>
-		<li class="disabled"><a href="#">Hip-Hop</a></li>
-		<li><a href="#">Charmingly Insidious</a></li>
-		<li><a href="#">Indie</a></li>
-		<li class="disabled"><a href="#">Hardcore</a></li>
-		<li><a href="#">Reading Music</a></li>
-		<li><a href="#">Mellow</a></li>
-		<li><a href="#">Playful</a></li>
-		<li><a href="#">Rap</a></li>
-		<li class="disabled"><a href="#">Trap</a></li>
-		<li><a href="#">Bob Boilen</a></li>
-		<li><a href="#">Club</a></li>
-		<li class="disabled"><a href="#">Metal</a></li>
-		<li><a href="#">Charmingly Insidious</a></li>
-		<li><a href="#">Club Banger</a></li>
-		<li><a href="#">Love Jams</a></li>
-		<li><a href="#">R&B</a></li>
-		<li class="disabled"><a href="#">Jacob Ganz</a></li>
-		<li><a href="#">Mambo</a></li>
-		<li><a href="#">Club Banger</a></li>
-		<li><a href="#">Reading Music</a></li>
-		<li><a href="#">Mellow</a></li>
-		<li><a href="#">Playful</a></li>
-		<li><a href="#">Rap</a></li>
-		<li class="disabled"><a href="#">Trap</a></li>
-		<li><a href="#">Bob Boilen</a></li>
-		<li><a href="#">Club</a></li>
-		<li class="disabled"><a href="#">Metal</a></li>
-		<li><a href="#">Charmingly Insidious</a></li>
-		<li><a href="#">Club Banger</a></li>
-		<li><a href="#">Love Jams</a></li>
-		<li><a href="#">R&B</a></li>
-		<li class="disabled"><a href="#">Jacob Ganz</a></li>
-		<li><a href="#">Mambo</a></li>
-		<li><a href="#">Club Banger</a></li>
+		{% for tag in TAGS %}
+		<li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+		{% endfor %}
 	</ul>
 </div>
 

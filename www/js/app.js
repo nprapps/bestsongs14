@@ -12,6 +12,7 @@ var firstShareLoad = true;
 var playedSongs = [];
 var playlist = [];
 var currentSong = null;
+var selectedTags = [];
 
 /*
  * Run on page load.
@@ -30,7 +31,7 @@ var onDocumentLoad = function(e) {
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
-    $body.on('click', '.tags li a', onTagClick);
+    $body.on('click', '.playlist-filters li a', onTagClick);
     $currentSongWrapper.on('click', '.skip', onSkipClick);
     $(window).on('resize', onWindowResize);
 
@@ -45,9 +46,10 @@ var onDocumentLoad = function(e) {
     onWindowResize();
 
     SONG_DATA = _.shuffle(SONG_DATA);
+    playlist = SONG_DATA;
+
     setupAudio();
     loadPlayedSongs();
-    buildPlaylist();
 }
 
 var setupAudio = function() {
@@ -68,8 +70,8 @@ var playNextSong = function() {
         $previouslyPlayed.append(html);
     }
 
-    var nextSong = _.find(SONG_DATA, function(song) {
-        return !(_.contains(playedSongs, song['unique_id']));
+    var nextSong = _.find(playlist, function(song) {
+        return !(_.contains(playedSongs, song['id']));
     })
 
     // TODO
@@ -100,7 +102,7 @@ var loadPlayedSongs = function() {
  * Mark the current song as played and save state.
  */
 var markSongPlayed = function(song) {
-    playedSongs.push(song['unique_id'])
+    playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
 }
@@ -109,12 +111,9 @@ var markSongPlayed = function(song) {
  * Build a playlist from a set of tags.
  */
 var buildPlaylist = function(tags) {
-    var newPlaylist = [];
-
-    // TODO
-    // filter SONG_DATA, probably with _.filter()
-
-    return newPlaylist;
+    return _.filter(SONG_DATA, function(song) {
+        return _.intersection(tags, song['tags']).length == tags.length;
+    })
 }
 
 /*
@@ -123,11 +122,36 @@ var buildPlaylist = function(tags) {
 var onTagClick = function(e) {
     e.preventDefault();
 
-    playlist = buildPlaylist();
+    var tag = $(this).text();
+
+    // deselecting a tag
+    if (_.contains(selectedTags, tag)) {
+        var index = selectedTags.indexOf(tag);
+        selectedTags.splice(index, 1);
+
+        $(this).addClass('disabled');
+
+        playlist = buildPlaylist(selectedTags);
+        console.log(playlist);
+
+        if (_.intersection(currentSong['tags'], selectedTags).length == 0) {
+            playNextSong();
+        }
+    // adding a tag
+    } else {
+        selectedTags.push(tag);
+        playlist = buildPlaylist(selectedTags);
+        console.log(playlist);
+
+        $(this).removeClass('disabled');
+
+        if (!_.contains(currentSong['tags'], tag)) {
+            playNextSong();
+        }
+    }
 
     // TODO
     // update display of songs in queue
-    // if current song has this tag, stop it and playNextSong();
 }
 
 /*
