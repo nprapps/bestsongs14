@@ -45,21 +45,7 @@ var onDocumentLoad = function(e) {
 }
 
 var setupAudio = function() {
-    for (i=0; i<SONG_DATA.length; i++) {
-        if (SONG_DATA[i].mp3_file == 'folk_song.mp3') {
-            var song = SONG_DATA[i];
-        }
-    }
-    markSongPlayed(song);
-
     $audioPlayer.jPlayer({
-        ready: function () {
-            $(this).jPlayer('setMedia', {
-                mp3: '/assets/songs/folk_song.mp3'
-            });
-
-            $(this).jPlayer('play');
-        },
         ended: playNextSong,
         supplied: 'mp3',
         loop: false,
@@ -70,18 +56,11 @@ var setupAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-    for (i=0; i<SONG_DATA.length; i++) {
-        for (j=0; j<playedSongs.length; j++) {
-            if (SONG_DATA[i].unique_id === playedSongs[j].id) {
-                continue;
-            } else {
-                var nextSong = SONG_DATA[i];
-                break;
-            }
-        }
-        break;
-    }
-    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong.mp3_file
+    var nextSong = _.find(SONG_DATA, function(song) {
+        return !_.contains(playedSongs, song['unique_id']);
+    })
+
+    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
     $audioPlayer.jPlayer('setMedia', {
         mp3: nextsongURL
@@ -104,14 +83,13 @@ var playNextSong = function() {
  */
 var loadPlayedSongs = function() {
     playedSongs = simpleStorage.get('playedSongs');
-    console.log(playedSongs);
 }
 
 /*
  * Mark the current song as played and save state.
  */
 var markSongPlayed = function(song) {
-    playedSongs.push(song.unique_id)
+    playedSongs.push(song['unique_id'])
 
     simpleStorage.set('playedSongs', playedSongs);
 }
