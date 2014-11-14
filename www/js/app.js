@@ -66,7 +66,7 @@ var setupAudio = function() {
 var playNextSong = function() {
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
-        var html = JST.played(context);
+        var html = JST.current(context);
         $previouslyPlayed.append(html);
     }
 

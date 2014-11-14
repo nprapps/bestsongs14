@@ -72,31 +72,38 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 
-.landing.container-fluid {
+.landing {
 	background: @white;
 	text-align: center;
 	clear: both;
 	padding: 30px;
 	background-image: url('https://d1zjcuqflbd5k.cloudfront.net/files/acc_298/10CLv?response-content-disposition=inline;%20filename=Screen%20Capture%20on%202014-11-13%20at%2017-40-33.gif&Expires=1415918504&Signature=Qv8q7v2yNo3R9bTDL9OmgI9ADpBla8vYF2M3C9sxE3PzhXbc-3ZTKDoJP3H5KshLZN4WgANvhNH3MWiGDG7sqKAOrgRGCNvX1yAxHCw1XFjUFllKkQj70m60t5kn3wNdKJ48CDDd9PUe02R7bYShyU45-7j16gjGyKo3alOCzts_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA');
 	background-size: cover;
+	display: table;
+	width: 100%;
+
+	.landing-content {
+		display: table-cell;
+		vertical-align: middle
+	}
 
 	.logo.img-responsive {
 		display: inline-block;
-		margin-bottom: @line-height-computed;
+		margin-bottom: 10vh;
 		width: 20vw;
 		max-height: 100%;
 	}
 
 	.slug {
 		text-transform: uppercase;
-		// font-family: 'Knockout 31 4r';
+		font-family: 'Knockout 31 4r';
 		font-size: 2.5vw;
 		margin: 0 0 @line-height-computed / 2;
 		color: @music-red-light;
 	}
 
 	.title {
-		font-size: 8vw;
+		font-size: 9vw;
 		line-height: 1;
 		font-family: 'Gotham';
 		margin: 0 0 @line-height-computed;
@@ -107,6 +114,8 @@ h1,h2,h3,h4,h5,h6 {
 		color: #222;
 		font-size: 2.5vw;
 		margin-bottom: 10vh;
+		font-family: 'Knockout 31 4r';
+		text-transform: uppercase;
 	}
 
 	h3 {
