@@ -37,6 +37,9 @@ def player():
     with open('data/featured.json') as f:
         context['featured'] = json.load(f)
 
+    with open('data/songs.json') as f:
+        context['song_data'] = f.read()
+
     return make_response(render_template('player.html', **context))
 
 @app.route('/comments/')
@@ -45,20 +48,6 @@ def comments():
     Full-page comments view.
     """
     return make_response(render_template('comments.html', **make_context()))
-
-@app.route('/widget.html')
-def widget():
-    """
-    Embeddable widget example page.
-    """
-    return make_response(render_template('widget.html', **make_context()))
-
-@app.route('/test_widget.html')
-def test_widget():
-    """
-    Example page displaying widget at different embed sizes.
-    """
-    return make_response(render_template('test_widget.html', **make_context()))
 
 app.register_blueprint(static.static)
 

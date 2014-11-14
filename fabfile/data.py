@@ -21,7 +21,8 @@ def update():
     Stub function for updating app-specific data.
     """
     #update_featured_social()
-
+    update_songs()
+    
 @task
 def update_songs():
     local('curl -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
@@ -32,9 +33,25 @@ def update_songs():
         rows = csv.DictReader(f)
 
         for row in rows:
+            stripped_row = {}
+
+            for name, value in row.items():
+                stripped_row[name] = value.strip()
+
+            row = stripped_row
+
+            row['tags'] = []
+            for i in range(1,6):
+                key = 'tag_%i' % i
+                
+                if row[key]:
+                    row['tags'].append(row[key])
+
+                del row[key]
+
             output.append(row)
         
-    with open('www/live-data/songs.json', 'w') as f:
+    with open('data/songs.json', 'w') as f:
         json.dump(output, f)
 
 @task
