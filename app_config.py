@@ -125,7 +125,7 @@ GOOGLE_ANALYTICS = {
 DISQUS_API_KEY = 'tIbSzEhGBE9NIptbnQWn4wy1gZ546CsQ2IHHtxJiYAceyyPoAkDkVnQfCifmCaQW'
 DISQUS_UUID = '1e6c6345-69ba-11e4-95c2-80e650107db6'
 
-GENRE_TAGS = ['Metal', 'Folk', 'Grunge', 'Hip Hop', 'Trap', 'Mamba', 'Indie', 'Punk', 'R&B', 'Jazz', 'Classical']
+GENRE_TAGS = ['Rock', 'Pop', 'Hip-Hop', 'Latin', 'Jazz', 'R&B/Soul', 'World', 'Classical', 'Folk', 'Electronic/Dance']
 MOOD_TAGS = ['Happy', 'Sad', 'Ambivalent', 'Intimate', 'Party', 'Dinner', 'Angry', 'Contemplative', 'Working']
 
 TAGS = GENRE_TAGS + MOOD_TAGS

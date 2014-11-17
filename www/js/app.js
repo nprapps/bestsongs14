@@ -332,7 +332,7 @@ var onGoContinueClick = function(e) {
 
 var onMoodButtonClick = function(e) {
     hideWelcome();
-    selectedTags = [$(this).data('tag')];
+    selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
