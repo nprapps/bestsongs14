@@ -140,7 +140,7 @@ var playNextSong = function() {
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
     //selectedTags = simpleStorage.get('selectedTags') || [];
-    
+
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
@@ -167,7 +167,7 @@ var buildPlaylist = function(tags) {
         }
 
         return true;
-    })
+    });
 }
 
 /*
@@ -188,7 +188,13 @@ var onTagClick = function(e) {
         playlist = buildPlaylist(selectedTags);
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
-        
+
+        if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
+            $('.warning').show();
+            $audioPlayer.jPlayer('pause');
+            return false;
+        }
+
         var keepPlaying = _.find(playlist, function(song) {
             return song['id'] == currentSong['id'];
         });
@@ -203,6 +209,9 @@ var onTagClick = function(e) {
         playlist = buildPlaylist(selectedTags);
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
+
+        $audioPlayer.jPlayer('play');
+        $('.warning').hide();
 
         $(this).removeClass('disabled');
     }
