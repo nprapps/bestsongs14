@@ -13,6 +13,7 @@ var $moodButtons = null;
 var $playlistLength = null;
 var $skip = null;
 var $songs = null;
+var $playlistLengthWarning = null;
 
 
 // Global state
@@ -28,6 +29,9 @@ var playlistLength = 250;
  * Run on page load.
  */
 var onDocumentLoad = function(e) {
+    console.log(SONG_DATA);
+
+
     // Cache jQuery references
     $body = $('body');
     $shareModal = $('#share-modal');
@@ -44,6 +48,7 @@ var onDocumentLoad = function(e) {
     $moodButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
+    $playlistLengthWarning = $('.warning');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -109,7 +114,6 @@ var startPrerollAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     })
@@ -138,21 +142,44 @@ var playNextSong = function() {
  * Load previously played songs from browser state (cookie, whatever)
  */
 var loadState = function() {
-    // playedSongs = simpleStorage.get('playedSongs') || [];
-    //selectedTags = simpleStorage.get('selectedTags') || [];
+    playedSongs = simpleStorage.get('playedSongs') || [];
+    selectedTags = simpleStorage.get('selectedTags') || [];
+
+    if (playedSongs.length === SONG_DATA.length) {
+        playedSongs = [];
+    }
+
+    if (playedSongs) {
+        buildListeningHistory();
+    }
 
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
 }
 
+var buildListeningHistory = function() {
+    _.each(playedSongs, function(songID) {
+        var song = _.find(SONG_DATA, function(song) {
+            return songID === song['id']
+        });
+
+        var context = $.extend(APP_CONFIG, song);
+        var html = JST.song(context);
+        $songs.append(html);
+    });
+}
+
 /*
  * Mark the current song as played and save state.
  */
 var markSongPlayed = function(song) {
+    console.log(song['id']);
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
+
+    console.log(simpleStorage.get('playedSongs'));
 }
 
 /*
@@ -190,7 +217,7 @@ var onTagClick = function(e) {
         $playlistLength.text(playlistLength);
 
         if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
-            $('.warning').show();
+            $playlistLengthWarning.show();
             $audioPlayer.jPlayer('pause');
             return false;
         }
@@ -211,7 +238,7 @@ var onTagClick = function(e) {
         $playlistLength.text(playlistLength);
 
         $audioPlayer.jPlayer('play');
-        $('.warning').hide();
+        $playlistLengthWarning.hide();
 
         $(this).removeClass('disabled');
     }
@@ -295,7 +322,7 @@ var hideWelcome  = function() {
     $('.songs, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
-        scrollTop: $songs.offset().top
+        scrollTop: $songs.find('.song').last().offset().top
     }, 1000);
 }
 
@@ -321,31 +348,31 @@ var highlightSelectedTags = function() {
     $playlistLength.text(playlistLength);
 
 }
-
 var onGoButtonClick = function(e) {
-    hideWelcome();
-
+    $songs.find('.song').remove();
+    playedSongs = [];
     playlist = SONG_DATA;
     selectedTags = APP_CONFIG.TAGS;
+    simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
+    hideWelcome();
 }
 
 var onGoContinueClick = function(e) {
-    hideWelcome();
-
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
+    hideWelcome();
 }
 
 var onMoodButtonClick = function(e) {
-    hideWelcome();
     selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
+    hideWelcome();
 }
 
 var onWindowResize = function(e) {
