@@ -139,7 +139,8 @@ var playNextSong = function() {
  */
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
-    selectedTags = simpleStorage.get('selectedTags') || [];
+    //selectedTags = simpleStorage.get('selectedTags') || [];
+    
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
@@ -159,7 +160,13 @@ var markSongPlayed = function(song) {
  */
 var buildPlaylist = function(tags) {
     return _.filter(SONG_DATA, function(song) {
-        return _.intersection(tags, song['tags']).length == tags.length;
+        for (var i = 0; i < song['tags'].length; i++) {
+            if (!_.contains(tags, song['tags'][i])) {
+                return false;
+            }
+        }
+
+        return true;
     })
 }
 
@@ -181,8 +188,12 @@ var onTagClick = function(e) {
         playlist = buildPlaylist(selectedTags);
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
+        
+        var keepPlaying = _.find(playlist, function(song) {
+            return song['id'] == currentSong['id'];
+        });
 
-        if (_.intersection(currentSong['tags'], selectedTags).length == 0) {
+        if (!keepPlaying) {
             playNextSong();
         }
     // adding a tag
@@ -194,10 +205,6 @@ var onTagClick = function(e) {
         $playlistLength.text(playlistLength);
 
         $(this).removeClass('disabled');
-
-        if (!_.contains(currentSong['tags'], tag)) {
-            playNextSong();
-        }
     }
 
     // TODO
@@ -310,7 +317,7 @@ var onGoButtonClick = function(e) {
     hideWelcome();
 
     playlist = SONG_DATA;
-    selectedTags = [];
+    selectedTags = APP_CONFIG.TAGS;
     highlightSelectedTags();
     startPrerollAudio();
 }
