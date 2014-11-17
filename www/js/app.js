@@ -91,10 +91,18 @@ var onTimeUpdate = function(e) {
 };
 
 var startPrerollAudio = function() {
-    $audioPlayer.jPlayer('play');
 
+    if (simpleStorage.get('loadedPreroll')) {
+        playNextSong();
+        return;
+    }
+
+    $audioPlayer.jPlayer('play');
     $playerArtist.text('Perfect Mixtape')
     $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
+    simpleStorage.set('loadedPreroll', true);
+
+
 }
 
 /*
