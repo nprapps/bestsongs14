@@ -22,6 +22,7 @@ var playlist = [];
 var currentSong = null;
 var selectedTags = [];
 var playlistLength = 250;
+var onWelcome = true;
 
 /*
  * Run on page load.
@@ -89,17 +90,55 @@ var onTimeUpdate = function(e) {
     $currentTime.text(time_text);
 };
 
-var startPrerollAudio = function() {
+var startPreroll = function() {
     $audioPlayer.jPlayer('play');
+    $('x-gif').removeAttr('stopped');
+}
 
-    $playerArtist.text('Perfect Mixtape')
-    $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
+var setupAudioSyncing = function (audio, xGifs, metadata) {
+    var syncOffset = -0.1;
+
+    audio.addEventListener('playing', function () {
+        var beats = metadata.response.track.analysis.beats,
+            beatIndex = 0;
+        while (beats[0].start > 0) {
+            beats.unshift({
+                start: beats[0].start - beats[0].duration,
+                duration: beats[0].duration,
+                confidence: 0
+            });
+        }
+
+        var animationLoop = function () {
+            requestAnimationFrame(animationLoop);
+
+            if (beats.length > beatIndex) {
+                var currentTime = audio.currentTime + syncOffset;
+                while (beatIndex < beats.length && currentTime > beats[beatIndex].start) {
+                    beatIndex++;
+                }
+                var beat = beats[beatIndex - 1];
+
+                var sinceLastBeat = currentTime - beat.start,
+                beatFraction = sinceLastBeat / beat.duration;
+                [].forEach.call(xGifs, function (xGif) {
+                    xGif.clock(beatIndex, beat.duration * 1000 / audio.playbackRate, beatFraction);
+                });
+            }
+        }
+        animationLoop();
+    });
 }
 
 /*
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
+    if (onWelcome) {
+        hideWelcome();
+    }
+
+
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
         var html = JST.played(context);
@@ -282,7 +321,9 @@ var showNewSong = function(e) {
 }
 
 var hideWelcome  = function() {
-  $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
+    onWelcome = false;
+
+    $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
 
     $goButton.fadeOut();
     $goContinue.fadeOut();
@@ -318,29 +359,24 @@ var highlightSelectedTags = function() {
 }
 
 var onGoButtonClick = function(e) {
-    hideWelcome();
-
+    startPreroll();
     playlist = SONG_DATA;
     selectedTags = [];
     highlightSelectedTags();
-    startPrerollAudio();
 }
 
 var onGoContinueClick = function(e) {
-    hideWelcome();
-
+    startPreroll();
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
-    startPrerollAudio();
 }
 
 var onMoodButtonClick = function(e) {
-    hideWelcome();
+    startPreroll();
     selectedTags = [$(this).data('tag')];
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
-    startPrerollAudio();
 }
 
 var onWindowResize = function(e) {

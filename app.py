@@ -42,6 +42,12 @@ def player():
 
     return make_response(render_template('player.html', **context))
 
+@app.route('/xgif/')
+def xgif():
+    context = make_context()
+
+    return make_response(render_template('x-gif.html', **context))
+
 @app.route('/comments/')
 def comments():
     """
