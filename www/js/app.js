@@ -54,7 +54,7 @@ var onDocumentLoad = function(e) {
     $fullscreenButton = $('.fullscreen-button');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
-    $playlistFilters = $('.playlist-filters');
+    $playlistFilters = $('.playlist-filters li a');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -62,7 +62,7 @@ var onDocumentLoad = function(e) {
     $goButton.on('click', onGoButtonClick);
     $goContinue.on('click', onGoContinueClick);
     $moodButtons.on('click', onMoodButtonClick);
-    $playlistFilters.on('click', 'li a', onTagClick);
+    $playlistFilters.on('click', onTagClick);
     $skip.on('click', onSkipClick);
     $fullscreenButton.on('click', onFullscreenButtonClick);
     $(window).on('resize', onWindowResize);
@@ -227,7 +227,7 @@ var playNextSong = function() {
 }
 
 /*
- * Load previously played songs from browser state (cookie, whatever)
+ * Load previously played songs from browser storage
  */
 var loadState = function() {
     playedSongs = simpleStorage.get('playedSongs') || [];
@@ -447,6 +447,8 @@ var highlightSelectedTags = function() {
  * Begin shuffled playback.
  */
 var onGoButtonClick = function(e) {
+    e.preventDefault();
+
     $songs.find('.song').remove();
     playedSongs = [];
     playlist = SONG_DATA;
@@ -460,6 +462,8 @@ var onGoButtonClick = function(e) {
  * Begin playback where the user left off.
  */
 var onGoContinueClick = function(e) {
+    e.preventDefault();
+
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
@@ -469,6 +473,8 @@ var onGoContinueClick = function(e) {
  * Begin playback in a specific mood tag.
  */
 var onMoodButtonClick = function(e) {
+    e.preventDefault();
+
     selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
