@@ -59,6 +59,7 @@ var onDocumentLoad = function(e) {
     $body.on('click', '.playlist-filters li a', onTagClick);
     $skip.on('click', onSkipClick);
     $(window).on('resize', onWindowResize);
+    $(document).keydown(onDocumentKeyDown);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -133,6 +134,10 @@ var playNextSong = function() {
     $audioPlayer.jPlayer('setMedia', {
         mp3: nextsongURL
     }).jPlayer('play');
+
+    $('html, body').animate({
+        scrollTop: $songs.find('.song').last().offset().top
+    }, 1000);
 
     currentSong = nextSong;
     markSongPlayed(currentSong);
@@ -374,6 +379,30 @@ var onMoodButtonClick = function(e) {
     startPrerollAudio();
     hideWelcome();
 }
+
+var onDocumentKeyDown = function(e) {
+
+    switch (e.which) {
+        //right
+        case 39:
+            playNextSong();
+            break;
+
+        // space
+        case 32:
+            if($audioPlayer.data('jPlayer').status.paused) {
+                $audioPlayer.jPlayer('play');
+            } else {
+                $audioPlayer.jPlayer('pause');
+            }
+
+            break;
+    }
+
+    // jquery.fullpage handles actual scrolling
+    return true;
+}
+
 
 var onWindowResize = function(e) {
     $('.landing').css('height', $(window).height());
