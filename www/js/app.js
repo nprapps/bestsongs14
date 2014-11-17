@@ -14,6 +14,7 @@ var $playlistLength = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
+var $fullscreenButton = null;
 
 
 // Global state
@@ -23,15 +24,13 @@ var playlist = [];
 var currentSong = null;
 var selectedTags = [];
 var playlistLength = 250;
+var onWelcome = true;
 
 
 /*
  * Run on page load.
  */
 var onDocumentLoad = function(e) {
-    console.log(SONG_DATA);
-
-
     // Cache jQuery references
     $body = $('body');
     $shareModal = $('#share-modal');
@@ -49,6 +48,7 @@ var onDocumentLoad = function(e) {
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
+    $fullscreenButton = $('.fullscreen-button');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -58,6 +58,7 @@ var onDocumentLoad = function(e) {
     $moodButtons.on('click', onMoodButtonClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
     $skip.on('click', onSkipClick);
+    $fullscreenButton.on('click', onFullscreenButtonClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
 
@@ -102,7 +103,6 @@ var startPrerollAudio = function() {
         playNextSong();
         return;
     }
-
     $audioPlayer.jPlayer('play');
     $playerArtist.text('Perfect Mixtape')
     $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
@@ -117,7 +117,7 @@ var startPrerollAudio = function() {
 var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
-    })
+    });
 
     // TODO
     // What do we do if we don't find one? (we've played them all)
@@ -135,9 +135,9 @@ var playNextSong = function() {
         mp3: nextsongURL
     }).jPlayer('play');
 
-    $('html, body').animate({
-        scrollTop: $songs.find('.song').last().offset().top
-    }, 1000);
+    if (onWelcome) {
+        hideWelcome();
+    }
 
     currentSong = nextSong;
     markSongPlayed(currentSong);
@@ -329,6 +329,8 @@ var hideWelcome  = function() {
     $('html, body').animate({
         scrollTop: $songs.find('.song').last().offset().top
     }, 1000);
+
+    onWelcome = false;
 }
 
 var highlightSelectedTags = function() {
@@ -361,14 +363,12 @@ var onGoButtonClick = function(e) {
     simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
-    hideWelcome();
 }
 
 var onGoContinueClick = function(e) {
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
-    hideWelcome();
 }
 
 var onMoodButtonClick = function(e) {
@@ -377,7 +377,6 @@ var onMoodButtonClick = function(e) {
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
-    hideWelcome();
 }
 
 var onDocumentKeyDown = function(e) {
@@ -403,6 +402,44 @@ var onDocumentKeyDown = function(e) {
     return true;
 }
 
+var onFullscreenButtonClick = function(event) {
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
+    var elem = document.getElementById("content");
+
+    var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+
+    if (fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+        else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        }
+        else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+
+        // $fullscreenStart.show();
+        // $fullscreenStop.hide();
+    }
+    else {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        }
+        else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+        else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        }
+        else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+
+        // $fullscreenStart.hide();
+        // $fullscreenStop.show();
+    }
+}
 
 var onWindowResize = function(e) {
     $('.landing').css('height', $(window).height());
