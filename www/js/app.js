@@ -72,10 +72,15 @@ var onDocumentLoad = function(e) {
 
 var setupAudio = function() {
     $audioPlayer.jPlayer({
+        ready: function() {
+            $(this).jPlayer('setMedia', {
+                mp3: 'http://download.lardlad.com/sounds/season4/monorail14.mp3'
+            });
+        },
         ended: playNextSong,
         supplied: 'mp3',
         loop: false,
-        timeupdate: onTimeUpdate
+        timeupdate: onTimeUpdate,
     });
 }
 
@@ -83,6 +88,13 @@ var onTimeUpdate = function(e) {
     var time_text = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
     $currentTime.text(time_text);
 };
+
+var startPrerollAudio = function() {
+    $audioPlayer.jPlayer('play');
+
+    $playerArtist.text('Perfect Mixtape')
+    $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
+}
 
 /*
  * Play the next song in the playlist.
@@ -296,7 +308,7 @@ var onGoButtonClick = function(e) {
     playlist = SONG_DATA;
     selectedTags = [];
     highlightSelectedTags();
-    playNextSong();
+    startPrerollAudio();
 }
 
 var onGoContinueClick = function(e) {
@@ -304,7 +316,7 @@ var onGoContinueClick = function(e) {
 
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
-    playNextSong();
+    startPrerollAudio();
 }
 
 var onMoodButtonClick = function(e) {
@@ -313,7 +325,7 @@ var onMoodButtonClick = function(e) {
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
-    playNextSong();
+    startPrerollAudio();
 }
 
 var onWindowResize = function(e) {
