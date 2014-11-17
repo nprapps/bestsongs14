@@ -127,10 +127,10 @@ var setupAudioSyncing = function (audio, xGifs, metadata) {
 }
 
 var startPrerollAudio = function() {
-    if (simpleStorage.get('loadedPreroll')) {
-        playNextSong();
-        return;
-    }
+    // if (simpleStorage.get('loadedPreroll')) {
+    //     playNextSong();
+    //     return;
+    // }
 
     $('.poster x-gif').removeAttr('stopped');
     $audioPlayer.jPlayer('play');
