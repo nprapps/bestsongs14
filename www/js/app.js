@@ -16,8 +16,9 @@ var $songs = null;
 var $playlistLengthWarning = null;
 var $fullscreenButton = null;
 
-
 // Global state
+var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
+
 var firstShareLoad = true;
 var playedSongs = [];
 var playlist = [];
@@ -25,7 +26,7 @@ var currentSong = null;
 var selectedTags = [];
 var playlistLength = 250;
 var onWelcome = true;
-
+var isCasting = false;
 
 /*
  * Run on page load.
@@ -74,9 +75,80 @@ var onDocumentLoad = function(e) {
 
     SONG_DATA = _.shuffle(SONG_DATA);
 
+    if (IS_CAST_RECEIVER) {
+        // DO SOMETHING
+    }
+
     setupAudio();
     loadState();
 }
+
+/*
+ * Setup Chromecast if library is available.
+ */
+window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+    // We need the DOM here, so don't fire until it's ready.
+    $(function() {
+        // Don't init sender if in receiver mode
+        if (IS_CAST_RECEIVER ) {
+            return;
+        }
+
+        if (loaded) {
+            CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
+            //$chromecastIndexHeader.find('.cast-enabled').show();
+            //$chromecastIndexHeader.find('.cast-disabled').hide();
+            $castStart.show();
+        } else {
+            //$chromecastIndexHeader.find('.cast-try-chrome').hide();
+            //$chromecastIndexHeader.find('.cast-get-extension').show();
+        }
+    });
+}
+
+/*
+ * A cast device is available.
+ */
+var onCastReady = function() {
+    //$chromecastButton.show();
+}
+
+/*
+ * A cast session started.
+ */
+var onCastStarted = function() {
+    /*stopVideo();
+    $welcomeScreen.hide();
+    $stack.hide();
+    $fullscreenStart.hide();
+    $fullscreenStop.hide();
+    $castStart.hide();
+    $castStop.show();
+    STACK.stop();
+
+    $chromecastScreen.show();
+
+    is_casting = true;
+
+    CHROMECAST_SENDER.sendMessage('state', state);*/
+}
+
+/*
+ * A cast session stopped.
+ */
+var onCastStopped = function() {
+    /*$chromecastScreen.hide();
+
+    STACK.startArchiveStream();
+    STACK.start();
+
+    if (!IS_TOUCH) {
+        $fullscreenStart.show();
+    }
+
+    is_casting = false;*/
+}
+
 
 var setupAudio = function() {
     $audioPlayer.jPlayer({
