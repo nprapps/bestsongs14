@@ -12,6 +12,7 @@ var $currentTime = null;
 var $allTags = null;
 var $goContinue = null;
 var $moodButtons = null;
+var $playlistLength = null;
 
 
 // Global state
@@ -20,6 +21,7 @@ var playedSongs = [];
 var playlist = [];
 var currentSong = null;
 var selectedTags = [];
+var playlistLength = 250;
 
 /*
  * Run on page load.
@@ -39,6 +41,8 @@ var onDocumentLoad = function(e) {
     $currentTime = $('.current-time');
     $goContinue = $('.continue');
     $moodButtons = $('.landing .tags a');
+    $playlistLength = $('.playlist-length');
+    $totalSongs = $('.total-songs');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -159,6 +163,8 @@ var onTagClick = function(e) {
         $(this).addClass('disabled');
 
         playlist = buildPlaylist(selectedTags);
+        playlistLength = playlist.length;
+        $playlistLength.text(playlistLength);
 
         if (_.intersection(currentSong['tags'], selectedTags).length == 0) {
             playNextSong();
@@ -168,6 +174,8 @@ var onTagClick = function(e) {
         selectedTags.push(tag);
         simpleStorage.set('selectedTags', selectedTags);
         playlist = buildPlaylist(selectedTags);
+        playlistLength = playlist.length;
+        $playlistLength.text(playlistLength);
 
         $(this).removeClass('disabled');
 
@@ -291,6 +299,9 @@ var highlightSelectedTags = function() {
             $matchedTagButtons.removeClass('disabled');
         }
     }
+
+    playlistLength = playlist.length;
+    $playlistLength.text(playlistLength);
 
 }
 
