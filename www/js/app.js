@@ -16,6 +16,7 @@ var $songs = null;
 var $playlistLengthWarning = null;
 var $fullscreenButton = null;
 var $landing = null;
+var $playlistFilters = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -53,6 +54,7 @@ var onDocumentLoad = function(e) {
     $fullscreenButton = $('.fullscreen-button');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
+    $playlistFilters = $('.playlist-filters');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -60,7 +62,7 @@ var onDocumentLoad = function(e) {
     $goButton.on('click', onGoButtonClick);
     $goContinue.on('click', onGoContinueClick);
     $moodButtons.on('click', onMoodButtonClick);
-    $body.on('click', '.playlist-filters li a', onTagClick);
+    $playlistFilters.on('click', 'li a', onTagClick);
     $skip.on('click', onSkipClick);
     $fullscreenButton.on('click', onFullscreenButtonClick);
     $(window).on('resize', onWindowResize);
@@ -266,8 +268,6 @@ var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
-
-    console.log(simpleStorage.get('playedSongs'));
 }
 
 /*
