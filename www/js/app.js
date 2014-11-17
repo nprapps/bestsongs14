@@ -120,7 +120,6 @@ var playNextSong = function() {
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
-    console.log('selectedTags', selectedTags)
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
@@ -280,7 +279,6 @@ var highlightSelectedTags = function() {
     $allTags.addClass('disabled');
 
     var $matchedTagButtons = $([]);
-    console.log(selectedTags);
     if (selectedTags.length > 0 ) {
         _.each(selectedTags, function(tag) {
             var $filtered = $allTags.filter(function() {
