@@ -165,6 +165,8 @@ var playNextSong = function() {
         mp3: nextsongURL
     }).jPlayer('play');
 
+    $('.gif x-gif').removeAttr('stopped');
+
     currentSong = nextSong;
     markSongPlayed(currentSong);
 }
