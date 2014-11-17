@@ -30,31 +30,36 @@
 
 <div class="songs"></div>
 
-<div class="player">
-    <div id="audio-player" class="jp-jplayer"></div>
-    <div id="jp_container_1" class="jp-audio">
-        <div class="jp-type-single">
-            <div class="jp-gui jp-interface">
-                <div class="jp-controls controls">
-                    <a href="javascript:;" class="jp-play player-button" tabindex="1" title="play"><i class="fa fa-play"></i></a>
-                    <a href="javascript:;" class="jp-pause player-button" tabindex="1" style="display: none;" title="pause"><i class="fa fa-pause"></i></a>
-                </div>
-                <div class="jp-progress-container">
-                <div class="player-progress jp-progress">
-                    <h2 class="artist"></h2>
-                    <h1 class="song-title"></h1>
-                    <div class="jp-seek-bar">
-                        <div class="jp-play-bar bar"></div>
+<div class="player-container container-fluid">
+    <div class="row">
+        <div class="player-wrapper">
+            <div class="player">
+                <div id="audio-player" class="jp-jplayer"></div>
+                <div id="jp_container_1" class="jp-audio">
+                    <div class="jp-type-single">
+                        <div class="jp-gui jp-interface">
+                            <div class="jp-controls controls">
+                                <a href="javascript:;" class="jp-play player-button" tabindex="1" title="play"><i class="fa fa-play"></i></a>
+                                <a href="javascript:;" class="jp-pause player-button" tabindex="1" style="display: none;" title="pause"><i class="fa fa-pause"></i></a>
+                            </div>
+                            <div class="jp-progress-container">
+                            <div class="player-progress jp-progress">
+                                <h2 class="artist"></h2>
+                                <h1 class="song-title"></h1>
+                                <div class="jp-seek-bar">
+                                    <div class="jp-play-bar bar"></div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="current-time"></div>
+                        </div>
                     </div>
-                </div>
-                </div>
-                <div class="current-time"></div>
-            </div>
+                </div> <!-- end .jp-audio -->
+            </div> <!-- end #audio -->
+            <a class="skip" href="#">Skip</a>
         </div>
-    </div> <!-- end .jp-audio -->
-</div> <!-- end #audio -->
-<a class="skip" href="#">Skip</a>
-
+    </div>
+</div>
 
 <div class = 'filter-head container-fluid' style="display: none;" >
 
