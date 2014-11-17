@@ -269,7 +269,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	li a {
 		display: block;
-		padding: 12px;
+		padding: 10px;
 		color: @white;
 		text-transform: uppercase;
 		font-size: @font-size-small;
@@ -429,17 +429,25 @@ h1,h2,h3,h4,h5,h6 {
 		color: @music-dark;
 		font-size: @font-size-base * 1;
 		letter-spacing: 0.2rem;
-		float: left;
 	}
 
-	p.song-count {
-		float: right;
-		color: @music-dark;
-		letter-spacing: 0.1rem;
+	h3 {
+		display: inline-block;
+		color: #222;
+		text-transform: uppercase;
+		font-weight: normal;
+		letter-spacing: 0.2rem;
+		font-size: @font-size-small;
+		width: 7rem;
+	}
+
+	.instructions {
+		color: #999;
+		font-size: @font-size-small;
 	}
 
 	ul {
-		clear: both;
+		display: inline-block;
 	}
 
 	li a:link {

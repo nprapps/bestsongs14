@@ -4,8 +4,6 @@ var $shareModal = null;
 var $commentCount = null;
 var $goButton = null;
 var $audioPlayer = null;
-var $currentSongWrapper = null;
-var $previouslyPlayed = null;
 var $playerArtist = null;
 var $playerTitle = null;
 var $currentTime = null;
@@ -13,6 +11,8 @@ var $allTags = null;
 var $goContinue = null;
 var $moodButtons = null;
 var $playlistLength = null;
+var $skip = null;
+var $songs = null;
 
 
 // Global state
@@ -24,6 +24,7 @@ var selectedTags = [];
 var playlistLength = 250;
 var onWelcome = true;
 
+
 /*
  * Run on page load.
  */
@@ -34,8 +35,8 @@ var onDocumentLoad = function(e) {
     $commentCount = $('.comment-count');
     $goButton = $('.go');
     $audioPlayer = $('#audio-player');
-    $currentSongWrapper = $('.current-song');
-    $previouslyPlayed = $('.previously-played');
+    $songs = $('.songs');
+    $skip = $('.skip');
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters.tags li a');
@@ -52,7 +53,7 @@ var onDocumentLoad = function(e) {
     $goContinue.on('click', onGoContinueClick);
     $moodButtons.on('click', onMoodButtonClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
-    $currentSongWrapper.on('click', '.skip', onSkipClick);
+    $skip.on('click', onSkipClick);
     $(window).on('resize', onWindowResize);
 
     // configure ZeroClipboard on share panel
@@ -92,7 +93,6 @@ var onTimeUpdate = function(e) {
 
 var startPreroll = function() {
     $audioPlayer.jPlayer('play');
-    $('x-gif').removeAttr('stopped');
 }
 
 var setupAudioSyncing = function (audio, xGifs, metadata) {
@@ -128,6 +128,18 @@ var setupAudioSyncing = function (audio, xGifs, metadata) {
         }
         animationLoop();
     });
+var startPrerollAudio = function() {
+
+    if (simpleStorage.get('loadedPreroll')) {
+        playNextSong();
+        $('x-gif').removeAttr('stopped');
+        return;
+    }
+
+    $audioPlayer.jPlayer('play');
+    $playerArtist.text('Perfect Mixtape')
+    $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
+    simpleStorage.set('loadedPreroll', true);
 }
 
 /*
@@ -137,7 +149,6 @@ var playNextSong = function() {
     if (onWelcome) {
         hideWelcome();
     }
-
 
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
@@ -153,8 +164,8 @@ var playNextSong = function() {
     // What do we do if we don't find one? (we've played them all)
 
     var context = $.extend(APP_CONFIG, nextSong);
-    var html = JST.current(context);
-    $currentSongWrapper.html(html);
+    var html = JST.song(context);
+    $songs.append(html);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -176,7 +187,8 @@ var playNextSong = function() {
  */
 var loadState = function() {
     // playedSongs = simpleStorage.get('playedSongs') || [];
-    selectedTags = simpleStorage.get('selectedTags') || [];
+    //selectedTags = simpleStorage.get('selectedTags') || [];
+
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
@@ -196,7 +208,13 @@ var markSongPlayed = function(song) {
  */
 var buildPlaylist = function(tags) {
     return _.filter(SONG_DATA, function(song) {
-        return _.intersection(tags, song['tags']).length == tags.length;
+        for (var i = 0; i < song['tags'].length; i++) {
+            if (!_.contains(tags, song['tags'][i])) {
+                return false;
+            }
+        }
+
+        return true;
     })
 }
 
@@ -219,7 +237,11 @@ var onTagClick = function(e) {
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
 
-        if (_.intersection(currentSong['tags'], selectedTags).length == 0) {
+        var keepPlaying = _.find(playlist, function(song) {
+            return song['id'] == currentSong['id'];
+        });
+
+        if (!keepPlaying) {
             playNextSong();
         }
     // adding a tag
@@ -231,10 +253,6 @@ var onTagClick = function(e) {
         $playlistLength.text(playlistLength);
 
         $(this).removeClass('disabled');
-
-        if (!_.contains(currentSong['tags'], tag)) {
-            playNextSong();
-        }
     }
 
     // TODO
@@ -248,21 +266,6 @@ var onSkipClick = function(e) {
     e.preventDefault();
 
     playNextSong();
-}
-
-/*
- * Basic templating example.
- */
-var renderExampleTemplate = function() {
-    var context = $.extend(APP_CONFIG, {
-        'template_path': 'jst/example.html',
-        'config': JSON.stringify(APP_CONFIG, null, 4),
-        'copy': JSON.stringify(COPY, null, 4)
-    });
-
-    var html = JST.example(context);
-
-    $('#template-example').html(html);
 }
 
 /*
@@ -314,10 +317,10 @@ var onClippyCopy = function(e) {
  */
 var showNewSong = function(e) {
     // $('.played-song').slideDown();
-    $('.new-song').fadeIn();
+    $songs.find('.song').last().fadeIn();
     _.delay(function(){
         $('html, body').animate({
-            scrollTop: $(".new-song").offset().top
+            scrollTop: $songs.find('.song').last().offset().top
         }, 500);
     }, 200);
 }
@@ -325,15 +328,15 @@ var showNewSong = function(e) {
 var hideWelcome  = function() {
     onWelcome = false;
 
-    $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
+    $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
 
     $goButton.fadeOut();
     $goContinue.fadeOut();
 
-    $('.current-song, .player, .playlist-filters').fadeIn();
+    $('.songs, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
-        scrollTop: $('.current-song').offset().top
+        scrollTop: $songs.offset().top
     }, 1000);
 }
 
@@ -363,7 +366,7 @@ var highlightSelectedTags = function() {
 var onGoButtonClick = function(e) {
     startPreroll();
     playlist = SONG_DATA;
-    selectedTags = [];
+    selectedTags = APP_CONFIG.TAGS;
     highlightSelectedTags();
 }
 
