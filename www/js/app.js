@@ -250,7 +250,9 @@ var loadState = function() {
  * Reconstruct listening history from stashed id's.
  */
 var buildListeningHistory = function() {
-    _.each(playedSongs, function(songID) {
+    for (var i = 0; i < playedSongs.length; i++) {
+        var songID = playedSongs[i];
+
         var song = _.find(SONG_DATA, function(song) {
             return songID === song['id']
         });
@@ -258,7 +260,7 @@ var buildListeningHistory = function() {
         var context = $.extend(APP_CONFIG, song);
         var html = JST.song(context);
         $songs.append(html);
-    });
+    };
 }
 
 /*
@@ -426,17 +428,18 @@ var highlightSelectedTags = function() {
     $allTags.addClass('disabled');
 
     var $matchedTagButtons = $([]);
-    if (selectedTags.length > 0 ) {
-        _.each(selectedTags, function(tag) {
-            var $filtered = $allTags.filter(function() {
-                return $(this).data('tag') === tag;
-            })
-            $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
-        });
 
-        if ($matchedTagButtons) {
-            $matchedTagButtons.removeClass('disabled');
-        }
+    for (var i = 0; i < selectedTags.length; i++) {
+        var tag = selectedTags[i];
+
+        var $filtered = $allTags.filter(function() {
+            return $(this).data('tag') === tag;
+        })
+        $matchedTagButtons = $.merge($matchedTagButtons, $filtered);
+    };
+
+    if ($matchedTagButtons) {
+        $matchedTagButtons.removeClass('disabled');
     }
 
     playlistLength = playlist.length;
