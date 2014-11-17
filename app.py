@@ -25,22 +25,10 @@ def index():
     with open('data/featured.json') as f:
         context['featured'] = json.load(f)
 
-    return make_response(render_template('index.html', **context))
-
-@app.route('/player/')
-def player():
-    """
-    Example view demonstrating rendering a simple HTML page.
-    """
-    context = make_context()
-
-    with open('data/featured.json') as f:
-        context['featured'] = json.load(f)
-
     with open('data/songs.json') as f:
         context['song_data'] = f.read()
 
-    return make_response(render_template('player.html', **context))
+    return make_response(render_template('index.html', **context))
 
 @app.route('/xgif/')
 def xgif():

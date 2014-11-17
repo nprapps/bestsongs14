@@ -1,19 +1,19 @@
 <div class="song container-fluid">
     <div class="song-info">
-        <img class="album-cover img-responsive" src="/assets/img/2chainz.jpg">
+        <img class="album-cover img-responsive" src="<%= S3_BASE_URL %>/assets/img/2chainz.jpg">
         <div class="song-info-wrapper">
             <h2 class="artist"><%= artist %></h2>
             <h1 class="song-title">&lsquo;<%= title %>&rsquo;</h1>
 
             <div class="review-wrapper">
                 <p class="review"><%= review %></p>
-                <p class="byline"><span class="mug"><img src="/assets/img/<%= reviewer_img_file %>"></span> <span class="name"><%= reviewer %></span></p>
+                <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/<%= reviewer_img_file %>"></span> <span class="name"><%= reviewer %></span></p>
             </div>
 
             <div >
-                <ul class="list-unstyled">
+                <ul class="list-unstyled no-click">
                     <% for(i = 0; i < tags.length; i++) { %>
-                        <li><%= tags[i] %></li>
+                        <li > <a> <%= tags[i] %></a></li>
                     <% } %>
                 </ul>
             </div>
@@ -22,5 +22,5 @@
 </div>
 
 <div class="gif">
-    <x-gif src="http://i.imgur.com/mYUdAEi.gif" fill stopped bpm="<%= bpm %>"></x-gif>
+    <x-gif src="http://i.imgur.com/mYUdAEi.gif" fill snap stopped bpm="<%= bpm %>"></x-gif>
 </div>

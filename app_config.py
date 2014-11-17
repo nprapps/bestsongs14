@@ -130,6 +130,8 @@ MOOD_TAGS = ['Happy', 'Sad', 'Ambivalent', 'Intimate', 'Party', 'Dinner', 'Angry
 
 TAGS = GENRE_TAGS + MOOD_TAGS
 
+PLAYLIST_LIMIT = 1
+
 """
 Utilities
 """

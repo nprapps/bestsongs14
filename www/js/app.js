@@ -13,6 +13,8 @@ var $moodButtons = null;
 var $playlistLength = null;
 var $skip = null;
 var $songs = null;
+var $playlistLengthWarning = null;
+var $fullscreenButton = null;
 
 
 // Global state
@@ -45,6 +47,9 @@ var onDocumentLoad = function(e) {
     $moodButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
+    $playlistLengthWarning = $('.warning');
+    $fullscreenButton = $('.fullscreen-button');
+    $tagsWrapper = $('.tags-wrapper');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -54,7 +59,9 @@ var onDocumentLoad = function(e) {
     $moodButtons.on('click', onMoodButtonClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
     $skip.on('click', onSkipClick);
+    $fullscreenButton.on('click', onFullscreenButtonClick);
     $(window).on('resize', onWindowResize);
+    $(document).keydown(onDocumentKeyDown);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -143,21 +150,15 @@ var startPrerollAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-    if (onWelcome) {
-        hideWelcome();
-    }
-
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
         var html = JST.played(context);
         $previouslyPlayed.append(html);
     }
 
-    console.log(playlist);
-
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
-    })
+    });
 
     // TODO
     // What do we do if we don't find one? (we've played them all)
@@ -177,6 +178,10 @@ var playNextSong = function() {
 
     $('.gif x-gif').removeAttr('stopped');
 
+    if (onWelcome) {
+        hideWelcome();
+    }
+
     currentSong = nextSong;
     markSongPlayed(currentSong);
 }
@@ -185,21 +190,44 @@ var playNextSong = function() {
  * Load previously played songs from browser state (cookie, whatever)
  */
 var loadState = function() {
-    // playedSongs = simpleStorage.get('playedSongs') || [];
-    //selectedTags = simpleStorage.get('selectedTags') || [];
+    playedSongs = simpleStorage.get('playedSongs') || [];
+    selectedTags = simpleStorage.get('selectedTags') || [];
+
+    if (playedSongs.length === SONG_DATA.length) {
+        playedSongs = [];
+    }
+
+    if (playedSongs) {
+        buildListeningHistory();
+    }
 
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
 }
 
+var buildListeningHistory = function() {
+    _.each(playedSongs, function(songID) {
+        var song = _.find(SONG_DATA, function(song) {
+            return songID === song['id']
+        });
+
+        var context = $.extend(APP_CONFIG, song);
+        var html = JST.song(context);
+        $songs.append(html);
+    });
+}
+
 /*
  * Mark the current song as played and save state.
  */
 var markSongPlayed = function(song) {
+    console.log(song['id']);
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
+
+    console.log(simpleStorage.get('playedSongs'));
 }
 
 /*
@@ -214,7 +242,7 @@ var buildPlaylist = function(tags) {
         }
 
         return true;
-    })
+    });
 }
 
 /*
@@ -236,6 +264,12 @@ var onTagClick = function(e) {
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
 
+        if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
+            $playlistLengthWarning.show();
+            $audioPlayer.jPlayer('pause');
+            return false;
+        }
+
         var keepPlaying = _.find(playlist, function(song) {
             return song['id'] == currentSong['id'];
         });
@@ -250,6 +284,9 @@ var onTagClick = function(e) {
         playlist = buildPlaylist(selectedTags);
         playlistLength = playlist.length;
         $playlistLength.text(playlistLength);
+
+        $audioPlayer.jPlayer('play');
+        $playlistLengthWarning.hide();
 
         $(this).removeClass('disabled');
     }
@@ -325,18 +362,19 @@ var showNewSong = function(e) {
 }
 
 var hideWelcome  = function() {
-    onWelcome = false;
 
     $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
-
+    $tagsWrapper.fadeOut();
     $goButton.fadeOut();
     $goContinue.fadeOut();
 
     $('.songs, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
-        scrollTop: $songs.offset().top
+        scrollTop: $songs.find('.song').last().offset().top
     }, 1000);
+
+    onWelcome = false;
 }
 
 var highlightSelectedTags = function() {
@@ -361,10 +399,12 @@ var highlightSelectedTags = function() {
     $playlistLength.text(playlistLength);
 
 }
-
 var onGoButtonClick = function(e) {
+    $songs.find('.song').remove();
+    playedSongs = [];
     playlist = SONG_DATA;
     selectedTags = APP_CONFIG.TAGS;
+    simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
 }
@@ -381,6 +421,68 @@ var onMoodButtonClick = function(e) {
     simpleStorage.set('selectedTags', selectedTags)
     highlightSelectedTags();
     startPrerollAudio();
+}
+
+var onDocumentKeyDown = function(e) {
+
+    switch (e.which) {
+        //right
+        case 39:
+            playNextSong();
+            break;
+
+        // space
+        case 32:
+            if($audioPlayer.data('jPlayer').status.paused) {
+                $audioPlayer.jPlayer('play');
+            } else {
+                $audioPlayer.jPlayer('pause');
+            }
+
+            break;
+    }
+
+    // jquery.fullpage handles actual scrolling
+    return true;
+}
+
+var onFullscreenButtonClick = function(event) {
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
+    var elem = document.getElementById("content");
+
+    var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+
+    if (fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+        else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        }
+        else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+
+        // $fullscreenStart.show();
+        // $fullscreenStop.hide();
+    }
+    else {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        }
+        else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+        else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        }
+        else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+
+        // $fullscreenStart.hide();
+        // $fullscreenStop.show();
+    }
 }
 
 var onWindowResize = function(e) {
