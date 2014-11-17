@@ -16,13 +16,14 @@
 
             <a class="continue" href="#">Continue Where You Left Off</a>
             <a class="go" href="#">Shuffle</a>
-
-            <h3>Or choose a mood:</h3>
-            <ul class="tags list-unstyled">
-                {% for tag in MOOD_TAGS|sort %}
-                <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-                {% endfor %}
-            </ul>
+            <div class="tags-wrapper">
+                <h3>Or choose a mood:</h3>
+                <ul class="tags list-unstyled">
+                    {% for tag in MOOD_TAGS|sort %}
+                    <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
     <div class="poster"></div>
@@ -71,11 +72,11 @@
 
     <div class="mood">
         <h3>Mood</h3>
-        <ul class="list-unstyled">
-            {% for tag in MOOD_TAGS %}
-            <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-            {% endfor %}
-        </ul>
+            <ul class="list-unstyled">
+                {% for tag in MOOD_TAGS %}
+                <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
     </div>
 
     <div class="genre">

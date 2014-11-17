@@ -49,6 +49,7 @@ var onDocumentLoad = function(e) {
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
     $fullscreenButton = $('.fullscreen-button');
+    $tagsWrapper = $('.tags-wrapper');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -320,7 +321,7 @@ var showNewSong = function(e) {
 
 var hideWelcome  = function() {
   $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
-
+    $tagsWrapper.fadeOut();
     $goButton.fadeOut();
     $goContinue.fadeOut();
 
