@@ -65,19 +65,19 @@
 	<h2 class="filter-title">Playing Now: <span class="song-count"><span class="playlist-length"></span> songs</span> out of 250</h2>
 	<p class="instructions">Click the filters below to remove songs from your mixtape.</p>
 
-	<div class="genre">
-		<h3>Genre</h3>
+	<div class="mood">
+		<h3>Mood</h3>
 		<ul class="list-unstyled">
-			{% for tag in GENRE_TAGS %}
+			{% for tag in MOOD_TAGS %}
 			<li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
 			{% endfor %}
 		</ul>
 	</div>
 
-	<div class="mood">
-		<h3>Mood</h3>
+	<div class="genre">
+		<h3>Genre</h3>
 		<ul class="list-unstyled">
-			{% for tag in MOOD_TAGS %}
+			{% for tag in GENRE_TAGS %}
 			<li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
 			{% endfor %}
 		</ul>
