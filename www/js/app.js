@@ -102,7 +102,7 @@ var startPrerollAudio = function() {
 var playNextSong = function() {
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
-        var html = JST.current(context);
+        var html = JST.played(context);
         $previouslyPlayed.append(html);
     }
 
