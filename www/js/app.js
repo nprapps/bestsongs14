@@ -4,8 +4,6 @@ var $shareModal = null;
 var $commentCount = null;
 var $goButton = null;
 var $audioPlayer = null;
-var $currentSongWrapper = null;
-var $previouslyPlayed = null;
 var $playerArtist = null;
 var $playerTitle = null;
 var $currentTime = null;
@@ -14,6 +12,7 @@ var $goContinue = null;
 var $moodButtons = null;
 var $playlistLength = null;
 var $skip = null;
+var $songs = null;
 
 
 // Global state
@@ -35,9 +34,8 @@ var onDocumentLoad = function(e) {
     $commentCount = $('.comment-count');
     $goButton = $('.go');
     $audioPlayer = $('#audio-player');
-    $currentSongWrapper = $('.current-song');
+    $songs = $('.songs');
     $skip = $('.skip');
-    $previouslyPlayed = $('.previously-played');
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters.tags li a');
@@ -103,11 +101,6 @@ var startPrerollAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-    if (currentSong) {
-        var context = $.extend(APP_CONFIG, currentSong);
-        var html = JST.song(context);
-        $previouslyPlayed.append(html);
-    }
 
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
@@ -118,7 +111,7 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, nextSong);
     var html = JST.song(context);
-    $currentSongWrapper.html(html);
+    $songs.append(html);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -261,24 +254,24 @@ var onClippyCopy = function(e) {
  */
 var showNewSong = function(e) {
     // $('.played-song').slideDown();
-    $('.new-song').fadeIn();
+    $songs.find('.song').last().fadeIn();
     _.delay(function(){
         $('html, body').animate({
-            scrollTop: $(".new-song").offset().top
+            scrollTop: $songs.find('.song').last().offset().top
         }, 500);
     }, 200);
 }
 
 var hideWelcome  = function() {
-  $('.current-song, .player, .playlist-filters, .filter-head').fadeIn();
+  $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
 
     $goButton.fadeOut();
     $goContinue.fadeOut();
 
-    $('.current-song, .player, .playlist-filters').fadeIn();
+    $('.songs, .player, .playlist-filters').fadeIn();
 
     $('html, body').animate({
-        scrollTop: $('.current-song').offset().top
+        scrollTop: $songs.offset().top
     }, 1000);
 }
 
