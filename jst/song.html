@@ -10,14 +10,13 @@
                 <p class="byline"><span class="mug"><img src="/assets/img/<%= reviewer_img_file %>"></span> <span class="name"><%= reviewer %></span></p>
             </div>
 
-            <div class="tags">
+            <div >
                 <ul class="list-unstyled">
                     <% for(i = 0; i < tags.length; i++) { %>
-                        <li><a href="#"><%= tags[i] %></a></li>
+                        <li><%= tags[i] %></li>
                     <% } %>
                 </ul>
             </div>
-            <a class="skip" href="#">Nextz</a>
         </div>
     </div>
 </div>

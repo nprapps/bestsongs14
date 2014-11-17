@@ -13,6 +13,7 @@ var $allTags = null;
 var $goContinue = null;
 var $moodButtons = null;
 var $playlistLength = null;
+var $skip = null;
 
 
 // Global state
@@ -22,6 +23,7 @@ var playlist = [];
 var currentSong = null;
 var selectedTags = [];
 var playlistLength = 250;
+
 
 /*
  * Run on page load.
@@ -34,6 +36,7 @@ var onDocumentLoad = function(e) {
     $goButton = $('.go');
     $audioPlayer = $('#audio-player');
     $currentSongWrapper = $('.current-song');
+    $skip = $('.skip');
     $previouslyPlayed = $('.previously-played');
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
@@ -51,7 +54,7 @@ var onDocumentLoad = function(e) {
     $goContinue.on('click', onGoContinueClick);
     $moodButtons.on('click', onMoodButtonClick);
     $body.on('click', '.playlist-filters li a', onTagClick);
-    $currentSongWrapper.on('click', '.skip', onSkipClick);
+    $skip.on('click', onSkipClick);
     $(window).on('resize', onWindowResize);
 
     // configure ZeroClipboard on share panel
