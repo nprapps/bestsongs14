@@ -15,6 +15,7 @@ var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
 var $fullscreenButton = null;
+var $landing = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -51,6 +52,7 @@ var onDocumentLoad = function(e) {
     $playlistLengthWarning = $('.warning');
     $fullscreenButton = $('.fullscreen-button');
     $tagsWrapper = $('.tags-wrapper');
+    $landing = $('.landing');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -150,7 +152,9 @@ var onCastStopped = function() {
     is_casting = false;*/
 }
 
-
+/*
+ * Configure jPlayer.
+ */
 var setupAudio = function() {
     $audioPlayer.jPlayer({
         ready: function() {
@@ -165,23 +169,27 @@ var setupAudio = function() {
     });
 }
 
+/*
+ * Update playback timer display.
+ */
 var onTimeUpdate = function(e) {
     var time_text = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
     $currentTime.text(time_text);
 };
 
+/*
+ * Start playing the preoroll audio.
+ */
 var startPrerollAudio = function() {
-
     if (simpleStorage.get('loadedPreroll')) {
         playNextSong();
         return;
     }
+
     $audioPlayer.jPlayer('play');
     $playerArtist.text('Perfect Mixtape')
     $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
     simpleStorage.set('loadedPreroll', true);
-
-
 }
 
 /*
@@ -236,6 +244,9 @@ var loadState = function() {
     }
 }
 
+/*
+ * Reconstruct listening history from stashed id's.
+ */
 var buildListeningHistory = function() {
     _.each(playedSongs, function(songID) {
         var song = _.find(SONG_DATA, function(song) {
@@ -252,7 +263,6 @@ var buildListeningHistory = function() {
  * Mark the current song as played and save state.
  */
 var markSongPlayed = function(song) {
-    console.log(song['id']);
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
@@ -391,6 +401,9 @@ var showNewSong = function(e) {
     }, 200);
 }
 
+/*
+ * Hide buttons on welcome screen.
+ */
 var hideWelcome  = function() {
   $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
     $tagsWrapper.fadeOut();
@@ -406,8 +419,10 @@ var hideWelcome  = function() {
     onWelcome = false;
 }
 
+/*
+ * Highlight whichever tags are currently selected and clear all other highlights.
+ */
 var highlightSelectedTags = function() {
-
     $allTags.addClass('disabled');
 
     var $matchedTagButtons = $([]);
@@ -426,8 +441,11 @@ var highlightSelectedTags = function() {
 
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
-
 }
+
+/*
+ * Begin shuffled playback.
+ */
 var onGoButtonClick = function(e) {
     $songs.find('.song').remove();
     playedSongs = [];
@@ -438,12 +456,18 @@ var onGoButtonClick = function(e) {
     startPrerollAudio();
 }
 
+/*
+ * Begin playback where the user left off.
+ */
 var onGoContinueClick = function(e) {
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     startPrerollAudio();
 }
 
+/*
+ * Begin playback in a specific mood tag.
+ */
 var onMoodButtonClick = function(e) {
     selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
     simpleStorage.set('selectedTags', selectedTags);
@@ -452,8 +476,10 @@ var onMoodButtonClick = function(e) {
     startPrerollAudio();
 }
 
+/*
+ * Handle keyboard navigation.
+ */
 var onDocumentKeyDown = function(e) {
-
     switch (e.which) {
         //right
         case 39:
@@ -475,6 +501,9 @@ var onDocumentKeyDown = function(e) {
     return true;
 }
 
+/*
+ * Enable/disable fullscreen.
+ */
 var onFullscreenButtonClick = function(event) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
     var elem = document.getElementById("content");
@@ -514,8 +543,11 @@ var onFullscreenButtonClick = function(event) {
     }
 }
 
+/*
+ * Resize the welcome page to fit perfectly.
+ */
 var onWindowResize = function(e) {
-    $('.landing').css('height', $(window).height());
+    $landing.css('height', $(window).height());
 }
 
 
