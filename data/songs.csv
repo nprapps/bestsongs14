@@ -1,7 +1,7 @@
-id,artist,album,title,mp3_file,art_file,reviewer,reviewer_img_file,review,tag_1,tag_2,tag_3,tag_4,tag_5
-2,2 Chainz,,Feds Watching,folk_song.mp3,,Lars Gotrich,lars.jpg,"A dry, tasteful romp twists Pharrell's croon and a guitar wail into hollow tones and itchy 808s, which makes 2 Chainz's preposterous-sounding claims just plausible enough.",Metal,Happy,Sad,,
-3,Alice Smith,,Shot,spacial_winds.mp3,,Bob Boilen,bob.jpg,A retro-groovy retelling of Romeo and Juliet for the OKCupid generation.,Folk,Sad,Grunge,,
-4,Anna von Hausswolff,,Funeral For My Future Childen,thinking_tension_a.mp3,,Stephen Thompson,sthompson.jpg,"The song's title is brutal. But the Swedish singer renders ""Funeral for My Future Children"" as mournfully majestic as can be, with the unlikely accompaniment of a gigantic pipe organ.",Grunge,Ambivalent,,,
-5,Danny Debelius,,Me and My Guitar,folk_song.mp3,,Lars Gotrich,,He makes music.,Metal,Happy,Ambivalent,,
-6,Tyler Fisher,,Space Rock for a New Century,spacial_winds.mp3,,Bob Boilen,,Whoa. STARS STARS STARS.,Folk,Sad,Metal,,
-7,Quoctrung Bui,,Taylor is so Swift,thinking_tension_a.mp3,,Stephen Thompson,,I can't even.,Grunge,Ambivalent,,,
+id,artist,album,title,mp3_file,art_file,reviewer,reviewer_img_file,review,tag_1,tag_2,tag_3,tag_4,tag_5,bpm
+2,2 Chainz,,Feds Watching,folk_song.mp3,,Lars Gotrich,lars.jpg,"A dry, tasteful romp twists Pharrell's croon and a guitar wail into hollow tones and itchy 808s, which makes 2 Chainz's preposterous-sounding claims just plausible enough.",Metal,Happy,Sad,,,120
+3,Alice Smith,,Shot,spacial_winds.mp3,,Bob Boilen,bob.jpg,A retro-groovy retelling of Romeo and Juliet for the OKCupid generation.,Folk,Sad,Grunge,,,89.4
+4,Anna von Hausswolff,,Funeral For My Future Childen,thinking_tension_a.mp3,,Stephen Thompson,sthompson.jpg,"The song's title is brutal. But the Swedish singer renders ""Funeral for My Future Children"" as mournfully majestic as can be, with the unlikely accompaniment of a gigantic pipe organ.",Grunge,Ambivalent,,,,125
+5,Danny Debelius,,Me and My Guitar,folk_song.mp3,,Lars Gotrich,,He makes music.,Metal,Happy,Ambivalent,,,120
+6,Tyler Fisher,,Space Rock for a New Century,spacial_winds.mp3,,Bob Boilen,,Whoa. STARS STARS STARS.,Folk,Sad,Metal,,,89.4
+7,Quoctrung Bui,,Taylor is so Swift,thinking_tension_a.mp3,,Stephen Thompson,,I can't even.,Grunge,Ambivalent,,,,125
