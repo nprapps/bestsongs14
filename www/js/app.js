@@ -90,7 +90,7 @@ var onTimeUpdate = function(e) {
 var playNextSong = function() {
     if (currentSong) {
         var context = $.extend(APP_CONFIG, currentSong);
-        var html = JST.played(context);
+        var html = JST.song(context);
         $previouslyPlayed.append(html);
     }
 
@@ -102,7 +102,7 @@ var playNextSong = function() {
     // What do we do if we don't find one? (we've played them all)
 
     var context = $.extend(APP_CONFIG, nextSong);
-    var html = JST.current(context);
+    var html = JST.song(context);
     $currentSongWrapper.html(html);
 
     $playerArtist.text(nextSong['artist'])
@@ -195,21 +195,6 @@ var onSkipClick = function(e) {
     e.preventDefault();
 
     playNextSong();
-}
-
-/*
- * Basic templating example.
- */
-var renderExampleTemplate = function() {
-    var context = $.extend(APP_CONFIG, {
-        'template_path': 'jst/example.html',
-        'config': JSON.stringify(APP_CONFIG, null, 4),
-        'copy': JSON.stringify(COPY, null, 4)
-    });
-
-    var html = JST.example(context);
-
-    $('#template-example').html(html);
 }
 
 /*
