@@ -301,8 +301,7 @@ var onTagClick = function(e) {
         $(this).addClass('disabled');
 
         playlist = buildPlaylist(selectedTags);
-        playlistLength = playlist.length;
-        $playlistLength.text(playlistLength);
+        updatePlaylistLength();
 
         if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
             $playlistLengthWarning.show();
@@ -322,8 +321,7 @@ var onTagClick = function(e) {
         selectedTags.push(tag);
         simpleStorage.set('selectedTags', selectedTags);
         playlist = buildPlaylist(selectedTags);
-        playlistLength = playlist.length;
-        $playlistLength.text(playlistLength);
+        updatePlaylistLength();
 
         $audioPlayer.jPlayer('play');
         $playlistLengthWarning.hide();
@@ -438,7 +436,9 @@ var highlightSelectedTags = function() {
             $matchedTagButtons.removeClass('disabled');
         }
     }
+}
 
+var updatePlaylistLength = function() {
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
 }
@@ -455,6 +455,7 @@ var onGoButtonClick = function(e) {
     selectedTags = APP_CONFIG.TAGS;
     simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
+    updatePlaylistLength();
     startPrerollAudio();
 }
 
@@ -466,6 +467,7 @@ var onGoContinueClick = function(e) {
 
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
+    updatePlaylistLength();
     startPrerollAudio();
 }
 
@@ -479,6 +481,7 @@ var onMoodButtonClick = function(e) {
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
+    updatePlaylistLength();
     startPrerollAudio();
 }
 
