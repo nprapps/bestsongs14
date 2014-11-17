@@ -91,10 +91,6 @@ var onTimeUpdate = function(e) {
     $currentTime.text(time_text);
 };
 
-var startPreroll = function() {
-    $audioPlayer.jPlayer('play');
-}
-
 var setupAudioSyncing = function (audio, xGifs, metadata) {
     var syncOffset = -0.1;
 
@@ -128,14 +124,15 @@ var setupAudioSyncing = function (audio, xGifs, metadata) {
         }
         animationLoop();
     });
-var startPrerollAudio = function() {
+}
 
+var startPrerollAudio = function() {
     if (simpleStorage.get('loadedPreroll')) {
         playNextSong();
-        $('x-gif').removeAttr('stopped');
         return;
     }
 
+    $('.poster x-gif').removeAttr('stopped');
     $audioPlayer.jPlayer('play');
     $playerArtist.text('Perfect Mixtape')
     $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
@@ -155,6 +152,8 @@ var playNextSong = function() {
         var html = JST.played(context);
         $previouslyPlayed.append(html);
     }
+
+    console.log(playlist);
 
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
@@ -364,24 +363,24 @@ var highlightSelectedTags = function() {
 }
 
 var onGoButtonClick = function(e) {
-    startPreroll();
     playlist = SONG_DATA;
     selectedTags = APP_CONFIG.TAGS;
     highlightSelectedTags();
+    startPrerollAudio();
 }
 
 var onGoContinueClick = function(e) {
-    startPreroll();
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
+    startPrerollAudio();
 }
 
 var onMoodButtonClick = function(e) {
-    startPreroll();
-    selectedTags = [$(this).data('tag')];
-    simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
+    selectedTags = [$(this).data('tag')];
+    simpleStorage.set('selectedTags', selectedTags)
     highlightSelectedTags();
+    startPrerollAudio();
 }
 
 var onWindowResize = function(e) {
