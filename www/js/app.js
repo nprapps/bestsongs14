@@ -240,25 +240,34 @@ var playNextSong = function() {
     // TODO
     // What do we do if we don't find one? (we've played them all)
 
-    var context = $.extend(APP_CONFIG, nextSong);
-    var html = JST.song(context);
-    $songs.append(html);
-
-    $playerArtist.text(nextSong['artist'])
-    $playerTitle.text(nextSong['title'])
-
-    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
-
-    $audioPlayer.jPlayer('setMedia', {
-        mp3: nextsongURL
-    }).jPlayer('play');
-
-    if (onWelcome) {
-        hideWelcome();
+    if (!nextSong) {
+        playedSongs = [];
+        simpleStorage.set('playedSongs', playedSongs);
+        playNextSong();
+        return;
     }
 
-    currentSong = nextSong;
-    markSongPlayed(currentSong);
+    if (nextSong) {
+        var context = $.extend(APP_CONFIG, nextSong);
+        var html = JST.song(context);
+        $songs.append(html);
+
+        $playerArtist.text(nextSong['artist'])
+        $playerTitle.text(nextSong['title'])
+
+        var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
+
+        $audioPlayer.jPlayer('setMedia', {
+            mp3: nextsongURL
+        }).jPlayer('play');
+
+        if (onWelcome) {
+            hideWelcome();
+        }
+
+        currentSong = nextSong;
+        markSongPlayed(currentSong);
+    }
 }
 
 /*
@@ -530,6 +539,7 @@ var onGoButtonClick = function(e) {
 
     $songs.find('.song').remove();
     playedSongs = [];
+    simpleStorage.set('playedSongs', playedSongs);
     playlist = SONG_DATA;
     selectedTags = APP_CONFIG.TAGS;
     simpleStorage.set('selectedTags', selectedTags);
