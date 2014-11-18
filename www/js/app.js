@@ -35,6 +35,7 @@ var playlistLength = 250;
 var onWelcome = true;
 var isCasting = false;
 var playedsongCount = null;
+var usedSkips = [];
 
 /*
  * Run on page load.
@@ -101,6 +102,7 @@ var onDocumentLoad = function(e) {
 
     setupAudio();
     loadState();
+    checkSkips();
 }
 
 /*
@@ -265,6 +267,7 @@ var loadState = function() {
     // playedSongs = [];
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
+    usedSkips = simpleStorage.get('usedSkips') || [];
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {
@@ -278,6 +281,8 @@ var loadState = function() {
     if (playedSongs || selectedTags) {
         $goContinue.show();
     }
+
+    writeSkipsRemaining();
 }
 
 /*
@@ -376,8 +381,42 @@ var onTagClick = function(e) {
  */
 var onSkipClick = function(e) {
     e.preventDefault();
+    skipSong();
+}
 
-    playNextSong();
+var skipSong = function() {
+    if (usedSkips.length < 6) {
+        usedSkips.push(moment.utc());
+        playNextSong();
+        simpleStorage.set('usedSkips', usedSkips);
+        writeSkipsRemaining();
+    }
+}
+
+var checkSkips = function() {
+    setInterval(function() {
+        var now = moment.utc();
+        for (i = 0; i < usedSkips.length; i++) {
+            if (now.subtract(1, 'minute').isAfter(usedSkips[i])) {
+                console.log('found an old timestamp');
+                usedSkips.splice(i, 1);
+            }
+        }
+        simpleStorage.set('usedSkips', usedSkips);
+        writeSkipsRemaining();
+    }, 1000)
+}
+
+var writeSkipsRemaining = function() {
+    if (usedSkips.length == 5) {
+        $('.skips-remaining').text(6 - usedSkips.length + ' skip')
+    }
+    else if (usedSkips.length == 6) {
+        $('.skips-remaining').text('no skips');
+    }
+    else {
+        $('.skips-remaining').text(6 - usedSkips.length + ' skips')
+    }
 }
 
 /*
@@ -441,12 +480,12 @@ var showNewSong = function(e) {
  * Hide buttons on welcome screen.
  */
 var hideWelcome  = function() {
-  $('.songs, .player, .playlist-filters, .filter-head').fadeIn();
+  $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
     $tagsWrapper.fadeOut();
     $goButton.fadeOut();
     $goContinue.fadeOut();
 
-    $('.songs, .player, .playlist-filters').fadeIn();
+    $('.songs, .player-wrapper, .playlist-filters').fadeIn();
 
     $('html, body').animate({
         scrollTop: $songs.find('.song').last().offset().top
@@ -479,7 +518,7 @@ var highlightSelectedTags = function() {
 
 var updateSongsPlayed = function(reset) {
     if (reset == true) {
-        playedsongCount = 1;    
+        playedsongCount = 1;
     } else {
         playedsongCount = playedSongs.length;
     }
@@ -538,7 +577,7 @@ var onMoodButtonClick = function(e) {
 }
 
 var onClearHistoryButtonClick = function(e) {
-    e.preventDefault()    
+    e.preventDefault()
     $('.song').slice(0,playedsongCount-1).remove();
     playedSongs = [currentSong['id']];
     updateSongsPlayed(true);
@@ -552,7 +591,7 @@ var onDocumentKeyDown = function(e) {
     switch (e.which) {
         //right
         case 39:
-            playNextSong();
+            skipSong();
             break;
 
         // space
