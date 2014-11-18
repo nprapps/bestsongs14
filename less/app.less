@@ -491,16 +491,6 @@ h1,h2,h3,h4,h5,h6 {
 		margin-left: @grid-gutter-width / 2;
 	}
 
-	.player-button {
-		display: block;
-		.square(80px);
-		background: @music-red-light;
-		color: #fff;
-		line-height: 80px;
-		text-align: center;
-		font-size: @font-size-base * 4;
-	}
-
 	.artist {
 		font-size: @font-size-base * 1.2;
 		margin-top: 10px;
@@ -517,7 +507,7 @@ h1,h2,h3,h4,h5,h6 {
 		left: 80px;
 		top: 0;
 		bottom: 0;
-		right: 0;
+		right: 80px;
 
 		.bar {
 			// display: none;
@@ -531,10 +521,24 @@ h1,h2,h3,h4,h5,h6 {
 	}
 	.current-time {
 		position: absolute;
-		right: 10px;
-
+		right: 90px;
 	}
+}
 
+.player-button {
+	display: block;
+	.square(80px);
+	background: @music-red-light;
+	color: #fff;
+	line-height: 80px;
+	text-align: center;
+	font-size: @font-size-base * 4;
+}
+
+.skip {
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 
