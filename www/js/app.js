@@ -513,7 +513,7 @@ var onMoodButtonClick = function(e) {
 
 var onClearHistoryButtonClick = function() {
     $('.song').slice(0,playedsongCount-1).remove();
-    playedSongs = [];
+    playedSongs = [currentSong['id']];
     updateSongsPlayed(true);
 }
 
