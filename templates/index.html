@@ -1,11 +1,6 @@
 {% extends '_base.html' %}
 
-{% block header_content %}
-{% endblock %}
-
-
 {% block content %}
-
 <div class="landing">
     <div class="landing-content">
         <img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg">
@@ -16,12 +11,14 @@
 
             <a class="go" href="#">Shuffle</a>
 
-            <h3>Or choose a mood:</h3>
-            <ul class="tags list-unstyled">
-                {% for tag in MOOD_TAGS|sort %}
-                <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-                {% endfor %}
-            </ul>
+            <div class="tags-wrapper">
+                <h3>Or choose a mood:</h3>
+                <ul class="tags list-unstyled">
+                    {% for tag in MOOD_TAGS|sort %}
+                    <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
 
             <a class="continue" href="#"><i class="fa fa-play"></i> Continue Playlist</a>
         </div>
@@ -63,7 +60,6 @@
 </div>
 
 <div class = 'filter-head container-fluid' style="display: none;" >
-
 </div>
 
 <div class="playlist-filters tags" style="display: none;">
@@ -73,11 +69,11 @@
 
     <div class="mood">
         <h3>Mood</h3>
-        <ul class="list-unstyled">
-            {% for tag in MOOD_TAGS %}
-            <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-            {% endfor %}
-        </ul>
+            <ul class="list-unstyled">
+                {% for tag in MOOD_TAGS %}
+                <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
     </div>
 
     <div class="genre">
@@ -90,19 +86,16 @@
     </div>
 </div>
 
+<div class="fullscreen">
+<a class="fullscreen-button">Fullscreen!</a>
+</div>
+
+{% include '_share_modal.html' %}
 
 <script>
-var SONG_DATA = {{ song_data|safe }};
-
+    var SONG_DATA = {{ song_data|safe }};
 </script>
 
-
-
+<script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 {% endblock %}
-
-
-{% block wide_content %}
-    {% include '_share_modal.html' %}
-{% endblock %}
-
 
