@@ -5,6 +5,7 @@
             <h2 class="artist"><%= artist %></h2>
             <h1 class="song-title">&lsquo;<%= title %>&rsquo;</h1>
 
+            <h3 class="tag-header">Filed Under:</h3>
             <ul class="song-tags list-unstyled no-click">
                 <% for(i = 0; i < tags.length; i++) { %>
                     <li><%= tags[i] %></li>
@@ -16,8 +17,9 @@
                 <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/<%= reviewer_img_file %>"></span> <span class="name"><%= reviewer %></span></p>
             </div>
 
-            <ul class="song-tools">
-                <li><i class="fa"
+            <ul class="song-tools list-unstyled">
+                <li><a href="#"><span class="icon-rdio"></span></a></li>
+                <li><a href="#"><span class="icon-spotify-circled"></span></a></li>
             </ul>
         </div>
     </div>
