@@ -83,6 +83,7 @@ var onDocumentLoad = function(e) {
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
+    $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -607,34 +608,17 @@ var onFullscreenButtonClick = function(e) {
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
 
-    var elem = document.getElementById("content");
+    screenfull.toggle();
+}
 
-    var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-
-    if (fullscreenElement) {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
-
-        $fullscreenStart.show();
-        $fullscreenStop.hide();
-    } else {
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        }
-
-        $fullscreenStart.hide();
+var onFullscreenChange = function() {
+    if (screenfull.isFullscreen) {
         $fullscreenStop.show();
+        $fullscreenStart.hide();
+    }
+    else {
+        $fullscreenStop.hide();
+        $fullscreenStart.show();
     }
 }
 
@@ -644,6 +628,5 @@ var onFullscreenButtonClick = function(e) {
 var onWindowResize = function(e) {
     $landing.css('height', $(window).height());
 }
-
 
 $(onDocumentLoad);
