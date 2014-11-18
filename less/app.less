@@ -93,6 +93,8 @@ h1,h2,h3,h4,h5,h6 {
 	padding: @grid-gutter-width;
 }
 
+// Landing page
+// --------------------------------------------------
 
 .landing {
 	text-align: right;
@@ -182,7 +184,6 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-
 .go,
 .go:active,
 .go:visited {
@@ -216,10 +217,13 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
+
+// Playlist
+// --------------------------------------------------
+
 .songs {
 	display: none;
 }
-
 
 .song {
 	padding: 0 @grid-gutter-width @line-height-computed * 2;
@@ -247,7 +251,6 @@ h1,h2,h3,h4,h5,h6 {
 
 	}
 }
-
 
 .album-cover {
 	margin-bottom: @line-height-computed;
@@ -350,13 +353,7 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-.tag-header {
-	font-size: @font-size-small;
-	font-family: 'Knockout 31 4r';
-	text-transform: uppercase;
-	color: rgba(255,255,255,0.6);
-	display: inline-block;
-}
+
 
 .song-tags {
 	margin-bottom: 0;
@@ -375,62 +372,6 @@ h1,h2,h3,h4,h5,h6 {
 		&:last-child:after {
 			content: "";
 		}
-	}
-}
-
-.tags {
-	li {
-		display: inline-block;
-		margin-bottom: 3px;
-	}
-
-	li a {
-		display: block;
-		padding: 10px;
-		color: @white;
-		text-transform: uppercase;
-		font-size: @font-size-small;
-		letter-spacing: 1px;
-		border-width: 2px;
-		border-style: solid;
-		background: fadeout(@music-medium, 80%);
-		.transition(0.2s all ease-in-out);
-	}
-
-	li:nth-child(1n) a { background: @tag-1; border-color: @tag-1; }
-	li:nth-child(2n) a { background: @tag-2; border-color: @tag-2; }
-	li:nth-child(3n) a { background: @tag-3; border-color: @tag-3; }
-	li:nth-child(4n) a { background: @tag-4; border-color: @tag-4; }
-	li:nth-child(5n) a { background: @tag-5; border-color: @tag-5; }
-	li:nth-child(6n) a { background: @tag-6; border-color: @tag-6; }
-	li:nth-child(7n) a { background: @tag-7; border-color: @tag-7; }
-	li:nth-child(8n) a { background: @tag-8; border-color: @tag-8; }
-	li:nth-child(9n) a { background: @tag-9; border-color: @tag-9; }
-	li:nth-child(10n) a { background: @tag-10; border-color: @tag-10; }
-
-	li.disabled a {
-		border-width: 2px;
-		border-style: solid;
-	}
-
-	li.disabled:nth-child(1n) a { background: transparent; border-color: @tag-1; color: @tag-1; }
-	li.disabled:nth-child(2n) a { background: transparent; border-color: @tag-2; color: @tag-2; }
-	li.disabled:nth-child(3n) a { background: transparent; border-color: @tag-3; color: @tag-3; }
-	li.disabled:nth-child(4n) a { background: transparent; border-color: @tag-4; color: @tag-4; }
-	li.disabled:nth-child(5n) a { background: transparent; border-color: @tag-5; color: @tag-5; }
-	li.disabled:nth-child(6n) a { background: transparent; border-color: @tag-6; color: @tag-6; }
-	li.disabled:nth-child(7n) a { background: transparent; border-color: @tag-7; color: @tag-7; }
-	li.disabled:nth-child(8n) a { background: transparent; border-color: @tag-8; color: @tag-8; }
-	li.disabled:nth-child(9n) a { background: transparent; border-color: @tag-9; color: @tag-9; }
-	li.disabled:nth-child(10n) a { background: transparent; border-color: @tag-10; color: @tag-10; }
-
-	li a:hover {
-		text-decoration: none;
-		opacity: .5;
-	}
-
-	.disabled {
-		opacity: 0.5;
 	}
 }
 
@@ -459,6 +400,8 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
+// Player interface
+// --------------------------------------------------
 
 .player-container {
 	padding: @line-height-computed / 2 @grid-gutter-width 0;
@@ -551,6 +494,8 @@ h1,h2,h3,h4,h5,h6 {
 	top: 0;
 }
 
+// Playlist filters
+// --------------------------------------------------
 
 .playlist-filters {
 	background-color: @white;
@@ -603,6 +548,70 @@ h1,h2,h3,h4,h5,h6 {
 		background-color: #222;
 		border-color: #222;
 
+	}
+}
+
+.tag-header {
+	font-size: @font-size-small;
+	font-family: 'Knockout 31 4r';
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.6);
+	display: inline-block;
+}
+
+.tags {
+	li {
+		display: inline-block;
+		margin-bottom: 3px;
+	}
+
+	li a {
+		display: block;
+		padding: 10px;
+		color: @white;
+		text-transform: uppercase;
+		font-size: @font-size-small;
+		letter-spacing: 1px;
+		border-width: 2px;
+		border-style: solid;
+		background: fadeout(@music-medium, 80%);
+		.transition(0.2s all ease-in-out);
+	}
+
+	li:nth-child(1n) a { background: @tag-1; border-color: @tag-1; }
+	li:nth-child(2n) a { background: @tag-2; border-color: @tag-2; }
+	li:nth-child(3n) a { background: @tag-3; border-color: @tag-3; }
+	li:nth-child(4n) a { background: @tag-4; border-color: @tag-4; }
+	li:nth-child(5n) a { background: @tag-5; border-color: @tag-5; }
+	li:nth-child(6n) a { background: @tag-6; border-color: @tag-6; }
+	li:nth-child(7n) a { background: @tag-7; border-color: @tag-7; }
+	li:nth-child(8n) a { background: @tag-8; border-color: @tag-8; }
+	li:nth-child(9n) a { background: @tag-9; border-color: @tag-9; }
+	li:nth-child(10n) a { background: @tag-10; border-color: @tag-10; }
+
+	li.disabled a {
+		border-width: 2px;
+		border-style: solid;
+	}
+
+	li.disabled:nth-child(1n) a { background: transparent; border-color: @tag-1; color: @tag-1; }
+	li.disabled:nth-child(2n) a { background: transparent; border-color: @tag-2; color: @tag-2; }
+	li.disabled:nth-child(3n) a { background: transparent; border-color: @tag-3; color: @tag-3; }
+	li.disabled:nth-child(4n) a { background: transparent; border-color: @tag-4; color: @tag-4; }
+	li.disabled:nth-child(5n) a { background: transparent; border-color: @tag-5; color: @tag-5; }
+	li.disabled:nth-child(6n) a { background: transparent; border-color: @tag-6; color: @tag-6; }
+	li.disabled:nth-child(7n) a { background: transparent; border-color: @tag-7; color: @tag-7; }
+	li.disabled:nth-child(8n) a { background: transparent; border-color: @tag-8; color: @tag-8; }
+	li.disabled:nth-child(9n) a { background: transparent; border-color: @tag-9; color: @tag-9; }
+	li.disabled:nth-child(10n) a { background: transparent; border-color: @tag-10; color: @tag-10; }
+
+	li a:hover {
+		text-decoration: none;
+		opacity: .5;
+	}
+
+	.disabled {
+		opacity: 0.5;
 	}
 }
 
