@@ -20,6 +20,8 @@ var $castStart = null;
 var $castStop = null;
 var $landing = null;
 var $playlistFilters = null;
+var $playedSongsLength = null;
+var $clearHistory = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -32,6 +34,7 @@ var selectedTags = [];
 var playlistLength = 250;
 var onWelcome = true;
 var isCasting = false;
+var playedsongCount = null;
 
 /*
  * Run on page load.
@@ -61,6 +64,8 @@ var onDocumentLoad = function(e) {
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $playlistFilters = $('.playlist-filters li a');
+    $playedSongsLength = $('.played-songs-length');
+    $clearHistory = $('.clear-history');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -76,6 +81,7 @@ var onDocumentLoad = function(e) {
     $castStop.on('click', onCastStopClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
+    $clearHistory.on('click', onClearHistoryButtonClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -256,9 +262,11 @@ var playNextSong = function() {
  * Load previously played songs from browser storage
  */
 var loadState = function() {
+    // playedSongs = [];
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
 
+    //reset
     if (playedSongs.length === SONG_DATA.length) {
         playedSongs = [];
     }
@@ -296,6 +304,8 @@ var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
+    updateSongsPlayed();
+
 }
 
 /*
@@ -467,10 +477,20 @@ var highlightSelectedTags = function() {
     }
 }
 
+var updateSongsPlayed = function(reset) {
+    if (reset == true) {
+        playedsongCount = 1;    
+    } else {
+        playedsongCount = playedSongs.length;
+    }
+    $playedSongsLength.text(playedsongCount)
+}
+
 var updatePlaylistLength = function() {
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
 }
+
 
 /*
  * Begin shuffled playback.
@@ -486,6 +506,7 @@ var onGoButtonClick = function(e) {
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
+    updateSongsPlayed(true);
 }
 
 /*
@@ -498,6 +519,8 @@ var onGoContinueClick = function(e) {
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
+    updateSongsPlayed();
+
 }
 
 /*
@@ -513,6 +536,13 @@ var onMoodButtonClick = function(e) {
     updatePlaylistLength();
     startPrerollAudio();
 }
+
+var onClearHistoryButtonClick = function() {
+    $('.song').slice(0,playedsongCount-1).remove();
+    playedSongs = [currentSong['id']];
+    updateSongsPlayed(true);
+}
+
 
 /*
  * Handle keyboard navigation.
