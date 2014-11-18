@@ -252,6 +252,12 @@ var playNextSong = function() {
         var html = JST.song(context);
         $songs.append(html);
 
+        if (!onWelcome) {
+            $('html, body').animate({
+                scrollTop: $songs.find('.song').last().offset().top
+            }, 1000);
+        }
+
         $playerArtist.text(nextSong['artist'])
         $playerTitle.text(nextSong['title'])
 
