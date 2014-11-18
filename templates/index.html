@@ -101,7 +101,9 @@
 <script>
     var SONG_DATA = {{ song_data|safe }};
 </script>
+{% endblock %}
 
+{% block extra_foot %}
 <script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 {% endblock %}
 

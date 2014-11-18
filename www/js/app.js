@@ -16,6 +16,8 @@ var $songs = null;
 var $playlistLengthWarning = null;
 var $fullscreenStart = null;
 var $fullscreenStop = null;
+var $castStart = null;
+var $castStop = null;
 var $landing = null;
 var $playlistFilters = null;
 
@@ -54,6 +56,8 @@ var onDocumentLoad = function(e) {
     $playlistLengthWarning = $('.warning');
     $fullscreenStart = $('.fullscreen .start');
     $fullscreenStop = $('.fullscreen .stop');
+    $castStart = $('.chromecast .start');
+    $castStop = $('.chromecast .stop');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $playlistFilters = $('.playlist-filters li a');
@@ -68,6 +72,8 @@ var onDocumentLoad = function(e) {
     $skip.on('click', onSkipClick);
     $fullscreenStart.on('click', onFullscreenButtonClick);
     $fullscreenStop.on('click', onFullscreenButtonClick);
+    $castStart.on('click', onCastStartClick);
+    $castStop.on('click', onCastStopClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
 
@@ -84,7 +90,7 @@ var onDocumentLoad = function(e) {
     SONG_DATA = _.shuffle(SONG_DATA);
 
     if (IS_CAST_RECEIVER) {
-        // DO SOMETHING
+        CHROMECAST_RECEIVER.setup();
     }
 
     setupAudio();
@@ -95,6 +101,7 @@ var onDocumentLoad = function(e) {
  * Setup Chromecast if library is available.
  */
 window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+    console.log(1);
     // We need the DOM here, so don't fire until it's ready.
     $(function() {
         // Don't init sender if in receiver mode
@@ -103,13 +110,12 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         }
 
         if (loaded) {
+            console.log('loaded');
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
-            //$chromecastIndexHeader.find('.cast-enabled').show();
-            //$chromecastIndexHeader.find('.cast-disabled').hide();
-            $castStart.show();
+            $chromecastStart.show();
+            $chromecastStop.hide();
         } else {
-            //$chromecastIndexHeader.find('.cast-try-chrome').hide();
-            //$chromecastIndexHeader.find('.cast-get-extension').show();
+            // TODO: prompt to install?
         }
     });
 }
@@ -118,44 +124,61 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
  * A cast device is available.
  */
 var onCastReady = function() {
-    //$chromecastButton.show();
+    $castStart.show();
 }
 
 /*
  * A cast session started.
  */
 var onCastStarted = function() {
-    /*stopVideo();
-    $welcomeScreen.hide();
-    $stack.hide();
+    // TODO: stop audio, hide player
+
     $fullscreenStart.hide();
     $fullscreenStop.hide();
     $castStart.hide();
     $castStop.show();
-    STACK.stop();
 
-    $chromecastScreen.show();
+    //$chromecastScreen.show();
 
-    is_casting = true;
-
-    CHROMECAST_SENDER.sendMessage('state', state);*/
+    isCasting = true;
 }
 
 /*
  * A cast session stopped.
  */
 var onCastStopped = function() {
-    /*$chromecastScreen.hide();
+    //$chromecastScreen.hide();
 
-    STACK.startArchiveStream();
-    STACK.start();
+    // TODO: start playing locally
 
-    if (!IS_TOUCH) {
-        $fullscreenStart.show();
-    }
-
-    is_casting = false;*/
+    isCasting = false;
 }
+
+/*
+ * Begin chromecasting.
+ */
+var onCastStartClick = function(e) {
+    e.preventDefault();
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'chromecast-start']);
+
+    CHROMECAST_SENDER.startCasting();
+}
+
+/*
+ * Stop chromecasting.
+ */
+var onCastStopClick = function(e) {
+    e.preventDefault();
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'chromecast-stop']);
+
+    CHROMECAST_SENDER.stopCasting();
+
+    $castStop.hide();
+    $castStart.show();
+}
+
 
 /*
  * Configure jPlayer.
@@ -519,7 +542,9 @@ var onDocumentKeyDown = function(e) {
 /*
  * Enable/disable fullscreen.
  */
-var onFullscreenButtonClick = function(event) {
+var onFullscreenButtonClick = function(e) {
+    e.preventDefault();
+
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
 
     var elem = document.getElementById("content");
