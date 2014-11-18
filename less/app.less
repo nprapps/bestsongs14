@@ -223,6 +223,8 @@ h1,h2,h3,h4,h5,h6 {
 
 .song {
 	padding: 0 @grid-gutter-width @line-height-computed * 2;
+	max-width: @screen-lg;
+	margin: 0 auto;
 
 	&:first-child {
 		padding-top: @grid-gutter-width;
@@ -236,12 +238,11 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 
 		.album-cover {
-			.make-sm-column(2);
-			// .make-sm-column-offset(1);
+			.make-sm-column(3);
 		}
 
 		.song-info-wrapper {
-			.make-sm-column(10);
+			.make-sm-column(9);
 		}
 
 	}
@@ -461,11 +462,13 @@ h1,h2,h3,h4,h5,h6 {
 
 .player-container {
 	padding: @line-height-computed / 2 @grid-gutter-width 0;
+	max-width: @screen-lg;
+	margin: 0 auto;
 }
 
 .player-wrapper {
-	.make-sm-column(10);
-	.make-sm-column-offset(2);
+	.make-sm-column(9);
+	.make-sm-column-offset(3);
 }
 
 .player {
@@ -551,7 +554,12 @@ h1,h2,h3,h4,h5,h6 {
 
 .playlist-filters {
 	background-color: @white;
-	padding: @grid-gutter-width;
+
+	.playlist-filters-wrapper {
+		padding: @grid-gutter-width;
+		max-width: @screen-lg;
+		margin: 0 auto;
+	}
 
 	h2 {
 		font-family: 'Knockout 31 4r';
