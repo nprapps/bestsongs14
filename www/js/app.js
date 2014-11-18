@@ -387,7 +387,7 @@ var onSkipClick = function(e) {
 }
 
 var skipSong = function() {
-    if (usedSkips.length < 6) {
+    if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
         playNextSong();
         simpleStorage.set('usedSkips', usedSkips);
@@ -408,14 +408,14 @@ var checkSkips = function() {
 }
 
 var writeSkipsRemaining = function() {
-    if (usedSkips.length == 5) {
-        $('.skips-remaining').text(6 - usedSkips.length + ' skip')
+    if (usedSkips.length == APP_CONFIG.SKIP_LIMIT - 1) {
+        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip')
     }
-    else if (usedSkips.length == 6) {
+    else if (usedSkips.length == APP_CONFIG.SKIP_LIMIT) {
         $('.skips-remaining').text('no skips');
     }
     else {
-        $('.skips-remaining').text(6 - usedSkips.length + ' skips')
+        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips')
     }
 }
 
