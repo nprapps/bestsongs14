@@ -348,16 +348,8 @@ var onTagClick = function(e) {
 
         if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
             $playlistLengthWarning.show();
-            $audioPlayer.jPlayer('pause');
+            // $audioPlayer.jPlayer('pause');
             return false;
-        }
-
-        var keepPlaying = _.find(playlist, function(song) {
-            return song['id'] == currentSong['id'];
-        });
-
-        if (!keepPlaying) {
-            playNextSong();
         }
     // adding a tag
     } else {
