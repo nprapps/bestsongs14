@@ -102,7 +102,7 @@ var onDocumentLoad = function(e) {
 
     setupAudio();
     loadState();
-    checkSkips();
+    setInterval(checkSkips, 1000);
 }
 
 /*
@@ -386,17 +386,15 @@ var skipSong = function() {
 }
 
 var checkSkips = function() {
-    setInterval(function() {
-        var now = moment.utc();
-        for (i = 0; i < usedSkips.length; i++) {
-            if (now.subtract(1, 'minute').isAfter(usedSkips[i])) {
-                console.log('found an old timestamp');
-                usedSkips.splice(i, 1);
-            }
+    var now = moment.utc();
+    for (i = 0; i < usedSkips.length; i++) {
+        if (now.subtract(1, 'minute').isAfter(usedSkips[i])) {
+            console.log('found an old timestamp');
+            usedSkips.splice(i, 1);
         }
-        simpleStorage.set('usedSkips', usedSkips);
-        writeSkipsRemaining();
-    }, 1000)
+    }
+    simpleStorage.set('usedSkips', usedSkips);
+    writeSkipsRemaining();
 }
 
 var writeSkipsRemaining = function() {
