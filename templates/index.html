@@ -67,39 +67,40 @@
 
 <div class="playlist-filters tags" style="display: none;">
 
-    <h2 class="filter-title">Playing Now <span class="song-count"><span class="playlist-length"></span> songs out of 250</span></h2>
-    <p class="instructions">Click the filters below to remove songs from your mixtape. <span class="warning">(Your playlist must be seven songs long. Please select more tags.)</span></p>
+    <div class="playlist-filters-wrapper">
+        <h2 class="filter-title">Playing Now <span class="song-count"><span class="playlist-length"></span> songs out of 250</span></h2>
+        <p class="instructions">Click the filters below to remove songs from your mixtape. <span class="warning">(Your playlist must be seven songs long. Please select more tags.)</span></p>
 
-    <div class="mood">
-        <h3>Mood</h3>
+        <div class="mood">
+            <h3>Mood</h3>
+                <ul class="list-unstyled">
+                    {% for tag in MOOD_TAGS %}
+                    <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+        </div>
+
+        <div class="genre">
+            <h3>Genre</h3>
             <ul class="list-unstyled">
-                {% for tag in MOOD_TAGS %}
+                {% for tag in GENRE_TAGS %}
                 <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                 {% endfor %}
             </ul>
+        </div>
+        <div class="clear">
+
+
+
+            <h3 class="played-songs">Songs Played So Far: <span class="played-songs-length"></span></h3>
+            <div> <a href="#" class="clear-history">Clear</a></div>
+        </div>
+
+        <div class="fullscreen">
+            <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Start fullscreen!</a>
+            <a href="#" class="stop"><span class="fa fa-arrows-alt"></span> Stop fullscreen!</a>
+        </div>
     </div>
-
-    <div class="genre">
-        <h3>Genre</h3>
-        <ul class="list-unstyled">
-            {% for tag in GENRE_TAGS %}
-            <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="clear">
-
-
-
-        <h3 class="played-songs">Songs Played So Far: <span class="played-songs-length"></span></h3>
-        <div> <a href="#" class="clear-history">Clear</a></div>
-    </div>
-
-    <div class="fullscreen">
-        <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Start fullscreen!</a>
-        <a href="#" class="stop"><span class="fa fa-arrows-alt"></span> Stop fullscreen!</a>
-    </div>
-
 </div>
 
 
