@@ -14,7 +14,8 @@ var $playlistLength = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
-var $fullscreenButton = null;
+var $fullscreenStart = null;
+var $fullscreenStop = null;
 var $landing = null;
 var $playlistFilters = null;
 var $playedSongsLength = null;
@@ -54,7 +55,8 @@ var onDocumentLoad = function(e) {
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
-    $fullscreenButton = $('.fullscreen-button');
+    $fullscreenStart = $('.fullscreen .start');
+    $fullscreenStop = $('.fullscreen .stop');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $playlistFilters = $('.playlist-filters li a');
@@ -69,7 +71,8 @@ var onDocumentLoad = function(e) {
     $moodButtons.on('click', onMoodButtonClick);
     $playlistFilters.on('click', onTagClick);
     $skip.on('click', onSkipClick);
-    $fullscreenButton.on('click', onFullscreenButtonClick);
+    $fullscreenStart.on('click', onFullscreenButtonClick);
+    $fullscreenStop.on('click', onFullscreenButtonClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
@@ -548,6 +551,7 @@ var onDocumentKeyDown = function(e) {
  */
 var onFullscreenButtonClick = function(event) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
+
     var elem = document.getElementById("content");
 
     var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
@@ -555,33 +559,27 @@ var onFullscreenButtonClick = function(event) {
     if (fullscreenElement) {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        }
-        else if (document.mozCancelFullScreen) {
+        } else if (document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
-        }
-        else if (document.webkitExitFullscreen) {
+        } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
         }
 
-        // $fullscreenStart.show();
-        // $fullscreenStop.hide();
-    }
-    else {
+        $fullscreenStart.show();
+        $fullscreenStop.hide();
+    } else {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
-        }
-        else if (elem.msRequestFullscreen) {
+        } else if (elem.msRequestFullscreen) {
           elem.msRequestFullscreen();
-        }
-        else if (elem.mozRequestFullScreen) {
+        } else if (elem.mozRequestFullScreen) {
           elem.mozRequestFullScreen();
-        }
-        else if (elem.webkitRequestFullscreen) {
+        } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
         }
 
-        // $fullscreenStart.hide();
-        // $fullscreenStop.show();
+        $fullscreenStart.hide();
+        $fullscreenStop.show();
     }
 }
 

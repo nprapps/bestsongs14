@@ -9,8 +9,8 @@
             <h1 class="title">{{ COPY.content.project_name }}</h1>
             <h2>{{ COPY.content.subtitle }}</h2>
 
-            <a class="continue" href="#">Continue Where You Left Off</a>
             <a class="go" href="#">Shuffle</a>
+
             <div class="tags-wrapper">
                 <h3>Or choose a mood:</h3>
                 <ul class="tags list-unstyled">
@@ -19,6 +19,8 @@
                     {% endfor %}
                 </ul>
             </div>
+
+            <a class="continue" href="#"><i class="fa fa-play"></i> Continue Playlist</a>
         </div>
     </div>
     <div class="poster"></div>
@@ -62,7 +64,7 @@
 
 <div class="playlist-filters tags" style="display: none;">
 
-    <h2 class="filter-title">Playing Now: <span class="song-count"><span class="playlist-length"></span> songs</span> out of 250</h2>
+    <h2 class="filter-title">Playing Now <span class="song-count"><span class="playlist-length"></span> songs out of 250</span></h2>
     <p class="instructions">Click the filters below to remove songs from your mixtape. <span class="warning">(Your playlist must be seven songs long. Please select more tags.)</span></p>
 
     <div class="mood">
@@ -88,7 +90,13 @@
 </div>
 
 <div class="fullscreen">
-<a class="fullscreen-button">Fullscreen!</a>
+    <a href="#" class="start">Start fullscreen!</a>
+    <a href="#" class="stop">Stop fullscreen!</a>
+</div>
+
+<div class="chromecast">
+    <a href="#" class="start">Start Chromecast</a>
+    <a href="#" class="stop">Stop Chromecast</a>
 </div>
 
 {% include '_share_modal.html' %}
