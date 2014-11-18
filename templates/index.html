@@ -14,7 +14,7 @@
             <div class="tags-wrapper">
                 <h3>Or choose a mood:</h3>
                 <ul class="tags list-unstyled">
-                    {% for tag in MOOD_TAGS|sort %}
+                    {% for tag in MOOD_TAGS %}
                     <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                     {% endfor %}
                 </ul>
