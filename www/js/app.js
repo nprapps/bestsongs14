@@ -537,7 +537,8 @@ var onMoodButtonClick = function(e) {
     startPrerollAudio();
 }
 
-var onClearHistoryButtonClick = function() {
+var onClearHistoryButtonClick = function(e) {
+    e.preventDefault()    
     $('.song').slice(0,playedsongCount-1).remove();
     playedSongs = [currentSong['id']];
     updateSongsPlayed(true);
