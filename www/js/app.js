@@ -14,9 +14,14 @@ var $playlistLength = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
-var $fullscreenButton = null;
+var $fullscreenStart = null;
+var $fullscreenStop = null;
+var $castStart = null;
+var $castStop = null;
 var $landing = null;
 var $playlistFilters = null;
+var $playedSongsLength = null;
+var $clearHistory = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -29,6 +34,7 @@ var selectedTags = [];
 var playlistLength = 250;
 var onWelcome = true;
 var isCasting = false;
+var playedsongCount = null;
 
 /*
  * Run on page load.
@@ -51,10 +57,15 @@ var onDocumentLoad = function(e) {
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
-    $fullscreenButton = $('.fullscreen-button');
+    $fullscreenStart = $('.fullscreen .start');
+    $fullscreenStop = $('.fullscreen .stop');
+    $castStart = $('.chromecast .start');
+    $castStop = $('.chromecast .stop');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $playlistFilters = $('.playlist-filters li a');
+    $playedSongsLength = $('.played-songs-length');
+    $clearHistory = $('.clear-history');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -64,9 +75,13 @@ var onDocumentLoad = function(e) {
     $moodButtons.on('click', onMoodButtonClick);
     $playlistFilters.on('click', onTagClick);
     $skip.on('click', onSkipClick);
-    $fullscreenButton.on('click', onFullscreenButtonClick);
+    $fullscreenStart.on('click', onFullscreenButtonClick);
+    $fullscreenStop.on('click', onFullscreenButtonClick);
+    $castStart.on('click', onCastStartClick);
+    $castStop.on('click', onCastStopClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
+    $clearHistory.on('click', onClearHistoryButtonClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -81,7 +96,7 @@ var onDocumentLoad = function(e) {
     SONG_DATA = _.shuffle(SONG_DATA);
 
     if (IS_CAST_RECEIVER) {
-        // DO SOMETHING
+        CHROMECAST_RECEIVER.setup();
     }
 
     setupAudio();
@@ -92,6 +107,7 @@ var onDocumentLoad = function(e) {
  * Setup Chromecast if library is available.
  */
 window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+    console.log(1);
     // We need the DOM here, so don't fire until it's ready.
     $(function() {
         // Don't init sender if in receiver mode
@@ -100,13 +116,12 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         }
 
         if (loaded) {
+            console.log('loaded');
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
-            //$chromecastIndexHeader.find('.cast-enabled').show();
-            //$chromecastIndexHeader.find('.cast-disabled').hide();
-            $castStart.show();
+            $chromecastStart.show();
+            $chromecastStop.hide();
         } else {
-            //$chromecastIndexHeader.find('.cast-try-chrome').hide();
-            //$chromecastIndexHeader.find('.cast-get-extension').show();
+            // TODO: prompt to install?
         }
     });
 }
@@ -115,44 +130,61 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
  * A cast device is available.
  */
 var onCastReady = function() {
-    //$chromecastButton.show();
+    $castStart.show();
 }
 
 /*
  * A cast session started.
  */
 var onCastStarted = function() {
-    /*stopVideo();
-    $welcomeScreen.hide();
-    $stack.hide();
+    // TODO: stop audio, hide player
+
     $fullscreenStart.hide();
     $fullscreenStop.hide();
     $castStart.hide();
     $castStop.show();
-    STACK.stop();
 
-    $chromecastScreen.show();
+    //$chromecastScreen.show();
 
-    is_casting = true;
-
-    CHROMECAST_SENDER.sendMessage('state', state);*/
+    isCasting = true;
 }
 
 /*
  * A cast session stopped.
  */
 var onCastStopped = function() {
-    /*$chromecastScreen.hide();
+    //$chromecastScreen.hide();
 
-    STACK.startArchiveStream();
-    STACK.start();
+    // TODO: start playing locally
 
-    if (!IS_TOUCH) {
-        $fullscreenStart.show();
-    }
-
-    is_casting = false;*/
+    isCasting = false;
 }
+
+/*
+ * Begin chromecasting.
+ */
+var onCastStartClick = function(e) {
+    e.preventDefault();
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'chromecast-start']);
+
+    CHROMECAST_SENDER.startCasting();
+}
+
+/*
+ * Stop chromecasting.
+ */
+var onCastStopClick = function(e) {
+    e.preventDefault();
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'chromecast-stop']);
+
+    CHROMECAST_SENDER.stopCasting();
+
+    $castStop.hide();
+    $castStart.show();
+}
+
 
 /*
  * Configure jPlayer.
@@ -230,9 +262,11 @@ var playNextSong = function() {
  * Load previously played songs from browser storage
  */
 var loadState = function() {
+    // playedSongs = [];
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
 
+    //reset
     if (playedSongs.length === SONG_DATA.length) {
         playedSongs = [];
     }
@@ -270,6 +304,8 @@ var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
+    updateSongsPlayed();
+
 }
 
 /*
@@ -441,10 +477,20 @@ var highlightSelectedTags = function() {
     }
 }
 
+var updateSongsPlayed = function(reset) {
+    if (reset == true) {
+        playedsongCount = 1;    
+    } else {
+        playedsongCount = playedSongs.length;
+    }
+    $playedSongsLength.text(playedsongCount)
+}
+
 var updatePlaylistLength = function() {
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
 }
+
 
 /*
  * Begin shuffled playback.
@@ -460,6 +506,7 @@ var onGoButtonClick = function(e) {
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
+    updateSongsPlayed(true);
 }
 
 /*
@@ -472,6 +519,8 @@ var onGoContinueClick = function(e) {
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
+    updateSongsPlayed();
+
 }
 
 /*
@@ -487,6 +536,13 @@ var onMoodButtonClick = function(e) {
     updatePlaylistLength();
     startPrerollAudio();
 }
+
+var onClearHistoryButtonClick = function() {
+    $('.song').slice(0,playedsongCount-1).remove();
+    playedSongs = [currentSong['id']];
+    updateSongsPlayed(true);
+}
+
 
 /*
  * Handle keyboard navigation.
@@ -516,8 +572,11 @@ var onDocumentKeyDown = function(e) {
 /*
  * Enable/disable fullscreen.
  */
-var onFullscreenButtonClick = function(event) {
+var onFullscreenButtonClick = function(e) {
+    e.preventDefault();
+
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
+
     var elem = document.getElementById("content");
 
     var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
@@ -525,33 +584,27 @@ var onFullscreenButtonClick = function(event) {
     if (fullscreenElement) {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        }
-        else if (document.mozCancelFullScreen) {
+        } else if (document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
-        }
-        else if (document.webkitExitFullscreen) {
+        } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
         }
 
-        // $fullscreenStart.show();
-        // $fullscreenStop.hide();
-    }
-    else {
+        $fullscreenStart.show();
+        $fullscreenStop.hide();
+    } else {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
-        }
-        else if (elem.msRequestFullscreen) {
+        } else if (elem.msRequestFullscreen) {
           elem.msRequestFullscreen();
-        }
-        else if (elem.mozRequestFullScreen) {
+        } else if (elem.mozRequestFullScreen) {
           elem.mozRequestFullScreen();
-        }
-        else if (elem.webkitRequestFullscreen) {
+        } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
         }
 
-        // $fullscreenStart.hide();
-        // $fullscreenStop.show();
+        $fullscreenStart.hide();
+        $fullscreenStop.show();
     }
 }
 

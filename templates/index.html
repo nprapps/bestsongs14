@@ -84,10 +84,24 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="clear">
+
+
+
+        <h3 class="played-songs">Songs Played So Far: <span class="played-songs-length"></span></h3>
+        <div> <a class="clear-history">Clear</a></div>
+    </div>
+
 </div>
 
 <div class="fullscreen">
-<a class="fullscreen-button">Fullscreen!</a>
+    <a href="#" class="start">Start fullscreen!</a>
+    <a href="#" class="stop">Stop fullscreen!</a>
+</div>
+
+<div class="chromecast">
+    <a href="#" class="start">Start Chromecast</a>
+    <a href="#" class="stop">Stop Chromecast</a>
 </div>
 
 {% include '_share_modal.html' %}
@@ -95,7 +109,9 @@
 <script>
     var SONG_DATA = {{ song_data|safe }};
 </script>
+{% endblock %}
 
+{% block extra_foot %}
 <script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 {% endblock %}
 
