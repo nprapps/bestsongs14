@@ -141,8 +141,6 @@ var startPrerollAudio = function() {
 
     $('.poster x-gif').removeAttr('stopped');
     $audioPlayer.jPlayer('play');
-    $playerArtist.text('Perfect Mixtape')
-    $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
     simpleStorage.set('loadedPreroll', true);
 }
 
@@ -150,12 +148,6 @@ var startPrerollAudio = function() {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
-    if (currentSong) {
-        var context = $.extend(APP_CONFIG, currentSong);
-        var html = JST.played(context);
-        $previouslyPlayed.append(html);
-    }
-
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     });
@@ -176,7 +168,7 @@ var playNextSong = function() {
         mp3: nextsongURL
     }).jPlayer('play');
 
-    $('.gif x-gif').removeAttr('stopped');
+    $('.song x-gif').removeAttr('stopped');
 
     if (onWelcome) {
         hideWelcome();

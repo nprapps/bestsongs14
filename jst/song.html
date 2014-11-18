@@ -1,4 +1,5 @@
 <div class="song container-fluid">
+    <x-gif src="<%= S3_BASE_URL %>/assets/test.gif" snap fill stopped bpm="<%= bpm / 2 %>"></x-gif>
     <div class="song-info">
         <img class="album-cover img-responsive" src="<%= S3_BASE_URL %>/assets/img/2chainz.jpg">
         <div class="song-info-wrapper">
@@ -19,8 +20,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="gif">
-    <x-gif src="http://i.imgur.com/mYUdAEi.gif" fill snap stopped bpm="<%= bpm %>"></x-gif>
 </div>
