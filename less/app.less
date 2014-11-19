@@ -270,15 +270,24 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .song {
-	padding: 0 @grid-gutter-width @line-height-computed * 2;
-	max-width: @screen-lg;
-	margin: 0 auto;
+	background: darken(@music-hp-dark, 5%);
+	border-top: 2px solid @music-hp-dark;
+	padding: @line-height-computed * 2 0;
+	.transition(0.4s background ease-in-out);
+
+	> .container-fluid {
+		padding: 0 @grid-gutter-width;
+		max-width: @screen-lg;
+		margin: 0 auto;
+	}
 
 	&:first-child {
 		padding-top: @grid-gutter-width;
 	}
 
 	&:last-child {
+		background: @music-hp-dark;
+		padding-top: @grid-gutter-width;
 		padding-bottom: 0;
 	}
 
@@ -386,6 +395,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .song-tools {
 	padding-top: 10px;
+	margin-bottom: 0;
 
 	li {
 		display: inline-block;
