@@ -511,11 +511,6 @@ var showNewSong = function(e) {
  * Hide buttons on welcome screen.
  */
 var hideWelcome  = function() {
-    // $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
-    // $tagsWrapper.fadeOut();
-    // $goButton.fadeOut();
-    // $goContinue.fadeOut();
-
     $('.songs, .player-container, .playlist-filters').show();
     $landing.velocity('slideUp', {
         duration: 1000,
