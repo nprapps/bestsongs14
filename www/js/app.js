@@ -269,12 +269,10 @@ var playNextSong = function() {
 
         var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
-        $audioPlayer.jPlayer('setMedia', {
-            mp3: nextsongURL
-        });
-
         if (!NO_AUDIO){
-            $audioPlayer.jPlayer('play');
+            $audioPlayer.jPlayer('setMedia', {
+                mp3: nextsongURL
+            }).jPlayer('play');
         }
 
         if (onWelcome) {
