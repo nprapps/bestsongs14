@@ -28,6 +28,7 @@ var $landingFirstDeck = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
+var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 
 var firstShareLoad = true;
 var playedSongs = [];
@@ -228,8 +229,11 @@ var startPrerollAudio = function() {
         playNextSong();
         return;
     }
+    if (!NO_AUDIO){
+        $audioPlayer.jPlayer('play');
+    }
 
-    $audioPlayer.jPlayer('play');
+
     simpleStorage.set('loadedPreroll', true);
 }
 
@@ -264,9 +268,11 @@ var playNextSong = function() {
 
         var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
-        $audioPlayer.jPlayer('setMedia', {
-            mp3: nextsongURL
-        }).jPlayer('play');
+        if (!NO_AUDIO){
+            $audioPlayer.jPlayer('setMedia', {
+                mp3: nextsongURL
+            }).jPlayer('play');
+        }
 
         if (onWelcome) {
             hideWelcome();
@@ -509,9 +515,7 @@ var showNewSong = function(e) {
 
 
 var hideWelcome  = function() {
-
-    $('.songs, .player-wrapper, .player-container, .playlist-filters, .filter-head').fadeIn();
-
+    $('.songs, .player-container, .playlist-filters').show();
     $landing.velocity('slideUp', {
       duration: 1000,
         complete: function(){

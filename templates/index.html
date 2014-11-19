@@ -11,14 +11,15 @@
                 <h2>{{ COPY.content.subtitle }}</h2>
                 
                 <div class="landing-firstload-deck">
-                    <a class="go" href="#">Shuffle</a>
                     <div class="tags-wrapper">
-                        <h3>Or choose a mood:</h3>
+                        <p>Play a genre:</p>
                         <ul class="tags list-unstyled">
-                            {% for tag in MOOD_TAGS %}
+                            {% for tag in GENRE_TAGS %}
                             <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                             {% endfor %}
                         </ul>
+                        <p>Or</p>
+                        <a class="go" href="#">Shuffle</a>                        
                     </div>
                 </div>
                 <div class="landing-return-deck">
