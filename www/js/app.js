@@ -501,7 +501,7 @@ var onClippyCopy = function(e) {
  */
 var showNewSong = function(e) {
     // $('.played-song').slideDown();
-    $songs.find('.song').last().fadeIn();
+    $songs.find('.song').last().velocity("slideDown", { duration: 1000 });
     _.delay(function(){
         $songs.find('.song').last().velocity("scroll", { duration: 500, offset: -80 });
     }, 200);
@@ -517,11 +517,11 @@ var hideWelcome  = function() {
     // $goContinue.fadeOut();
 
     $('.songs, .player-container, .playlist-filters').show();
-    $landing.slideUp({
-        duration: 'slow',
+    $landing.velocity('slideUp', {
+        duration: 1000,
         complete: function(){
             $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
-            $fixedHeader.fadeIn('slow');
+            $fixedHeader.velocity('fadeIn', { duration: 'slow' });
         }
     });
 
@@ -674,7 +674,8 @@ var onFullscreenChange = function() {
  * Resize the welcome page to fit perfectly.
  */
 var onWindowResize = function(e) {
-    $landing.css('height', $(window).height());
+    $landing.find('.landing-wrapper').css('height', $(window).height());
+    $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
 }
 
 $(onDocumentLoad);

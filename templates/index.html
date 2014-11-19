@@ -2,28 +2,30 @@
 
 {% block content %}
 <div class="landing">
-    <div class="landing-content">
-        <a href="http://npr.org/music"><img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg"></a>
-        <div class="landing-card">
-            <h4 class="slug">{{ COPY.content.brand }}</h4>
-            <h1 class="title">{{ COPY.content.project_name }}</h1>
-            <h2>{{ COPY.content.subtitle }}</h2>
+    <div class="landing-wrapper">
+        <div class="landing-content">
+            <a href="http://npr.org/music"><img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg"></a>
+            <div class="landing-card">
+                <h4 class="slug">{{ COPY.content.brand }}</h4>
+                <h1 class="title">{{ COPY.content.project_name }}</h1>
+                <h2>{{ COPY.content.subtitle }}</h2>
 
-            <a class="go" href="#">Shuffle</a>
+                <a class="go" href="#">Shuffle</a>
 
-            <div class="tags-wrapper">
-                <h3>Or choose a mood:</h3>
-                <ul class="tags list-unstyled">
-                    {% for tag in MOOD_TAGS %}
-                    <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-                    {% endfor %}
-                </ul>
+                <div class="tags-wrapper">
+                    <h3>Or choose a mood:</h3>
+                    <ul class="tags list-unstyled">
+                        {% for tag in MOOD_TAGS %}
+                        <li><a data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <a class="continue" href="#"><i class="fa fa-play"></i> Continue Playlist</a>
             </div>
-
-            <a class="continue" href="#"><i class="fa fa-play"></i> Continue Playlist</a>
         </div>
+        <div class="poster"></div>
     </div>
-    <div class="poster"></div>
 </div>
 
 <div class="fixed-header">
