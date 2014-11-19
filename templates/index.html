@@ -3,7 +3,7 @@
 {% block content %}
 <div class="landing">
     <div class="landing-content">
-        <img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg">
+        <a href="http://npr.org/music"><img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg"></a>
         <div class="landing-card">
             <h4 class="slug">{{ COPY.content.brand }}</h4>
             <h1 class="title">{{ COPY.content.project_name }}</h1>
@@ -26,37 +26,57 @@
     <div class="poster"></div>
 </div>
 
+<div class="fixed-header">
+    <a href="http://npr.org/music"><img class="logo img-responsive" src="{{ S3_BASE_URL }}/assets/img/npr_music_rgb.svg"></a>
+    <h4 class="slug">{{ COPY.content.brand }}</h4>
+    <h1 class="title">{{ COPY.content.project_name }}</h1>
+
+    <div class="fixed-header-controls">
+        <div class="chromecast">
+            <a href="#" class="start btn btn-default">Start Chromecast</a>
+            <a href="#" class="stop btn btn-default">Stop Chromecast</a>
+        </div>
+
+        <div class="fullscreen">
+            <a href="#" class="start btn btn-default"><span class="fa fa-arrows-alt"></span> Start fullscreen!</a>
+            <a href="#" class="stop btn btn-default"><span class="fa fa-arrows-alt"></span> Stop fullscreen!</a>
+        </div>
+    </div>
+</div>
+
 <div class="songs"></div>
 
-<div class="player-container container-fluid">
-    <div class="row">
-        <div class="player-wrapper">
-            <div class="player">
-                <div id="audio-player" class="jp-jplayer"></div>
-                <div id="jp_container_1" class="jp-audio">
-                    <div class="jp-type-single">
-                        <div class="jp-gui jp-interface">
-                            <div class="jp-controls controls">
-                                <a href="javascript:;" class="jp-play player-button" tabindex="1" title="play"><i class="fa fa-play"></i></a>
-                                <a href="javascript:;" class="jp-pause player-button" tabindex="1" style="display: none;" title="pause"><i class="fa fa-pause"></i></a>
-                            </div>
-                            <div class="jp-progress-container">
-                                <div class="player-progress jp-progress">
-                                    <h2 class="artist"></h2>
-                                    <h1 class="song-title"></h1>
-                                    <div class="jp-seek-bar">
-                                        <div class="jp-play-bar bar"></div>
+<div class="player-container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="player-wrapper">
+                <div class="player">
+                    <div id="audio-player" class="jp-jplayer"></div>
+                    <div id="jp_container_1" class="jp-audio">
+                        <div class="jp-type-single">
+                            <div class="jp-gui jp-interface">
+                                <div class="jp-controls controls">
+                                    <a href="javascript:;" class="jp-play player-button" tabindex="1" title="play"><i class="fa fa-play"></i></a>
+                                    <a href="javascript:;" class="jp-pause player-button" tabindex="1" style="display: none;" title="pause"><i class="fa fa-pause"></i></a>
+                                </div>
+                                <div class="jp-progress-container">
+                                    <div class="player-progress jp-progress">
+                                        <h2 class="artist"></h2>
+                                        <h1 class="song-title"></h1>
+                                        <div class="jp-seek-bar">
+                                            <div class="jp-play-bar bar"></div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="current-time"></div>
+                                <a class="skip player-button" href="#"><i class="fa fa-step-forward"></i></a>
                             </div>
-                            <div class="current-time"></div>
-                            <a class="skip player-button" href="#"><i class="fa fa-step-forward"></i></a>
                         </div>
-                    </div>
-                </div> <!-- end .jp-audio -->
-            </div> <!-- end #audio -->
-            <div class="skips">
-                <p>You have <span class="skips-remaining"></span> remaining.</p>
+                    </div> <!-- end .jp-audio -->
+                </div> <!-- end #audio -->
+                <div class="skips">
+                    <p>You have <span class="skips-remaining"></span> remaining.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -95,20 +115,12 @@
             <h3 class="played-songs">Songs Played So Far: <span class="played-songs-length"></span></h3>
             <div> <a href="#" class="clear-history">Clear</a></div>
         </div>
-
-        <div class="fullscreen">
-            <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Start fullscreen!</a>
-            <a href="#" class="stop"><span class="fa fa-arrows-alt"></span> Stop fullscreen!</a>
-        </div>
     </div>
 </div>
 
 
 
-<div class="chromecast">
-    <a href="#" class="start">Start Chromecast</a>
-    <a href="#" class="stop">Stop Chromecast</a>
-</div>
+
 
 {% include '_share_modal.html' %}
 
