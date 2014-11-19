@@ -8,7 +8,6 @@ var $playerArtist = null;
 var $playerTitle = null;
 var $currentTime = null;
 var $allTags = null;
-var $goContinue = null;
 var $reviewerButtons = null;
 var $playlistLength = null;
 var $skip = null;
@@ -24,6 +23,8 @@ var $playedSongsLength = null;
 var $clearHistory = null;
 var $reviewerFilters = null;
 var $fixedHeader = null;
+var $landingReturnDeck = null;
+var $landingFirstDeck = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -55,7 +56,6 @@ var onDocumentLoad = function(e) {
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters.tags li a');
     $currentTime = $('.current-time');
-    $goContinue = $('.continue');
     $genreButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
@@ -71,12 +71,13 @@ var onDocumentLoad = function(e) {
     $playedSongsLength = $('.played-songs-length');
     $clearHistory = $('.clear-history');
     $fixedHeader = $('.fixed-header');
+    $landingReturnDeck = $('.landing-return-deck');
+    $landingFirstDeck = $('.landing-firstload-deck');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
-    $goContinue.on('click', onGoContinueClick);
     $genreButtons.on('click', onGenreButtonClick);
     $genreFilters.on('click', onGenreClick);
     $reviewerFilters.on('click', onReviewerClick);
@@ -241,7 +242,6 @@ var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     });
-
     // TODO
     // What do we do if we don't find one? (we've played them all)
 
@@ -283,10 +283,12 @@ var playNextSong = function() {
  * Load previously played songs from browser storage
  */
 var loadState = function() {
+
     // playedSongs = [];
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
+
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {
@@ -297,8 +299,8 @@ var loadState = function() {
         buildListeningHistory();
     }
 
-    if (playedSongs || selectedTags) {
-        $goContinue.show();
+    if (playedSongs.length > 0 || selectedTags.length > 0) {
+        onReturnVisit();
     }
 
     writeSkipsRemaining();
@@ -507,26 +509,18 @@ var showNewSong = function(e) {
     }, 200);
 }
 
-/*
- * Hide buttons on welcome screen.
- */
-var hideWelcome  = function() {
-    // $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
-    // $tagsWrapper.fadeOut();
-    // $goButton.fadeOut();
-    // $goContinue.fadeOut();
 
-    $('.songs, .player-container, .playlist-filters').show();
+var hideWelcome  = function() {
+
+    $('.songs, .player-wrapper, .player-container, .playlist-filters, .filter-head').fadeIn();
+
     $landing.velocity('slideUp', {
-        duration: 1000,
+      duration: 1000,
         complete: function(){
             $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
             $fixedHeader.velocity('fadeIn', { duration: 'slow' });
         }
-    });
-
-
-
+    })
 
     onWelcome = false;
 }
@@ -589,14 +583,15 @@ var onGoButtonClick = function(e) {
 /*
  * Begin playback where the user left off.
  */
-var onGoContinueClick = function(e) {
-    e.preventDefault();
-
+var onReturnVisit = function() {
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     updatePlaylistLength();
-    startPrerollAudio();
     updateSongsPlayed();
+    $landingFirstDeck.hide();
+    $landingReturnDeck.show();
+    _.delay(hideWelcome, 5000);
+    _.delay(playNextSong, 5000);
 
 }
 
