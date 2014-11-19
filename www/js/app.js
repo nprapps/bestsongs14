@@ -112,13 +112,7 @@ var onDocumentLoad = function(e) {
     }
 
     if (RESET_STATE) {
-        playedSongs = [];
-        selectedTags = [];
-        usedSkips = [];
-
-        simpleStorage.set('playedSongs', playedSongs);
-        simpleStorage.set('selectedTags', selectedTags);
-        simpleStorage.set('usedSkips', usedSkips);
+        resetState();
     }
 
     setupAudio();
@@ -263,8 +257,21 @@ var playNextSong = function() {
 
     if (!nextSong) {
 
+        if (playedSongs.length == SONG_DATA.length) {
+            resetState();
+        }
+
         if (playerMode == 'genre') {
             resetGenreFilters();
+            playlist = buildPlaylist(selectedTags);
+            updatePlaylistLength();
+            playNextSong();
+            return;
+        }
+        if (playerMode == 'reviewer') {
+            reviewer = getNextReviewer();
+            playlist = getReviewerMixtape(reviewer)
+            updatePlaylistLength();
             playNextSong();
             return;
         }
@@ -326,6 +333,16 @@ var loadState = function() {
     }
 
     writeSkipsRemaining();
+}
+
+var resetState = function() {
+    playedSongs = [];
+    selectedTags = [];
+    usedSkips = [];
+
+    simpleStorage.set('playedSongs', playedSongs);
+    simpleStorage.set('selectedTags', selectedTags);
+    simpleStorage.set('usedSkips', usedSkips);
 }
 
 /*
@@ -586,9 +603,24 @@ var resetGenreFilters = function() {
     $genreFilters.removeClass('disabled');
     selectedTags = APP_CONFIG.GENRE_TAGS;
     simpleStorage.set('selectedTags', selectedTags);
-    playlist = buildPlaylist(selectedTags);
-    console.log(playlist);
-    updatePlaylistLength();
+}
+
+var getNextReviewer = function() {
+    var $nextReviewer = null;
+    for (i = 0; i < $reviewerFilters.length; i++) {
+        if (!($reviewerFilters.eq(i).hasClass('disabled'))) {
+            if (i == $reviewerFilters.length - 1) {
+                $nextReviewer = $reviewerFilters.eq(0);
+            }
+            else {                
+                $nextReviewer = $reviewerFilters.eq(i + 1);
+            }
+        }
+    }
+
+    $reviewerFilters.addClass('disabled');
+    $nextReviewer.removeClass('disabled');
+    return $nextReviewer.text();
 }
 
 
