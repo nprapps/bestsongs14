@@ -230,8 +230,6 @@ var startPrerollAudio = function() {
     }
 
     $audioPlayer.jPlayer('play');
-    $playerArtist.text('Perfect Mixtape')
-    $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
     simpleStorage.set('loadedPreroll', true);
 }
 
