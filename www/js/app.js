@@ -23,6 +23,7 @@ var $genreFilters = null;
 var $playedSongsLength = null;
 var $clearHistory = null;
 var $reviewerFilters = null;
+var $fixedHeader = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -69,6 +70,7 @@ var onDocumentLoad = function(e) {
     $reviewerFilters = $('.reviewer li a');
     $playedSongsLength = $('.played-songs-length');
     $clearHistory = $('.clear-history');
+    $fixedHeader = $('.fixed-header');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -514,9 +516,16 @@ var showNewSong = function(e) {
  */
 var hideWelcome  = function() {
   $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
-    $tagsWrapper.fadeOut();
-    $goButton.fadeOut();
-    $goContinue.fadeOut();
+    // $tagsWrapper.fadeOut();
+    // $goButton.fadeOut();
+    // $goContinue.fadeOut();
+
+    $landing.slideUp({
+        duration: 'slow',
+        complete: function(){
+            $fixedHeader.fadeIn('slow');
+        }
+    });
 
     $('.songs, .player-wrapper, .playlist-filters').fadeIn();
 
