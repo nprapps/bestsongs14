@@ -9,7 +9,7 @@ var $playerTitle = null;
 var $currentTime = null;
 var $allTags = null;
 var $goContinue = null;
-var $moodButtons = null;
+var $reviewerButtons = null;
 var $playlistLength = null;
 var $skip = null;
 var $songs = null;
@@ -19,9 +19,10 @@ var $fullscreenStop = null;
 var $castStart = null;
 var $castStop = null;
 var $landing = null;
-var $playlistFilters = null;
+var $genreFilters = null;
 var $playedSongsLength = null;
 var $clearHistory = null;
+var $reviewerFilters = null;
 var $fixedHeader = null;
 
 // Global state
@@ -55,7 +56,7 @@ var onDocumentLoad = function(e) {
     $allTags = $('.playlist-filters.tags li a');
     $currentTime = $('.current-time');
     $goContinue = $('.continue');
-    $moodButtons = $('.landing .tags a');
+    $genreButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
@@ -65,7 +66,8 @@ var onDocumentLoad = function(e) {
     $castStop = $('.chromecast .stop');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
-    $playlistFilters = $('.playlist-filters li a');
+    $genreFilters = $('.genre li a');
+    $reviewerFilters = $('.reviewer li a');
     $playedSongsLength = $('.played-songs-length');
     $clearHistory = $('.clear-history');
     $fixedHeader = $('.fixed-header');
@@ -75,8 +77,9 @@ var onDocumentLoad = function(e) {
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
     $goContinue.on('click', onGoContinueClick);
-    $moodButtons.on('click', onMoodButtonClick);
-    $playlistFilters.on('click', onTagClick);
+    $genreButtons.on('click', onGenreButtonClick);
+    $genreFilters.on('click', onGenreClick);
+    $reviewerFilters.on('click', onReviewerClick);
     $skip.on('click', onSkipClick);
     $fullscreenStart.on('click', onFullscreenButtonClick);
     $fullscreenStop.on('click', onFullscreenButtonClick);
@@ -329,25 +332,47 @@ var markSongPlayed = function(song) {
 
 }
 
+var getReviewerMixtape = function(reviewer) {
+    return _.filter(SONG_DATA, function(song) {
+        if (song['reviewer'] == reviewer) {
+            return true;
+        }
+    });
+
+}
+
 /*
  * Build a playlist from a set of tags.
  */
 var buildPlaylist = function(tags) {
     return _.filter(SONG_DATA, function(song) {
         for (var i = 0; i < song['tags'].length; i++) {
-            if (!_.contains(tags, song['tags'][i])) {
-                return false;
+            if (_.contains(tags, song['tags'][i])) {
+                return true;
             }
         }
-
-        return true;
     });
 }
 
 /*
  * Handle clicks on tags.
  */
-var onTagClick = function(e) {
+
+var onReviewerClick = function(e) {
+    e.preventDefault();
+    $genreFilters.addClass('disabled');
+    selectedTags =[];
+    simpleStorage.set('selectedTags', selectedTags);
+    
+    var reviewer = $(this).text();    
+
+    playlist = getReviewerMixtape(reviewer);   
+    updatePlaylistLength();
+    playNextSong(); 
+
+}
+
+var onGenreClick = function(e) {
     e.preventDefault();
 
     var tag = $(this).text();
@@ -469,6 +494,8 @@ var onClippyCopy = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
 }
 
+
+
 /*
  * Fade in the next song of the playlist
  */
@@ -574,9 +601,10 @@ var onGoContinueClick = function(e) {
 }
 
 /*
- * Begin playback in a specific mood tag.
+ * Begin playback in a specific reviewer tag.
  */
-var onMoodButtonClick = function(e) {
+
+var onGenreButtonClick = function(e) {
     e.preventDefault();
 
     selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
