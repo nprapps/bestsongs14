@@ -260,7 +260,7 @@ var playNextSong = function() {
         $songs.append(html);
 
         if (!onWelcome) {
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
         }
 
         $playerArtist.text(nextSong['artist'])
@@ -509,7 +509,7 @@ var showNewSong = function(e) {
     // $('.played-song').slideDown();
     $songs.find('.song').last().velocity("slideDown", { duration: 1000 });
     _.delay(function(){
-        $songs.find('.song').last().velocity("scroll", { duration: 500, offset: -80 });
+        $songs.find('.song').last().velocity("scroll", { duration: 500, offset: -60 });
     }, 200);
 }
 
@@ -519,7 +519,7 @@ var hideWelcome  = function() {
     $landing.velocity('slideUp', {
       duration: 1000,
         complete: function(){
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
             $fixedHeader.velocity('fadeIn', { duration: 'slow' });
         }
     })
