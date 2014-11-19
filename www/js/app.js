@@ -27,6 +27,7 @@ var $fixedHeader = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
+var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 
 var firstShareLoad = true;
 var playedSongs = [];
@@ -227,8 +228,10 @@ var startPrerollAudio = function() {
         playNextSong();
         return;
     }
+    if (!NO_AUDIO){
+        $audioPlayer.jPlayer('play');
+    }
 
-    $audioPlayer.jPlayer('play');
     $playerArtist.text('Perfect Mixtape')
     $playerTitle.text('Welcome to NPR Music\'s Perfect Mixtape')
     simpleStorage.set('loadedPreroll', true);
@@ -268,7 +271,11 @@ var playNextSong = function() {
 
         $audioPlayer.jPlayer('setMedia', {
             mp3: nextsongURL
-        }).jPlayer('play');
+        });
+
+        if (!NO_AUDIO){
+            $audioPlayer.jPlayer('play');
+        }
 
         if (onWelcome) {
             hideWelcome();
