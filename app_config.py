@@ -131,8 +131,6 @@ CHROMECAST_NAMESPACE = 'urn:x-cast:nprviz.bestsongs14'
 GENRE_TAGS = ['Rock', 'Pop', 'Hip-Hop', 'Latin', 'Jazz', 'R&B/Soul', 'World', 'Classical', 'Folk', 'Electronic/Dance']
 REVIEWER_TAGS = ['Lars Gotrich', 'Bob Boilen', 'Stephen Thompson']
 
-TAGS = GENRE_TAGS + REVIEWER_TAGS
-
 PLAYLIST_LIMIT = 1
 SKIP_LIMIT = 6
 

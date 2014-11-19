@@ -26,9 +26,11 @@ var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
 
+
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
+var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
 
 var firstShareLoad = true;
 var playedSongs = [];
@@ -40,6 +42,7 @@ var onWelcome = true;
 var isCasting = false;
 var playedsongCount = null;
 var usedSkips = [];
+var playerMode = null;
 
 /*
  * Run on page load.
@@ -106,6 +109,16 @@ var onDocumentLoad = function(e) {
 
     if (IS_CAST_RECEIVER) {
         CHROMECAST_RECEIVER.setup();
+    }
+
+    if (RESET_STATE) {
+        playedSongs = [];
+        selectedTags = [];
+        usedSkips = [];
+
+        simpleStorage.set('playedSongs', playedSongs);
+        simpleStorage.set('selectedTags', selectedTags);
+        simpleStorage.set('usedSkips', usedSkips);
     }
 
     setupAudio();
@@ -233,7 +246,6 @@ var startPrerollAudio = function() {
         $audioPlayer.jPlayer('play');
     }
 
-
     simpleStorage.set('loadedPreroll', true);
 }
 
@@ -244,14 +256,18 @@ var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     });
+
     // TODO
     // What do we do if we don't find one? (we've played them all)
 
+
     if (!nextSong) {
-        playedSongs = [];
-        simpleStorage.set('playedSongs', playedSongs);
-        playNextSong();
-        return;
+
+        if (playerMode == 'genre') {
+            resetGenreFilters();
+            playNextSong();
+            return;
+        }
     }
 
     if (nextSong) {
@@ -277,6 +293,8 @@ var playNextSong = function() {
         if (onWelcome) {
             hideWelcome();
         }
+
+
 
         currentSong = nextSong;
         markSongPlayed(currentSong);
@@ -366,7 +384,7 @@ var buildPlaylist = function(tags) {
 
 var onReviewerClick = function(e) {
     e.preventDefault();
-    $genreFilters.addClass('disabled');
+    $allTags.addClass('disabled');
     selectedTags =[];
     simpleStorage.set('selectedTags', selectedTags);
     
@@ -375,6 +393,8 @@ var onReviewerClick = function(e) {
     playlist = getReviewerMixtape(reviewer);   
     updatePlaylistLength();
     playNextSong(); 
+    playerMode = 'reviewer';
+    $(this).removeClass('disabled');
 
 }
 
@@ -411,8 +431,7 @@ var onGenreClick = function(e) {
         $(this).removeClass('disabled');
     }
 
-    // TODO
-    // update display of songs in queue
+    playerMode = 'genre';
 }
 
 /*
@@ -531,7 +550,7 @@ var hideWelcome  = function() {
  * Highlight whichever tags are currently selected and clear all other highlights.
  */
 var highlightSelectedTags = function() {
-    $allTags.addClass('disabled');
+    $genreFilters.addClass('disabled');
 
     var $matchedTagButtons = $([]);
 
@@ -563,6 +582,15 @@ var updatePlaylistLength = function() {
     $playlistLength.text(playlistLength);
 }
 
+var resetGenreFilters = function() {
+    $genreFilters.removeClass('disabled');
+    selectedTags = APP_CONFIG.GENRE_TAGS;
+    simpleStorage.set('selectedTags', selectedTags);
+    playlist = buildPlaylist(selectedTags);
+    console.log(playlist);
+    updatePlaylistLength();
+}
+
 
 /*
  * Begin shuffled playback.
@@ -574,7 +602,7 @@ var onGoButtonClick = function(e) {
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
     playlist = SONG_DATA;
-    selectedTags = APP_CONFIG.TAGS;
+    selectedTags = APP_CONFIG.GENRE_TAGS;
     simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
     updatePlaylistLength();
@@ -604,12 +632,13 @@ var onReturnVisit = function() {
 var onGenreButtonClick = function(e) {
     e.preventDefault();
 
-    selectedTags = [$(this).data('tag')].concat(APP_CONFIG.GENRE_TAGS);
+    selectedTags = [$(this).data('tag')];
     simpleStorage.set('selectedTags', selectedTags);
     playlist = buildPlaylist(selectedTags);
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
+    playerMode = 'genre';    
 }
 
 var onClearHistoryButtonClick = function(e) {
