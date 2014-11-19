@@ -255,9 +255,7 @@ var playNextSong = function() {
         $songs.append(html);
 
         if (!onWelcome) {
-            $('html, body').animate({
-                scrollTop: $songs.find('.song').last().offset().top
-            }, 1000);
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
         }
 
         $playerArtist.text(nextSong['artist'])
@@ -478,9 +476,7 @@ var showNewSong = function(e) {
     // $('.played-song').slideDown();
     $songs.find('.song').last().fadeIn();
     _.delay(function(){
-        $('html, body').animate({
-            scrollTop: $songs.find('.song').last().offset().top
-        }, 500);
+        $songs.find('.song').last().velocity("scroll", { duration: 500, offset: -80 });
     }, 200);
 }
 
@@ -488,23 +484,22 @@ var showNewSong = function(e) {
  * Hide buttons on welcome screen.
  */
 var hideWelcome  = function() {
-  $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
+    // $('.songs, .player-wrapper, .playlist-filters, .filter-head').fadeIn();
     // $tagsWrapper.fadeOut();
     // $goButton.fadeOut();
     // $goContinue.fadeOut();
 
+    $('.songs, .player-container, .playlist-filters').show();
     $landing.slideUp({
         duration: 'slow',
         complete: function(){
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -80 });
             $fixedHeader.fadeIn('slow');
         }
     });
 
-    $('.songs, .player-wrapper, .playlist-filters').fadeIn();
 
-    $('html, body').animate({
-        scrollTop: $songs.find('.song').last().offset().top
-    }, 1000);
+
 
     onWelcome = false;
 }
