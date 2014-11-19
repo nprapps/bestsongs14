@@ -263,20 +263,22 @@ var playNextSong = function() {
             resetState();
         }
 
+        // determine next playlist based on player mode
         if (playerMode == 'genre') {
             resetGenreFilters();
             playlist = buildPlaylist(selectedTags);
-            updatePlaylistLength();
-            playNextSong();
-            return;
         }
         if (playerMode == 'reviewer') {
             reviewer = getNextReviewer();
             playlist = getReviewerMixtape(reviewer)
-            updatePlaylistLength();
-            playNextSong();
-            return;
         }
+
+        updatePlaylistLength();
+
+        if (playlist.length > 0) {
+            playNextSong();
+        }
+        return;
     }
 
     if (nextSong) {
