@@ -143,6 +143,10 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
     });
 }
 
+
+/*
+// CHROMECAST
+*/
 /*
  * A cast device is available.
  */
@@ -204,6 +208,10 @@ var onCastStopClick = function(e) {
 
 
 /*
+// PLAYER
+/*
+
+/*
  * Configure jPlayer.
  */
 var setupAudio = function() {
@@ -250,13 +258,7 @@ var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     });
-
-    // TODO
-    // What do we do if we don't find one? (we've played them all)
-
-
     if (!nextSong) {
-
         if (playedSongs.length == SONG_DATA.length) {
             resetState();
         }
@@ -300,155 +302,9 @@ var playNextSong = function() {
         if (onWelcome) {
             hideWelcome();
         }
-
-
-
         currentSong = nextSong;
         markSongPlayed(currentSong);
     }
-}
-
-/*
- * Load previously played songs from browser storage
- */
-var loadState = function() {
-
-    // playedSongs = [];
-    playedSongs = simpleStorage.get('playedSongs') || [];
-    selectedTags = simpleStorage.get('selectedTags') || [];
-    usedSkips = simpleStorage.get('usedSkips') || [];
-
-
-    //reset
-    if (playedSongs.length === SONG_DATA.length) {
-        playedSongs = [];
-    }
-
-    if (playedSongs) {
-        buildListeningHistory();
-    }
-
-    if (playedSongs.length > 0 || selectedTags.length > 0) {
-        onReturnVisit();
-    }
-
-    writeSkipsRemaining();
-}
-
-var resetState = function() {
-    playedSongs = [];
-    selectedTags = [];
-    usedSkips = [];
-
-    simpleStorage.set('playedSongs', playedSongs);
-    simpleStorage.set('selectedTags', selectedTags);
-    simpleStorage.set('usedSkips', usedSkips);
-}
-
-/*
- * Reconstruct listening history from stashed id's.
- */
-var buildListeningHistory = function() {
-    for (var i = 0; i < playedSongs.length; i++) {
-        var songID = playedSongs[i];
-
-        var song = _.find(SONG_DATA, function(song) {
-            return songID === song['id']
-        });
-
-        var context = $.extend(APP_CONFIG, song);
-        var html = JST.song(context);
-        $songs.append(html);
-    };
-}
-
-/*
- * Mark the current song as played and save state.
- */
-var markSongPlayed = function(song) {
-    playedSongs.push(song['id'])
-
-    simpleStorage.set('playedSongs', playedSongs);
-    updateSongsPlayed();
-
-}
-
-var getReviewerMixtape = function(reviewer) {
-    return _.filter(SONG_DATA, function(song) {
-        if (song['reviewer'] == reviewer) {
-            return true;
-        }
-    });
-
-}
-
-/*
- * Build a playlist from a set of tags.
- */
-var buildPlaylist = function(tags) {
-    return _.filter(SONG_DATA, function(song) {
-        for (var i = 0; i < song['tags'].length; i++) {
-            if (_.contains(tags, song['tags'][i])) {
-                return true;
-            }
-        }
-    });
-}
-
-/*
- * Handle clicks on tags.
- */
-
-var onReviewerClick = function(e) {
-    e.preventDefault();
-    $allTags.addClass('disabled');
-    selectedTags =[];
-    simpleStorage.set('selectedTags', selectedTags);
-    
-    var reviewer = $(this).text();    
-
-    playlist = getReviewerMixtape(reviewer);   
-    updatePlaylistLength();
-    playNextSong(); 
-    playerMode = 'reviewer';
-    $(this).removeClass('disabled');
-
-}
-
-var onGenreClick = function(e) {
-    e.preventDefault();
-
-    var tag = $(this).text();
-
-    // deselecting a tag
-    if (_.contains(selectedTags, tag)) {
-        var index = selectedTags.indexOf(tag);
-        selectedTags.splice(index, 1);
-        simpleStorage.set('selectedTags', selectedTags);
-        $(this).addClass('disabled');
-
-        playlist = buildPlaylist(selectedTags);
-        updatePlaylistLength();
-
-        if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
-            $playlistLengthWarning.show();
-            // $audioPlayer.jPlayer('pause');
-            return false;
-        }
-    // adding a tag
-    } else {
-        selectedTags.push(tag);
-        simpleStorage.set('selectedTags', selectedTags);
-        playlist = buildPlaylist(selectedTags);
-        updatePlaylistLength();
-
-        $audioPlayer.jPlayer('play');
-        $playlistLengthWarning.hide();
-
-        $(this).removeClass('disabled');
-    }
-
-    playerMode = 'genre';
 }
 
 /*
@@ -493,74 +349,187 @@ var writeSkipsRemaining = function() {
 }
 
 /*
- * Display the comment count.
- */
-var showCommentCount = function(count) {
-    $commentCount.text(count);
+// APP STATE
+*/
 
-    if (count > 0) {
-        $commentCount.addClass('has-comments');
+/*
+ * Load previously played songs from browser storage
+ */
+var loadState = function() {
+
+    // playedSongs = [];
+    playedSongs = simpleStorage.get('playedSongs') || [];
+    selectedTags = simpleStorage.get('selectedTags') || [];
+    usedSkips = simpleStorage.get('usedSkips') || [];
+
+
+    //reset
+    if (playedSongs.length === SONG_DATA.length) {
+        playedSongs = [];
     }
 
-    if (count > 1) {
-        $commentCount.next('.comment-label').text('Comments');
+    if (playedSongs) {
+        buildListeningHistory();
     }
-}
 
-/*
- * Share modal opened.
- */
-var onShareModalShown = function(e) {
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'open-share-discuss']);
-
-    if (firstShareLoad) {
-        loadComments();
-
-        firstShareLoad = false;
+    if (playedSongs.length > 0 || selectedTags.length > 0) {
+        onReturnVisit();
     }
+
+    writeSkipsRemaining();
+}
+
+var resetState = function() {
+    playedSongs = [];
+    selectedTags = [];
+    usedSkips = [];
+
+    simpleStorage.set('playedSongs', playedSongs);
+    simpleStorage.set('selectedTags', selectedTags);
+    simpleStorage.set('usedSkips', usedSkips);
 }
 
 /*
- * Share modal closed.
+ * Mark the current song as played and save state.
  */
-var onShareModalHidden = function(e) {
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'close-share-discuss']);
+var markSongPlayed = function(song) {
+    playedSongs.push(song['id'])
+
+    simpleStorage.set('playedSongs', playedSongs);
+    updateSongsPlayed();
+}
+
+var updateSongsPlayed = function(reset) {
+    if (reset == true) {
+        playedsongCount = 1;
+    } else {
+        playedsongCount = playedSongs.length;
+    }
+    $playedSongsLength.text(playedsongCount)
 }
 
 /*
- * Text copied to clipboard.
+ * Reconstruct listening history from stashed id's.
  */
-var onClippyCopy = function(e) {
-    alert('Copied to your clipboard!');
+var buildListeningHistory = function() {
+    for (var i = 0; i < playedSongs.length; i++) {
+        var songID = playedSongs[i];
 
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
+        var song = _.find(SONG_DATA, function(song) {
+            return songID === song['id']
+        });
+
+        var context = $.extend(APP_CONFIG, song);
+        var html = JST.song(context);
+        $songs.append(html);
+    };
 }
-
-
 
 /*
- * Fade in the next song of the playlist
- */
-var showNewSong = function(e) {
-    // $('.played-song').slideDown();
-    $songs.find('.song').last().velocity("slideDown", { duration: 1000 });
-    _.delay(function(){
-        $songs.find('.song').last().velocity("scroll", { duration: 500, offset: -60 });
-    }, 200);
-}
-
-
-var hideWelcome  = function() {
-    $('.songs, .player-container, .playlist-filters').show();
-    $landing.velocity('slideUp', {
-      duration: 1000,
-        complete: function(){
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
-            $fixedHeader.velocity('fadeIn', { duration: 'slow' });
+// PLAYLIST CREATION
+*/
+var getReviewerMixtape = function(reviewer) {
+    return _.filter(SONG_DATA, function(song) {
+        if (song['reviewer'] == reviewer) {
+            return true;
         }
-    })
+    });
 
-    onWelcome = false;
+}
+/*
+ * Build a playlist from a set of tags.
+ */
+var buildPlaylist = function(tags) {
+    return _.filter(SONG_DATA, function(song) {
+        for (var i = 0; i < song['tags'].length; i++) {
+            if (_.contains(tags, song['tags'][i])) {
+                return true;
+            }
+        }
+    });
+}
+
+var updatePlaylistLength = function() {
+    playlistLength = playlist.length;
+    $playlistLength.text(playlistLength);
+}
+
+var resetGenreFilters = function() {
+    $genreFilters.removeClass('disabled');
+    selectedTags = APP_CONFIG.GENRE_TAGS;
+    simpleStorage.set('selectedTags', selectedTags);
+}
+
+var getNextReviewer = function() {
+    var $nextReviewer = null;
+    for (i = 0; i < $reviewerFilters.length; i++) {
+        if (!($reviewerFilters.eq(i).hasClass('disabled'))) {
+            if (i == $reviewerFilters.length - 1) {
+                $nextReviewer = $reviewerFilters.eq(0);
+            }
+            else {
+                $nextReviewer = $reviewerFilters.eq(i + 1);
+            }
+        }
+    }
+
+    $reviewerFilters.addClass('disabled');
+    $nextReviewer.removeClass('disabled');
+    return $nextReviewer.text();
+}
+
+/*
+ * Handle clicks on tags.
+ */
+var onReviewerClick = function(e) {
+    e.preventDefault();
+    $allTags.addClass('disabled');
+    selectedTags = [];
+    simpleStorage.set('selectedTags', selectedTags);
+
+    var reviewer = $(this).text();
+
+    playlist = getReviewerMixtape(reviewer);
+    updatePlaylistLength();
+    playNextSong();
+    $(this).removeClass('disabled');
+
+    playerMode = 'reviewer';
+}
+
+var onGenreClick = function(e) {
+    e.preventDefault();
+
+    var tag = $(this).text();
+
+    // deselecting a tag
+    if (_.contains(selectedTags, tag)) {
+        var index = selectedTags.indexOf(tag);
+        selectedTags.splice(index, 1);
+        simpleStorage.set('selectedTags', selectedTags);
+        $(this).addClass('disabled');
+
+        playlist = buildPlaylist(selectedTags);
+        updatePlaylistLength();
+
+        if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
+            $playlistLengthWarning.show();
+            return false;
+        }
+    // adding a tag
+    } else {
+        selectedTags.push(tag);
+        simpleStorage.set('selectedTags', selectedTags);
+        playlist = buildPlaylist(selectedTags);
+        updatePlaylistLength();
+
+        $audioPlayer.jPlayer('play');
+        $playlistLengthWarning.hide();
+
+        $(this).removeClass('disabled');
+    }
+
+    playerMode = 'genre';
 }
 
 /*
@@ -585,45 +554,29 @@ var highlightSelectedTags = function() {
     }
 }
 
-var updateSongsPlayed = function(reset) {
-    if (reset == true) {
-        playedsongCount = 1;
-    } else {
-        playedsongCount = playedSongs.length;
-    }
-    $playedSongsLength.text(playedsongCount)
+
+var onClearHistoryButtonClick = function(e) {
+    e.preventDefault()
+    $('.song').slice(0,playedsongCount-1).remove();
+    playedSongs = [currentSong['id']];
+    updateSongsPlayed(true);
 }
 
-var updatePlaylistLength = function() {
-    playlistLength = playlist.length;
-    $playlistLength.text(playlistLength);
-}
-
-var resetGenreFilters = function() {
-    $genreFilters.removeClass('disabled');
-    selectedTags = APP_CONFIG.GENRE_TAGS;
-    simpleStorage.set('selectedTags', selectedTags);
-}
-
-var getNextReviewer = function() {
-    var $nextReviewer = null;
-    for (i = 0; i < $reviewerFilters.length; i++) {
-        if (!($reviewerFilters.eq(i).hasClass('disabled'))) {
-            if (i == $reviewerFilters.length - 1) {
-                $nextReviewer = $reviewerFilters.eq(0);
-            }
-            else {                
-                $nextReviewer = $reviewerFilters.eq(i + 1);
-            }
+/*
+ * Hide the welcome screen and show the playing song
+ */
+var hideWelcome  = function() {
+    $('.songs, .player-container, .playlist-filters').show();
+    $landing.velocity('slideUp', {
+      duration: 1000,
+        complete: function(){
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
+            $fixedHeader.velocity('fadeIn', { duration: 'slow' });
         }
-    }
+    })
 
-    $reviewerFilters.addClass('disabled');
-    $nextReviewer.removeClass('disabled');
-    return $nextReviewer.text();
+    onWelcome = false;
 }
-
-
 /*
  * Begin shuffled playback.
  */
@@ -654,13 +607,11 @@ var onReturnVisit = function() {
     $landingReturnDeck.show();
     _.delay(hideWelcome, 5000);
     _.delay(playNextSong, 5000);
-
 }
 
 /*
- * Begin playback in a specific reviewer tag.
+ * Begin playback in a specific genre tag.
  */
-
 var onGenreButtonClick = function(e) {
     e.preventDefault();
 
@@ -670,16 +621,8 @@ var onGenreButtonClick = function(e) {
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
-    playerMode = 'genre';    
+    playerMode = 'genre';
 }
-
-var onClearHistoryButtonClick = function(e) {
-    e.preventDefault()
-    $('.song').slice(0,playedsongCount-1).remove();
-    playedSongs = [currentSong['id']];
-    updateSongsPlayed(true);
-}
-
 
 /*
  * Handle keyboard navigation.
@@ -735,5 +678,52 @@ var onWindowResize = function(e) {
     $landing.find('.landing-wrapper').css('height', $(window).height());
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
 }
+
+/*
+ * Display the comment count.
+ */
+var showCommentCount = function(count) {
+    $commentCount.text(count);
+
+    if (count > 0) {
+        $commentCount.addClass('has-comments');
+    }
+
+    if (count > 1) {
+        $commentCount.next('.comment-label').text('Comments');
+    }
+}
+
+/*
+ * Share modal opened.
+ */
+var onShareModalShown = function(e) {
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'open-share-discuss']);
+
+    if (firstShareLoad) {
+        loadComments();
+
+        firstShareLoad = false;
+    }
+}
+
+/*
+ * Share modal closed.
+ */
+var onShareModalHidden = function(e) {
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'close-share-discuss']);
+}
+
+/*
+ * Text copied to clipboard.
+ */
+var onClippyCopy = function(e) {
+    alert('Copied to your clipboard!');
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
+}
+
+
+
 
 $(onDocumentLoad);
