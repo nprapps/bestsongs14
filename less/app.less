@@ -214,6 +214,7 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 0 @grid-gutter-width;
 	background: fadeout(@white,10%);
 	z-index: @z-fixed-header;
+	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
 
 	.logo,
 	.slug,
