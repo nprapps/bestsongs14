@@ -95,7 +95,7 @@ var onDocumentLoad = function(e) {
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
-    // $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
+    $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
     $shuffleSongs.on('click', onShuffleSongsClick);
 
     // configure ZeroClipboard on share panel
@@ -268,7 +268,10 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, nextSong);
     var html = JST.song(context);
+    $songs.find('.song').last().addClass('small');
     $songs.append(html);
+
+    $songs.find('.small').off('click').on('click', onSongCardClick);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -665,6 +668,15 @@ var onGenreButtonClick = function(e) {
     highlightSelectedTags();
     startPrerollAudio();
     playerMode = 'genre';
+}
+
+/*
+ * Toggle played song card size
+ */
+var onSongCardClick = function(e) {
+    e.preventDefault();
+
+    $(this).toggleClass('small');
 }
 
 /*
