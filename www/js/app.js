@@ -262,6 +262,7 @@ var playNextSong = function() {
         if (playedSongs.length == SONG_DATA.length) {
             resetState();
         }
+        console.log(playerMode);
 
         // determine next playlist based on player mode
         if (playerMode == 'genre') {
@@ -393,10 +394,12 @@ var resetState = function() {
     playedSongs = [];
     selectedTags = [];
     usedSkips = [];
+    playerMode = null;
 
     simpleStorage.set('playedSongs', playedSongs);
     simpleStorage.set('selectedTags', selectedTags);
     simpleStorage.set('usedSkips', usedSkips);
+    simpleStorage.set('playerMode', playerMode);
 }
 
 /*
