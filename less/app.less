@@ -683,13 +683,17 @@ h1,h2,h3,h4,h5,h6 {
 			color: #222;
 		}
 
+		a:hover {
+			background: transparent;
+		}
+
 		.disabled .mug {
 			filter: grayscale(100%); /* Current draft standard */
 			-webkit-filter: grayscale(100%); /* New WebKit */
 			-moz-filter: grayscale(100%);
 			-ms-filter: grayscale(100%);
 			-o-filter: grayscale(100%); /* Not yet supported in Gecko, Opera or IE */
-			filter: url(resources.svg#desaturate); /* Gecko */
+			filter: url('../assets/img/resources.svg#greyscale'); /* Gecko */
 			filter: gray; /* IE */
 			-webkit-filter: grayscale(1); /* Old WebKit */
 		}
@@ -698,6 +702,11 @@ h1,h2,h3,h4,h5,h6 {
 			opacity: 0.5;
 		}
 	}
+}
+
+.played-songs {
+	font-size: @font-size-small;
+	color: #999;
 }
 
 .tag-header {
