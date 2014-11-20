@@ -584,6 +584,10 @@ var onClearHistoryButtonClick = function(e) {
     $('.song').slice(0,playedsongCount-1).remove();
     playedSongs = [currentSong['id']];
     updateSongsPlayed(true);
+    playlist = SONG_DATA;
+    $reviewerFilters.addClass('disabled');
+    resetGenreFilters();
+    updatePlaylistLength();
 }
 
 /*
