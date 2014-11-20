@@ -362,6 +362,7 @@ h1,h2,h3,h4,h5,h6 {
 .song-title {
 	font-size: @font-size-base * 2;
 	text-indent: -0.6rem;
+	margin-bottom: 0.5rem;
 }
 
 .artist {
@@ -370,6 +371,7 @@ h1,h2,h3,h4,h5,h6 {
 	letter-spacing: 1px;
 	font-size: @font-size-base * 1.125;
 	color: @music-red-light;
+	margin-bottom: 0.5rem;
 }
 
 .review-wrapper {
@@ -439,7 +441,7 @@ h1,h2,h3,h4,h5,h6 {
 .song-tags {
 	margin-bottom: 0;
 	white-space: nowrap;
-	color: rgba(255,255,255,0.6);
+	color: rgba(255,255,255,0.5);
 	font-size: @font-size-small;
 	display: inline-block;
 
@@ -534,6 +536,7 @@ h1,h2,h3,h4,h5,h6 {
 	.song-title {
 		font-size: @font-size-base * 1.6;
 		color: @music-medium;
+		text-indent: 0;
 	}
 
 	.player-progress {
@@ -624,22 +627,22 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	h3 {
-		display: inline-block;
 		color: #222;
 		text-transform: uppercase;
 		font-weight: normal;
 		letter-spacing: 0.2rem;
 		font-size: @font-size-base * 0.785;
-		width: 7rem;
 	}
 
 	.instructions {
 		color: #999;
+		font-size: @font-size-small;
+		margin-bottom: 2rem;
+
 		.warning {
 			display: none;
 			font-weight: bold;
 		}
-		font-size: @font-size-small;
 	}
 
 	ul {
@@ -700,7 +703,7 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: @font-size-small;
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
-	color: rgba(255,255,255,0.6);
+	color: rgba(255,255,255,0.5);
 	display: inline-block;
 }
 
