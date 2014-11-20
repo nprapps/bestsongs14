@@ -22,11 +22,11 @@ def update():
     """
     #update_featured_social()
     update_songs()
-    
+
 @task
 def update_songs():
     local('curl --silent -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
-    
+
     output = []
 
     with open('data/songs.csv') as f:
@@ -40,17 +40,27 @@ def update_songs():
 
             row = stripped_row
 
-            row['tags'] = []
-            for i in range(1,6):
-                key = 'tag_%i' % i
-                
+            row['genre_tags'] = []
+            for i in range(1,4):
+                key = 'genre_tag_%i' % i
+
                 if row[key]:
-                    row['tags'].append(row[key])
+                    row['genre_tags'].append(row[key])
+
+                del row[key]
+
+            row['dj_tags'] = []
+            for i in range(1,4):
+                key = 'DJ_%i' % i
+
+                if row[key]:
+                    row['dj_tags'].append(row[key])
 
                 del row[key]
 
             output.append(row)
-        
+
+
     with open('data/songs.json', 'w') as f:
         json.dump(output, f)
 

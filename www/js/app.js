@@ -258,6 +258,7 @@ var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
     });
+
     if (!nextSong) {
         if (playedSongs.length == SONG_DATA.length) {
             resetState();
@@ -269,8 +270,8 @@ var playNextSong = function() {
             playlist = buildPlaylist(selectedTags);
         }
         if (playerMode == 'reviewer') {
-            reviewer = getNextReviewer();
-            playlist = getReviewerMixtape(reviewer)
+            getNextReviewer();
+            playlist = getReviewerMixtape(selectedTags);
         }
 
         updatePlaylistLength();
@@ -363,7 +364,7 @@ var loadState = function() {
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
-
+    playerMode = simpleStorage.get('playerMode') || null;
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {
@@ -430,10 +431,12 @@ var buildListeningHistory = function() {
 /*
 // PLAYLIST CREATION
 */
-var getReviewerMixtape = function(reviewer) {
+var getReviewerMixtape = function(tags) {
     return _.filter(SONG_DATA, function(song) {
-        if (song['reviewer'] == reviewer) {
-            return true;
+        for (var i = 0; i < song['dj_tags'].length; i++) {
+            if (_.contains(tags, song['dj_tags'][i])) {
+                return true;
+            }
         }
     });
 
@@ -443,8 +446,8 @@ var getReviewerMixtape = function(reviewer) {
  */
 var buildPlaylist = function(tags) {
     return _.filter(SONG_DATA, function(song) {
-        for (var i = 0; i < song['tags'].length; i++) {
-            if (_.contains(tags, song['tags'][i])) {
+        for (var i = 0; i < song['genre_tags'].length; i++) {
+            if (_.contains(tags, song['genre_tags'][i])) {
                 return true;
             }
         }
@@ -477,7 +480,9 @@ var getNextReviewer = function() {
 
     $reviewerFilters.addClass('disabled');
     $nextReviewer.removeClass('disabled');
-    return $nextReviewer.text();
+    var reviewer = $nextReviewer.text();
+    selectedTags = [reviewer];
+    simpleStorage.set('selectedTags', selectedTags);
 }
 
 /*
@@ -486,17 +491,17 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     $allTags.addClass('disabled');
-    selectedTags = [];
+    var reviewer = $(this).text();
+    selectedTags = [reviewer];
     simpleStorage.set('selectedTags', selectedTags);
 
-    var reviewer = $(this).text();
-
-    playlist = getReviewerMixtape(reviewer);
+    playlist = getReviewerMixtape(selectedTags);
     updatePlaylistLength();
     playNextSong();
     $(this).removeClass('disabled');
 
     playerMode = 'reviewer';
+    simpleStorage.set('playerMode', playerMode)
 }
 
 var onGenreClick = function(e) {
@@ -532,6 +537,7 @@ var onGenreClick = function(e) {
     }
 
     playerMode = 'genre';
+    simpleStorage.set('playerMode', playerMode)
 }
 
 /*
@@ -601,7 +607,13 @@ var onGoButtonClick = function(e) {
  * Begin playback where the user left off.
  */
 var onReturnVisit = function() {
-    playlist = buildPlaylist(selectedTags);
+
+    if (playerMode == 'reviewer') {
+        playlist = getReviewerMixtape(selectedTags);
+    }
+    else {
+        playlist = buildPlaylist(selectedTags);
+    }
     highlightSelectedTags();
     updatePlaylistLength();
     updateSongsPlayed();
