@@ -432,8 +432,10 @@ var buildListeningHistory = function() {
 */
 var getReviewerMixtape = function(reviewer) {
     return _.filter(SONG_DATA, function(song) {
-        if (song['reviewer'] == reviewer) {
-            return true;
+        for (var i = 0; i < song['dj_tags'].length; i++) {
+            if (reviewer == song['dj_tags'][i]) {
+                return true;
+            }
         }
     });
 
@@ -443,8 +445,8 @@ var getReviewerMixtape = function(reviewer) {
  */
 var buildPlaylist = function(tags) {
     return _.filter(SONG_DATA, function(song) {
-        for (var i = 0; i < song['tags'].length; i++) {
-            if (_.contains(tags, song['tags'][i])) {
+        for (var i = 0; i < song['genre_tags'].length; i++) {
+            if (_.contains(tags, song['genre_tags'][i])) {
                 return true;
             }
         }
