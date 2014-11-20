@@ -379,7 +379,7 @@ var loadState = function() {
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
-    playerMode = simpleStorage.get('playerMode') || null;
+    playerMode = simpleStorage.get('playerMode') || 'genre';
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {
