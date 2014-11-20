@@ -258,6 +258,10 @@ h1,h2,h3,h4,h5,h6 {
 	.logo {
 		height: 2.5rem;
 		max-height: 50px;
+
+		@media screen and (max-width: @screen-xs-max){
+			margin-right: 10px;
+		}
 	}
 
 	.slug {
@@ -268,7 +272,15 @@ h1,h2,h3,h4,h5,h6 {
 
 	.title {
 		color: #222;
-		font-size: @font-size-base * 1.2;
+		font-size: @font-size-base * 1.1;
+
+		@media screen and (max-width: @screen-xs-max){
+			margin-right: 0;
+		}
+
+		@media screen and (min-width: @screen-sm){
+			font-size: @font-size-base * 1.2;
+		}
 	}
 
 	.fixed-header-controls {
