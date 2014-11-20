@@ -242,7 +242,7 @@ var onTimeUpdate = function(e) {
  * Start playing the preoroll audio.
  */
 var startPrerollAudio = function() {
-    if (simpleStorage.get('loadedPreroll')) {
+    if (simpleStorage.get('playedPreroll')) {
         playNextSong();
         return;
     }
@@ -250,7 +250,7 @@ var startPrerollAudio = function() {
         $audioPlayer.jPlayer('play');
     }
 
-    simpleStorage.set('loadedPreroll', true);
+    simpleStorage.set('playedPreroll', true);
 }
 
 /*
@@ -305,15 +305,14 @@ var nextPlaylist = function() {
     // determine next playlist based on player mode
     if (playerMode == 'genre') {
         resetGenreFilters();
-        playlist = buildPlaylist(selectedTags);
+        buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
         getNextReviewer();
         playedSongs = [];
-        playlist = getReviewerMixtape(selectedTags);
+        buildReviewerPlaylist();
     }
 
     playPlaylistEndAudio();
-    updatePlaylistLength();
 }
 
 var playPlaylistEndAudio = function() {
@@ -405,6 +404,7 @@ var resetState = function() {
     simpleStorage.set('playedSongs', playedSongs);
     simpleStorage.set('selectedTags', selectedTags);
     simpleStorage.set('playerMode', playerMode);
+    simpleStorage.set('playedPreroll', false);
 }
 
 var resetSkips = function() {
@@ -446,27 +446,30 @@ var buildListeningHistory = function() {
 /*
 // PLAYLIST CREATION
 */
-var getReviewerMixtape = function(tags) {
-    return _.filter(SONG_DATA, function(song) {
+var buildReviewerPlaylist = function() {
+    playlist = _.filter(SONG_DATA, function(song) {
         for (var i = 0; i < song['dj_tags'].length; i++) {
-            if (_.contains(tags, song['dj_tags'][i])) {
+            if (_.contains(selectedTags, song['dj_tags'][i])) {
                 return true;
             }
         }
     });
 
+    updatePlaylistLength();
 }
 /*
  * Build a playlist from a set of tags.
  */
-var buildPlaylist = function(tags) {
-    return _.filter(SONG_DATA, function(song) {
+var buildGenrePlaylist = function() {
+    playlist = _.filter(SONG_DATA, function(song) {
         for (var i = 0; i < song['genre_tags'].length; i++) {
-            if (_.contains(tags, song['genre_tags'][i])) {
+            if (_.contains(selectedTags, song['genre_tags'][i])) {
                 return true;
             }
         }
     });
+
+    updatePlaylistLength();
 }
 
 var updatePlaylistLength = function() {
@@ -513,8 +516,7 @@ var onReviewerClick = function(e) {
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs)
 
-    playlist = getReviewerMixtape(selectedTags);
-    updatePlaylistLength();
+    buildReviewerPlaylist();
     playNextSong();
     $(this).removeClass('disabled');
 
@@ -534,8 +536,7 @@ var onGenreClick = function(e) {
         simpleStorage.set('selectedTags', selectedTags);
         $(this).addClass('disabled');
 
-        playlist = buildPlaylist(selectedTags);
-        updatePlaylistLength();
+        buildGenrePlaylist();
 
         if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
             $playlistLengthWarning.show();
@@ -546,8 +547,7 @@ var onGenreClick = function(e) {
         $reviewerFilters.addClass('disabled');
         selectedTags.push(tag);
         simpleStorage.set('selectedTags', selectedTags);
-        playlist = buildPlaylist(selectedTags);
-        updatePlaylistLength();
+        buildGenrePlaylist();
 
         $audioPlayer.jPlayer('play');
         $playlistLengthWarning.hide();
@@ -589,8 +589,7 @@ var onShuffleSongsClick = function(e) {
     playerMode = 'genre';
     simpleStorage.set('playerMode', playerMode);
     resetGenreFilters();
-    playlist = buildPlaylist(selectedTags);
-    updatePlaylistLength();
+    buildGenrePlaylist();
     playNextSong();
 }
 
@@ -623,15 +622,15 @@ var hideWelcome  = function() {
  */
 var onGoButtonClick = function(e) {
     e.preventDefault();
-
     $songs.find('.song').remove();
+
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
-    playlist = SONG_DATA;
     selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
+
+    buildGenrePlaylist();
     highlightSelectedTags();
-    updatePlaylistLength();
     startPrerollAudio();
     updateSongsPlayed();
 }
@@ -642,13 +641,11 @@ var onGoButtonClick = function(e) {
 var onReturnVisit = function() {
 
     if (playerMode == 'reviewer') {
-        playlist = getReviewerMixtape(selectedTags);
-    }
-    else {
-        playlist = buildPlaylist(selectedTags);
+        buildReviewerPlaylist();
+    } else {
+        buildGenrePlaylist();
     }
     highlightSelectedTags();
-    updatePlaylistLength();
     updateSongsPlayed();
     $landingFirstDeck.hide();
     $landingReturnDeck.show();
@@ -664,9 +661,8 @@ var onGenreButtonClick = function(e) {
 
     selectedTags = [$(this).data('tag')];
     simpleStorage.set('selectedTags', selectedTags);
-    playlist = buildPlaylist(selectedTags);
+    buildGenrePlaylist();
     highlightSelectedTags();
-    updatePlaylistLength();
     startPrerollAudio();
     playerMode = 'genre';
 }
