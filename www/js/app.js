@@ -489,7 +489,7 @@ var getNextReviewer = function() {
 
     $reviewerFilters.addClass('disabled');
     $nextReviewer.removeClass('disabled');
-    var reviewer = $nextReviewer.text();
+    var reviewer = $nextReviewer.data('tag');
     selectedTags = [reviewer];
     simpleStorage.set('selectedTags', selectedTags);
 }
@@ -500,7 +500,7 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     $allTags.addClass('disabled');
-    var reviewer = $(this).text();
+    var reviewer = $(this).data('tag');
     selectedTags = [reviewer];
     simpleStorage.set('selectedTags', selectedTags);
 
