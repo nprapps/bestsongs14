@@ -26,6 +26,8 @@ var $reviewerFilters = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
+var $chromecastStart = null
+var $chromecastStop = null;
 
 
 // Global state
@@ -125,7 +127,6 @@ var onDocumentLoad = function(e) {
  * Setup Chromecast if library is available.
  */
 window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
-    console.log(1);
     // We need the DOM here, so don't fire until it's ready.
     $(function() {
         // Don't init sender if in receiver mode
@@ -134,10 +135,9 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         }
 
         if (loaded) {
-            console.log('loaded');
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
-            $chromecastStart.show();
-            $chromecastStop.hide();
+            $castStart.show();
+            $castStop.hide();
         } else {
             // TODO: prompt to install?
         }
