@@ -318,7 +318,7 @@ h1,h2,h3,h4,h5,h6 {
 .song {
 	background: darken(@music-hp-dark, 5%);
 	border-top: 2px solid @music-hp-dark;
-	padding: @line-height-computed * 2 0;
+	padding: @line-height-computed / 2 0;
 	.transition(0.4s background ease-in-out);
 
 	> .container-fluid {
@@ -341,19 +341,30 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 
 		.album-cover {
-			.make-sm-column(3);
+			.make-sm-column(1);
+
+			:last-child& {
+				.make-sm-column(3);
+				margin-bottom: @line-height-computed;
+				margin-right: 0;
+			}
 		}
 
 		.song-info-wrapper {
-			.make-sm-column(9);
+			.transition(0.5s all ease-in-out);
+			.make-sm-column(11);
+
+
+			:last-child& {
+				.make-sm-column(9);
+			}
 		}
 
 	}
 }
 
 .album-cover {
-	margin-bottom: @line-height-computed;
-
+	.transition(0.5s all ease-in-out);
 	@media screen and (max-width: @screen-xs-max){
 		width: 25%;
 		float: left;
@@ -426,6 +437,9 @@ h1,h2,h3,h4,h5,h6 {
 .song-tools {
 	padding-top: 10px;
 	margin-bottom: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
 
 	li {
 		display: inline-block;
@@ -435,9 +449,19 @@ h1,h2,h3,h4,h5,h6 {
 	a {
 		color: @music-red-light;
 	}
+
+	.song:last-child & {
+		position: static;
+	}
 }
 
-
+.tag-header {
+	font-size: @font-size-small;
+	font-family: 'Knockout 31 4r';
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.5);
+	display: inline-block;
+}
 
 .song-tags {
 	margin-bottom: 0;
@@ -456,6 +480,29 @@ h1,h2,h3,h4,h5,h6 {
 		&:last-child:after {
 			content: "";
 		}
+	}
+}
+
+
+.tag-header,
+.song-tags {
+	display: none;
+
+	.song:last-child & {
+		display: inline-block;
+	}
+}
+
+.review-wrapper {
+	.transition(0.2s all ease-in-out);
+	.scaleY(0);
+	opacity: 0;
+	height: 0;
+
+	.song:last-child & {
+		.scaleY(1);
+		opacity: 1;
+		height: auto;
 	}
 }
 
@@ -707,14 +754,6 @@ h1,h2,h3,h4,h5,h6 {
 .played-songs {
 	font-size: @font-size-small;
 	color: #999;
-}
-
-.tag-header {
-	font-size: @font-size-small;
-	font-family: 'Knockout 31 4r';
-	text-transform: uppercase;
-	color: rgba(255,255,255,0.5);
-	display: inline-block;
 }
 
 .tags {

@@ -95,7 +95,7 @@ var onDocumentLoad = function(e) {
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
-    $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
+    // $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
     $shuffleSongs.on('click', onShuffleSongsClick);
 
     // configure ZeroClipboard on share panel
@@ -284,7 +284,7 @@ var playNextSong = function() {
     if (onWelcome) {
         hideWelcome();
     } else {
-        $songs.find('.song').last().velocity("scroll", {
+        $songs.find('.song').last().delay(750).velocity("scroll", {
             duration: 750,
             offset: -60
         });
