@@ -445,6 +445,8 @@ var buildListeningHistory = function() {
         var html = JST.song(context);
         $songs.append(html);
     };
+    $songs.find('.song').addClass('small');
+    $songs.find('.small').on('click', onSongCardClick);
 }
 
 /*
