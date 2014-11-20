@@ -543,8 +543,11 @@ var onGenreClick = function(e) {
         $(this).removeClass('disabled');
     }
 
-    playerMode = 'genre';
-    simpleStorage.set('playerMode', playerMode)
+    if (playerMode != 'genre') {
+        playerMode = 'genre';
+        simpleStorage.set('playerMode', playerMode);
+        playNextSong();
+    }
 }
 
 /*
