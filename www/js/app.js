@@ -19,6 +19,7 @@ var $castStart = null;
 var $castStop = null;
 var $landing = null;
 var $genreFilters = null;
+var $landingGenreButtons = null;
 var $playedSongsLength = null;
 var $clearHistory = null;
 var $reviewerFilters = null;
@@ -61,7 +62,7 @@ var onDocumentLoad = function(e) {
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters li a');
     $currentTime = $('.current-time');
-    $genreButtons = $('.landing .tags a');
+    $landingGenreButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
@@ -84,7 +85,7 @@ var onDocumentLoad = function(e) {
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
-    $genreButtons.on('click', onGenreButtonClick);
+    $landingGenreButtons.on('click', onLandingGenreClick);
     $genreFilters.on('click', onGenreClick);
     $reviewerFilters.on('click', onReviewerClick);
     $skip.on('click', onSkipClick);
@@ -537,24 +538,19 @@ var onGenreClick = function(e) {
         $(this).addClass('disabled');
 
         buildGenrePlaylist();
-
-        if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
-            $playlistLengthWarning.show();
-            return false;
-        }
     // adding a tag
     } else {
         $reviewerFilters.addClass('disabled');
         selectedTags.push(tag);
         simpleStorage.set('selectedTags', selectedTags);
         buildGenrePlaylist();
-
-        $audioPlayer.jPlayer('play');
-        $playlistLengthWarning.hide();
-
         $(this).removeClass('disabled');
     }
 
+    if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
+        $playlistLengthWarning.show();
+        return false;
+    }
     if (playerMode != 'genre') {
         playerMode = 'genre';
         simpleStorage.set('playerMode', playerMode);
@@ -656,7 +652,7 @@ var onReturnVisit = function() {
 /*
  * Begin playback in a specific genre tag.
  */
-var onGenreButtonClick = function(e) {
+var onLandingGenreClick = function(e) {
     e.preventDefault();
 
     selectedTags = [$(this).data('tag')];
