@@ -318,7 +318,7 @@ h1,h2,h3,h4,h5,h6 {
 .song {
 	background: darken(@music-hp-dark, 5%);
 	border-top: 2px solid @music-hp-dark;
-	padding: @line-height-computed * 2 0;
+	padding: @line-height-computed / 2 0;
 	.transition(0.4s background ease-in-out);
 
 	> .container-fluid {
@@ -341,10 +341,23 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 
 		.album-cover {
+
+			.small& {
+				.make-sm-column(1);
+			}
+
 			.make-sm-column(3);
+			margin-bottom: @line-height-computed;
+			margin-right: 0;
 		}
 
 		.song-info-wrapper {
+			.transition(0.5s all ease-in-out);
+
+			.small& {
+				.make-sm-column(11);
+			}
+
 			.make-sm-column(9);
 		}
 
@@ -352,8 +365,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .album-cover {
-	margin-bottom: @line-height-computed;
-
+	.transition(0.5s all ease-in-out);
 	@media screen and (max-width: @screen-xs-max){
 		width: 25%;
 		float: left;
@@ -427,6 +439,14 @@ h1,h2,h3,h4,h5,h6 {
 	padding-top: 10px;
 	margin-bottom: 0;
 
+	.song.small & {
+		.animation(fadeInOut 0.5s);
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+
 	li {
 		display: inline-block;
 		font-size: @font-size-base * 2;
@@ -435,9 +455,17 @@ h1,h2,h3,h4,h5,h6 {
 	a {
 		color: @music-red-light;
 	}
+
+	position: static;
 }
 
-
+.tag-header {
+	font-size: @font-size-small;
+	font-family: 'Knockout 31 4r';
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.5);
+	display: inline-block;
+}
 
 .song-tags {
 	margin-bottom: 0;
@@ -457,6 +485,26 @@ h1,h2,h3,h4,h5,h6 {
 			content: "";
 		}
 	}
+}
+
+
+.song.small .tag-header,
+.song.small .song-tags {
+	display: none;
+}
+
+.review-wrapper {
+	.transition(0.2s all ease-in-out);
+
+	.song.small & {
+		.scaleY(0);
+		opacity: 0;
+		height: 0;
+	}
+
+	.scaleY(1);
+	opacity: 1;
+	height: auto;
 }
 
 .played-song {
@@ -709,14 +757,6 @@ h1,h2,h3,h4,h5,h6 {
 	color: #999;
 }
 
-.tag-header {
-	font-size: @font-size-small;
-	font-family: 'Knockout 31 4r';
-	text-transform: uppercase;
-	color: rgba(255,255,255,0.5);
-	display: inline-block;
-}
-
 .tags {
 	li {
 		display: inline-block;
@@ -775,5 +815,17 @@ h1,h2,h3,h4,h5,h6 {
 
 .current-song {
 	position: relative;
+}
+
+@-webkit-keyframes fadeInOut {
+	0% { opacity: 0; }
+	75% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes fadeInOut {
+	0% { opacity: 0; }
+	75% { opacity: 0; }
+	100% { opacity: 1; }
 }
 

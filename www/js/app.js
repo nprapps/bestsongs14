@@ -269,7 +269,10 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var html = JST.song(context);
+    $songs.find('.song').last().addClass('small');
     $songs.append(html);
+
+    $songs.find('.small').off('click').on('click', onSongCardClick);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -285,7 +288,7 @@ var playNextSong = function() {
     if (onWelcome) {
         hideWelcome();
     } else {
-        $songs.find('.song').last().velocity("scroll", {
+        $songs.find('.song').last().delay(500).velocity("scroll", {
             duration: 750,
             offset: -60
         });
@@ -661,6 +664,15 @@ var onLandingGenreClick = function(e) {
     highlightSelectedTags();
     startPrerollAudio();
     playerMode = 'genre';
+}
+
+/*
+ * Toggle played song card size
+ */
+var onSongCardClick = function(e) {
+    e.preventDefault();
+
+    $(this).toggleClass('small');
 }
 
 /*
