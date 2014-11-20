@@ -669,6 +669,7 @@ var onDocumentKeyDown = function(e) {
 
         // space
         case 32:
+            e.preventDefault();
             if($audioPlayer.data('jPlayer').status.paused) {
                 $audioPlayer.jPlayer('play');
             } else {
