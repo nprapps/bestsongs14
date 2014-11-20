@@ -498,6 +498,9 @@ var onReviewerClick = function(e) {
     selectedTags = [reviewer];
     simpleStorage.set('selectedTags', selectedTags);
 
+    playedSongs = [];
+    simpleStorage.set('playedSongs', playedSongs)
+
     playlist = getReviewerMixtape(selectedTags);
     updatePlaylistLength();
     playNextSong();
@@ -528,6 +531,7 @@ var onGenreClick = function(e) {
         }
     // adding a tag
     } else {
+        $reviewerFilters.addClass('disabled');
         selectedTags.push(tag);
         simpleStorage.set('selectedTags', selectedTags);
         playlist = buildPlaylist(selectedTags);
