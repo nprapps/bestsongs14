@@ -275,11 +275,8 @@ var playNextSong = function() {
             playlist = getReviewerMixtape(selectedTags);
         }
 
+        playPlaylistEndAudio();
         updatePlaylistLength();
-
-        if (playlist.length > 0) {
-            playNextSong();
-        }
         return;
     }
 
@@ -308,6 +305,16 @@ var playNextSong = function() {
         }
         currentSong = nextSong;
         markSongPlayed(currentSong);
+    }
+}
+
+var playPlaylistEndAudio = function() {
+    var playlistEndAudioURL = APP_CONFIG.S3_BASE_URL + "/assets/ocean_breeze.mp3";
+
+    if (!NO_AUDIO){
+        $audioPlayer.jPlayer('setMedia', {
+            mp3: playlistEndAudioURL
+        }).jPlayer('play');
     }
 }
 
@@ -459,7 +466,6 @@ var updatePlaylistLength = function() {
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
     $totalSongs.text(SONG_DATA.length);
-
 }
 
 var resetGenreFilters = function() {
