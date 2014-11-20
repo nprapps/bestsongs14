@@ -272,6 +272,7 @@ var playNextSong = function() {
         }
         if (playerMode == 'reviewer') {
             getNextReviewer();
+            playedSongs = [];
             playlist = getReviewerMixtape(selectedTags);
         }
 
