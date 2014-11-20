@@ -25,7 +25,7 @@ def update():
 
 @task
 def update_songs():
-    local('curl --silent -o data/songs.csv https://docs.google.com/spreadsheets/d/1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc/export?format=csv&id=1jhQ0DYvj9EMPppgomVIQ0ZnITfrmmwA7e9AqmkFBczc&gid=0')
+    local('curl -o data/songs.csv https://docs.google.com/spreadsheets/d/19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU/export?format=csv&id=19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU&gid=0')
 
     output = []
 
@@ -42,19 +42,19 @@ def update_songs():
 
             row['genre_tags'] = []
             for i in range(1,4):
-                key = 'genre_tag_%i' % i
+                key = 'genre%i' % i
 
                 if row[key]:
                     row['genre_tags'].append(row[key])
 
                 del row[key]
 
-            row['dj_tags'] = []
+            row['curator_tags'] = []
             for i in range(1,4):
-                key = 'DJ_%i' % i
+                key = 'curator%i' % i
 
                 if row[key]:
-                    row['dj_tags'].append(row[key])
+                    row['curator_tags'].append(row[key])
 
                 del row[key]
 

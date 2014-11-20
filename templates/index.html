@@ -115,11 +115,11 @@
         <div class="reviewer">
             <h3>Reviewer</h3>
                 <ul class="reviewers list-unstyled">
-                    {% for reviewer in COPY.reviewers %}
+                    {% for reviewer, img in REVIEWER_IMAGES.items() %}
                     <li>
-                        <a class="disabled" data-tag="{{ reviewer.name }}" href="#">
-                            <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ reviewer.mug }}">
-                            <span class="name">{{ reviewer.name }}</span>
+                        <a class="disabled" data-tag="{{ reviewer }}" href="#">
+                            <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ img }}">
+                            <span class="name">{{ reviewer }}</span>
                         </a>
                     </li>
                     {% endfor %}

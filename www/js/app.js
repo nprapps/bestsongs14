@@ -267,14 +267,14 @@ var playNextSong = function() {
         return;
     }
 
-    var context = $.extend(APP_CONFIG, nextSong);
+    var context = $.extend(APP_CONFIG, COPY, nextSong);
     var html = JST.song(context);
     $songs.append(html);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
 
-    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
+    var nextsongURL = 'http://pd.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 
     if (!NO_AUDIO) {
         $audioPlayer.jPlayer('setMedia', {
@@ -449,8 +449,8 @@ var buildListeningHistory = function() {
 */
 var buildReviewerPlaylist = function() {
     playlist = _.filter(SONG_DATA, function(song) {
-        for (var i = 0; i < song['dj_tags'].length; i++) {
-            if (_.contains(selectedTags, song['dj_tags'][i])) {
+        for (var i = 0; i < song['curator_tags'].length; i++) {
+            if (_.contains(selectedTags, song['curator_tags'][i])) {
                 return true;
             }
         }

@@ -128,11 +128,23 @@ DISQUS_UUID = '1e6c6345-69ba-11e4-95c2-80e650107db6'
 CHROMECAST_APP_ID = None
 CHROMECAST_NAMESPACE = 'urn:x-cast:nprviz.bestsongs14'
 
-GENRE_TAGS = ['Rock', 'Pop', 'Hip-Hop', 'Latin', 'Jazz', 'R&B/Soul', 'World', 'Classical', 'Folk', 'Electronic/Dance']
+GENRE_TAGS = ['Folk / Americana', 'Rock', 'Unclassified', 'Electronic / Dance', 'Pop', 'R&B']
 REVIEWER_TAGS = ['Lars Gotrich', 'Bob Boilen', 'Stephen Thompson']
 
 PLAYLIST_LIMIT = 1
 SKIP_LIMIT = 6
+
+REVIEWER_IMAGES = {
+    'Lars Gotrich': 'lars.jpg',
+    'Ann Powers': 'ann.jpg',
+    'Otis Hart': 'otis.jpg',
+    'Jacob Ganz': 'jacob.jpg',
+    'Sami Yenigun': 'sami.jpg',
+    'Stephen Thompson': 'sthompson.jpg',
+    'Robin Hilton': 'robin.jpg',
+    'Jason King': 'jason.jpg',
+    'Bob Boilen': 'bob.jpg'
+}
 
 """
 Utilities
