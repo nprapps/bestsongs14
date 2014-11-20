@@ -27,7 +27,7 @@ var $landingReturnDeck = null;
 var $landingFirstDeck = null;
 var $chromecastStart = null
 var $chromecastStop = null;
-
+var $shuffleSongs = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -78,6 +78,7 @@ var onDocumentLoad = function(e) {
     $fixedHeader = $('.fixed-header');
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
+    $shuffleSongs = $('.shuffle-songs');
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -95,6 +96,7 @@ var onDocumentLoad = function(e) {
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
     $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
+    $shuffleSongs.on('click', onShuffleSongsClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -114,6 +116,7 @@ var onDocumentLoad = function(e) {
 
     if (RESET_STATE) {
         resetState();
+        resetSkips();
     }
 
     setupAudio();
@@ -259,53 +262,58 @@ var playNextSong = function() {
     });
 
     if (!nextSong) {
-        if (playedSongs.length == SONG_DATA.length) {
-            resetState();
-        }
-        console.log(playerMode);
-
-        // determine next playlist based on player mode
-        if (playerMode == 'genre') {
-            resetGenreFilters();
-            playlist = buildPlaylist(selectedTags);
-        }
-        if (playerMode == 'reviewer') {
-            getNextReviewer();
-            playedSongs = [];
-            playlist = getReviewerMixtape(selectedTags);
-        }
-
-        playPlaylistEndAudio();
-        updatePlaylistLength();
+        nextPlaylist();
         return;
     }
 
-    if (nextSong) {
-        var context = $.extend(APP_CONFIG, nextSong);
-        var html = JST.song(context);
-        $songs.append(html);
+    var context = $.extend(APP_CONFIG, nextSong);
+    var html = JST.song(context);
+    $songs.append(html);
 
-        if (!onWelcome) {
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
-        }
+    $playerArtist.text(nextSong['artist'])
+    $playerTitle.text(nextSong['title'])
 
-        $playerArtist.text(nextSong['artist'])
-        $playerTitle.text(nextSong['title'])
+    var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
 
-        var nextsongURL = APP_CONFIG.S3_BASE_URL + "/assets/songs/" + nextSong['mp3_file'];
-
-        if (!NO_AUDIO){
-            $audioPlayer.jPlayer('setMedia', {
-                mp3: nextsongURL
-            }).jPlayer('play');
-        }
-
-        if (onWelcome) {
-            hideWelcome();
-        }
-        currentSong = nextSong;
-        markSongPlayed(currentSong);
+    if (!NO_AUDIO) {
+        $audioPlayer.jPlayer('setMedia', {
+            mp3: nextsongURL
+        }).jPlayer('play');
     }
+
+    if (onWelcome) {
+        hideWelcome();
+    } else {
+        $songs.find('.song').last().velocity("scroll", {
+            duration: 750,
+            offset: -60
+        });
+    }
+
+    currentSong = nextSong;
+    markSongPlayed(currentSong);
+}
+
+var nextPlaylist = function() {
+    if (playedSongs.length == SONG_DATA.length) {
+        // if all songs have been played, reset to shuffle
+        resetState();
+        playerMode = 'genre';
+        simpleStorage.set('playerMode', playerMode);
+    }
+
+    // determine next playlist based on player mode
+    if (playerMode == 'genre') {
+        resetGenreFilters();
+        playlist = buildPlaylist(selectedTags);
+    } else if (playerMode == 'reviewer') {
+        getNextReviewer();
+        playedSongs = [];
+        playlist = getReviewerMixtape(selectedTags);
+    }
+
+    playPlaylistEndAudio();
+    updatePlaylistLength();
 }
 
 var playPlaylistEndAudio = function() {
@@ -339,7 +347,6 @@ var checkSkips = function() {
     var now = moment.utc();
     for (i = 0; i < usedSkips.length; i++) {
         if (now.subtract(1, 'minute').isAfter(usedSkips[i])) {
-            console.log('found an old timestamp');
             usedSkips.splice(i, 1);
         }
     }
@@ -393,13 +400,16 @@ var loadState = function() {
 var resetState = function() {
     playedSongs = [];
     selectedTags = [];
-    usedSkips = [];
     playerMode = null;
 
     simpleStorage.set('playedSongs', playedSongs);
     simpleStorage.set('selectedTags', selectedTags);
-    simpleStorage.set('usedSkips', usedSkips);
     simpleStorage.set('playerMode', playerMode);
+}
+
+var resetSkips = function() {
+    usedSkips = [];
+    simpleStorage.set('usedSkips', usedSkips);
 }
 
 /*
@@ -412,13 +422,8 @@ var markSongPlayed = function(song) {
     updateSongsPlayed();
 }
 
-var updateSongsPlayed = function(reset) {
-    if (reset == true) {
-        playedsongCount = 1;
-    } else {
-        playedsongCount = playedSongs.length;
-    }
-    $playedSongsLength.text(playedsongCount)
+var updateSongsPlayed = function() {
+    $playedSongsLength.text(playedSongs.length);
 }
 
 /*
@@ -465,14 +470,13 @@ var buildPlaylist = function(tags) {
 }
 
 var updatePlaylistLength = function() {
-    playlistLength = playlist.length;
-    $playlistLength.text(playlistLength);
+    $playlistLength.text(playlist.length);
     $totalSongs.text(SONG_DATA.length);
 }
 
 var resetGenreFilters = function() {
     $genreFilters.removeClass('disabled');
-    selectedTags = APP_CONFIG.GENRE_TAGS;
+    selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
 }
 
@@ -580,16 +584,23 @@ var highlightSelectedTags = function() {
     }
 }
 
+var onShuffleSongsClick = function(e) {
+    resetState();
+    playerMode = 'genre';
+    simpleStorage.set('playerMode', playerMode);
+    resetGenreFilters();
+    playlist = buildPlaylist(selectedTags);
+    updatePlaylistLength();
+    playNextSong();
+}
 
 var onClearHistoryButtonClick = function(e) {
     e.preventDefault()
-    $('.song').slice(0,playedsongCount-1).remove();
+
+    $('.song:not(:last-child)').remove();
     playedSongs = [currentSong['id']];
-    updateSongsPlayed(true);
-    playlist = SONG_DATA;
-    $reviewerFilters.addClass('disabled');
-    resetGenreFilters();
-    updatePlaylistLength();
+    simpleStorage.set('playedSongs', playedSongs);
+    updateSongsPlayed();
 }
 
 /*
@@ -617,12 +628,12 @@ var onGoButtonClick = function(e) {
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
     playlist = SONG_DATA;
-    selectedTags = APP_CONFIG.GENRE_TAGS;
+    selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
     highlightSelectedTags();
     updatePlaylistLength();
     startPrerollAudio();
-    updateSongsPlayed(true);
+    updateSongsPlayed();
 }
 
 /*
