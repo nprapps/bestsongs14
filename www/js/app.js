@@ -10,6 +10,7 @@ var $currentTime = null;
 var $allTags = null;
 var $reviewerButtons = null;
 var $playlistLength = null;
+var $totalSongs = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
@@ -37,7 +38,7 @@ var playedSongs = [];
 var playlist = [];
 var currentSong = null;
 var selectedTags = [];
-var playlistLength = 250;
+var playlistLength = null;
 var onWelcome = true;
 var isCasting = false;
 var playedsongCount = null;
@@ -457,6 +458,8 @@ var buildPlaylist = function(tags) {
 var updatePlaylistLength = function() {
     playlistLength = playlist.length;
     $playlistLength.text(playlistLength);
+    $totalSongs.text(SONG_DATA.length);
+
 }
 
 var resetGenreFilters = function() {
