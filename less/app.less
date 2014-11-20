@@ -656,6 +656,44 @@ h1,h2,h3,h4,h5,h6 {
 		border-color: #222;
 
 	}
+
+	.reviewers {
+		li {
+			display: inline-block;
+			text-align: center;
+			width: 6rem;
+			color: #222;
+			font-size: @font-size-base * 0.785;
+			vertical-align: top;
+			margin-right: 1rem;
+		}
+
+		.mug {
+			.square(6rem);
+			.img-circle;
+			margin-bottom: 0.5rem;
+		}
+
+		.name {
+			display: block;
+			color: #222;
+		}
+
+		.disabled .mug {
+			filter: grayscale(100%); /* Current draft standard */
+			-webkit-filter: grayscale(100%); /* New WebKit */
+			-moz-filter: grayscale(100%);
+			-ms-filter: grayscale(100%);
+			-o-filter: grayscale(100%); /* Not yet supported in Gecko, Opera or IE */
+			filter: url(resources.svg#desaturate); /* Gecko */
+			filter: gray; /* IE */
+			-webkit-filter: grayscale(1); /* Old WebKit */
+		}
+
+		.disabled {
+			opacity: 0.5;
+		}
+	}
 }
 
 .tag-header {
