@@ -30,13 +30,6 @@ def index():
 
     return make_response(render_template('index.html', **context))
 
-@app.route('/comments/')
-def comments():
-    """
-    Full-page comments view.
-    """
-    return make_response(render_template('comments.html', **make_context()))
-
 app.register_blueprint(static.static)
 
 # Boilerplate

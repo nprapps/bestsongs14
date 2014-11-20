@@ -1,7 +1,6 @@
 // Global jQuery references
 var $body = null;
 var $shareModal = null;
-var $commentCount = null;
 var $goButton = null;
 var $audioPlayer = null;
 var $playerArtist = null;
@@ -54,7 +53,6 @@ var onDocumentLoad = function(e) {
     // Cache jQuery references
     $body = $('body');
     $shareModal = $('#share-modal');
-    $commentCount = $('.comment-count');
     $goButton = $('.go');
     $audioPlayer = $('#audio-player');
     $songs = $('.songs');
@@ -715,31 +713,10 @@ var onWindowResize = function(e) {
 }
 
 /*
- * Display the comment count.
- */
-var showCommentCount = function(count) {
-    $commentCount.text(count);
-
-    if (count > 0) {
-        $commentCount.addClass('has-comments');
-    }
-
-    if (count > 1) {
-        $commentCount.next('.comment-label').text('Comments');
-    }
-}
-
-/*
  * Share modal opened.
  */
 var onShareModalShown = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'open-share-discuss']);
-
-    if (firstShareLoad) {
-        loadComments();
-
-        firstShareLoad = false;
-    }
 }
 
 /*
@@ -757,8 +734,5 @@ var onClippyCopy = function(e) {
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'summary-copied']);
 }
-
-
-
 
 $(onDocumentLoad);
