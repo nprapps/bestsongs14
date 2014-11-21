@@ -341,34 +341,43 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 
 		.album-cover {
+			.transition(0.5s all ease-in-out);
+			.make-xs-column(3);
+			.make-sm-column(3);
 
 			.small& {
 				.make-sm-column(1);
+				margin-bottom: 0;
 			}
 
-			.make-sm-column(3);
 			margin-bottom: @line-height-computed;
 			margin-right: 0;
 		}
 
 		.song-info-wrapper {
 			.transition(0.5s all ease-in-out);
+			.make-sm-column(9);
 
-			.small& {
-				.make-xs-column(11);
+			@media screen and (max-width: @screen-xs-max){
+				.artist,
+				.song-title {
+					margin-left: 25%;
+				}
+
+				.song-title {
+					text-indent: -0.4rem;
+				}
+
+				.tag-header {
+					.clearfix;
+				}
 			}
 
-			.make-sm-column(9);
+			.small& {
+				// .make-xs-column(9);
+				.make-sm-column(11);
+			}
 		}
-
-	}
-}
-
-.album-cover {
-	.transition(0.5s all ease-in-out);
-	@media screen and (max-width: @screen-xs-max){
-		width: 25%;
-		float: left;
 	}
 }
 
@@ -376,6 +385,11 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: @font-size-base * 2;
 	text-indent: -0.6rem;
 	margin-bottom: 0.5rem;
+
+	@media screen and (max-width: @screen-xs-max){
+		font-size: @font-size-base * 1.5;
+	}
+
 }
 
 .artist {
@@ -472,11 +486,16 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .song-tags {
+	clear: both;
 	margin-bottom: 0;
 	white-space: nowrap;
 	color: rgba(255,255,255,0.5);
 	font-size: @font-size-small;
-	display: inline-block;
+
+
+	ul {
+		display: inline-block;
+	}
 
 	li {
 		display: inline;
@@ -509,31 +528,6 @@ h1,h2,h3,h4,h5,h6 {
 	.scaleY(1);
 	opacity: 1;
 	height: auto;
-}
-
-.played-song {
-	background: #8bb7bf;
-	padding: @grid-gutter-width / 2 @grid-gutter-width;
-	color: @white;
-
-	.album-cover,
-	.artist,
-	.song-title {
-		display: inline-block;
-		margin-right: @grid-gutter-width / 2;
-	}
-
-	.album-cover {
-		.square(50px);
-	}
-
-	.artist {
-		color: inherit;
-	}
-
-	.song-title {
-		font-size: @font-size-base * 1.75;
-	}
 }
 
 // Player interface
@@ -737,6 +731,7 @@ h1,h2,h3,h4,h5,h6 {
 
 		a:hover {
 			background: transparent;
+			text-decoration: none;
 		}
 
 		.disabled .mug {
@@ -752,6 +747,11 @@ h1,h2,h3,h4,h5,h6 {
 
 		.disabled {
 			opacity: 0.5;
+			.transition(0.2s all ease-in-out);
+
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 }

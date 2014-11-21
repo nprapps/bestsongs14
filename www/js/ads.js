@@ -71,4 +71,4 @@ if (!Modernizr.touch && Modernizr.mq('(min-width: 1025px)')) {
 }
 
 // Load Google
-ADS.setup_googletag();
+// ADS.setup_googletag();
