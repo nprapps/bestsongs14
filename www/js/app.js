@@ -448,7 +448,6 @@ var buildListeningHistory = function() {
         $songs.append(html);
     };
     $songs.find('.song').addClass('small');
-    $songs.find('.small').on('click', onSongCardClick);
 }
 
 /*
