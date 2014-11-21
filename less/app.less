@@ -355,7 +355,7 @@ h1,h2,h3,h4,h5,h6 {
 			.transition(0.5s all ease-in-out);
 
 			.small& {
-				.make-sm-column(11);
+				.make-xs-column(11);
 			}
 
 			.make-sm-column(9);
@@ -444,6 +444,10 @@ h1,h2,h3,h4,h5,h6 {
 		position: absolute;
 		top: 0;
 		right: 0;
+
+		@media screen and (max-width: @screen-xs-max){
+			display: none;
+		}
 	}
 
 

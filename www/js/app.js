@@ -98,6 +98,7 @@ var onDocumentLoad = function(e) {
     $clearHistory.on('click', onClearHistoryButtonClick);
     $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
     $shuffleSongs.on('click', onShuffleSongsClick);
+    $songs.on('click', '.song:not(:last-child)', onSongCardClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -271,8 +272,6 @@ var playNextSong = function() {
     var html = JST.song(context);
     $songs.find('.song').last().addClass('small');
     $songs.append(html);
-
-    $songs.find('.small').off('click').on('click', onSongCardClick);
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
