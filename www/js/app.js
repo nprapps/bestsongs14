@@ -727,6 +727,7 @@ var onFullscreenChange = function() {
     else {
         $fullscreenStop.hide();
         $fullscreenStart.show();
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen-stop']);
     }
 }
 
