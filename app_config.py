@@ -129,7 +129,6 @@ CHROMECAST_APP_ID = None
 CHROMECAST_NAMESPACE = 'urn:x-cast:nprviz.bestsongs14'
 
 GENRE_TAGS = ['Folk / Americana', 'Rock', 'Unclassified', 'Electronic / Dance', 'Pop', 'R&B']
-REVIEWER_TAGS = ['Lars Gotrich', 'Bob Boilen', 'Stephen Thompson']
 
 PLAYLIST_LIMIT = 1
 SKIP_LIMIT = 6
