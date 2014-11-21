@@ -677,6 +677,7 @@ var hideWelcome  = function() {
  */
 var onGoButtonClick = function(e) {
     e.preventDefault();
+    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
     $songs.find('.song').remove();
 
     playedSongs = [];
@@ -696,6 +697,7 @@ var onGoButtonClick = function(e) {
  * Begin playback where the user left off.
  */
 var onReturnVisit = function() {
+    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
 
     if (playerMode == 'reviewer') {
         buildReviewerPlaylist();
@@ -713,7 +715,7 @@ var onReturnVisit = function() {
  */
 var onLandingGenreClick = function(e) {
     e.preventDefault();
-
+    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
     selectedTags = [$(this).data('tag')];
     simpleStorage.set('selectedTags', selectedTags);
     buildGenrePlaylist();
