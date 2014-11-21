@@ -272,9 +272,17 @@ var playNextSong = function() {
     }
 
     var context = $.extend(APP_CONFIG, COPY, nextSong);
-    var html = JST.song(context);
-    $songs.find('.song').last().addClass('small');
-    $songs.append(html);
+    var $html = $(JST.song(context));
+    $songs.append($html);
+    $html.velocity('fadeIn');
+
+    $songs.find('.song').last().prev().velocity("scroll", {
+        duration: 750,
+        offset: -60,
+        complete: function(){
+            $(this).addClass('small');
+        }
+    });
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -290,7 +298,7 @@ var playNextSong = function() {
     if (onWelcome) {
         hideWelcome();
     } else {
-        $songs.find('.song').last().delay(750).velocity("scroll", {
+        $songs.find('.song').last().delay(1000).velocity("scroll", {
             duration: 750,
             offset: -60
         });
