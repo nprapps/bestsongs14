@@ -360,10 +360,16 @@ The Google Analytics events tracked in this application are:
 |bestsongs14|tweet|`location`||||
 |bestsongs14|facebook|`location`||||
 |bestsongs14|email|`location`||||
-|bestsongs14|new-comment||||
 |bestsongs14|open-share-discuss||||
 |bestsongs14|close-share-discuss||||
 |bestsongs14|summary-copied||||
 |bestsongs14|featured-tweet-action|`action`||``tweet_url``|
 |bestsongs14|featured-facebook-action|`action`||``post_url``|
+|bestsongs14|shuffle||||
+|bestsongs14|landing-genre-select|`genre`||||
+|bestsongs14|fullscreen-start||||
+|bestsongs14|song-skip|`song-title`|`usedSkips.length`||||
+|bestsongs14|curator-select|`curator`||||
+|bestsongs14|curator-finish|`curator`||||
+
 
