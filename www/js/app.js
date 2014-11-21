@@ -46,6 +46,7 @@ var isCasting = false;
 var playedsongCount = null;
 var usedSkips = [];
 var playerMode = null;
+var curator = null;
 
 /*
  * Run on page load.
@@ -310,6 +311,7 @@ var nextPlaylist = function() {
         resetGenreFilters();
         buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-finish', curator]);
         getNextReviewer();
         playedSongs = [];
         buildReviewerPlaylist();
@@ -342,6 +344,7 @@ var skipSong = function() {
         playNextSong();
         simpleStorage.set('usedSkips', usedSkips);
         writeSkipsRemaining();
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerTitle.text(), usedSkips.length, ]);
     }
 }
 
@@ -514,8 +517,8 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     $allTags.addClass('disabled');
-    var reviewer = $(this).data('tag');
-    selectedTags = [reviewer];
+    curator = $(this).data('tag');
+    selectedTags = [curator];
     simpleStorage.set('selectedTags', selectedTags);
 
     playedSongs = [];
@@ -527,6 +530,8 @@ var onReviewerClick = function(e) {
 
     playerMode = 'reviewer';
     simpleStorage.set('playerMode', playerMode)
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-select', curator]);
 }
 
 var onGenreClick = function(e) {
@@ -633,6 +638,8 @@ var onGoButtonClick = function(e) {
     highlightSelectedTags();
     startPrerollAudio();
     updateSongsPlayed();
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'shuffle']);
 }
 
 /*
@@ -665,6 +672,8 @@ var onLandingGenreClick = function(e) {
     highlightSelectedTags();
     startPrerollAudio();
     playerMode = 'genre';
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'landing-genre-select', $(this).data('tag')]);
 }
 
 /*
@@ -707,9 +716,6 @@ var onDocumentKeyDown = function(e) {
  */
 var onFullscreenButtonClick = function(e) {
     e.preventDefault();
-
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen']);
-
     screenfull.toggle();
 }
 
@@ -717,6 +723,7 @@ var onFullscreenChange = function() {
     if (screenfull.isFullscreen) {
         $fullscreenStop.show();
         $fullscreenStart.hide();
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen-start']);
     }
     else {
         $fullscreenStop.hide();
