@@ -48,6 +48,7 @@ var usedSkips = [];
 var playerMode = null;
 var curator = null;
 var totalSongsPlayed = 0;
+var songHistory = {};
 
 /*
  * Run on page load.
@@ -121,7 +122,7 @@ var onDocumentLoad = function(e) {
 
     if (RESET_STATE) {
         resetState();
-        resetSkips();
+        resetLegalLimits();
     }
 
     setupAudio();
@@ -266,7 +267,12 @@ var playNextSong = function() {
         return !(_.contains(playedSongs, song['id']));
     });
 
-    if (!nextSong) {
+    if (nextSong) {
+        var canPlaySong = checkSongHistory(nextSong);
+        if (!canPlaySong) {
+            return;
+        }
+    } else {
         nextPlaylist();
         return;
     }
@@ -307,6 +313,30 @@ var playNextSong = function() {
     currentSong = nextSong;
     markSongPlayed(currentSong);
     updateTotalSongsPlayed();
+}
+
+var checkSongHistory = function(song) {
+    if (songHistory[song['id']]) {
+        for (var i = 0; i < songHistory[song['id']].length; i++) {
+            var now = moment.utc();
+            if (now.subtract(3, 'hours').isAfter(songHistory[song['id']][i])) {
+                songHistory[song['id']].splice(i,1);
+            }
+        }
+
+        if (songHistory[song['id']].length >= 4) {
+            markSongPlayed(song);
+            playNextSong();
+            return false;
+        }
+    } else {
+        songHistory[song['id']] = [];
+    }
+
+    songHistory[song['id']].push(moment.utc());
+    simpleStorage.set('songHistory', songHistory);
+
+    return true;
 }
 
 var nextPlaylist = function() {
@@ -406,6 +436,7 @@ var loadState = function() {
     usedSkips = simpleStorage.get('usedSkips') || [];
     playerMode = simpleStorage.get('playerMode') || 'genre';
     totalSongsPlayed = simpleStorage.get('totalSongsPlayed') || 0;
+    songHistory = simpleStorage.get('songHistory') || {};
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {
@@ -438,9 +469,11 @@ var resetState = function() {
     simpleStorage.set('playedPreroll', false);
 }
 
-var resetSkips = function() {
+var resetLegalLimits = function() {
     usedSkips = [];
     simpleStorage.set('usedSkips', usedSkips);
+    songHistory = {}
+    simpleStorage.set('songHistory', songHistory);
 }
 
 /*
@@ -525,6 +558,7 @@ var getNextReviewer = function() {
             else {
                 $nextReviewer = $reviewerFilters.eq(i + 1);
             }
+            console.log($nextReviewer);
         }
     }
 
@@ -541,6 +575,7 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     $allTags.addClass('disabled');
+    $(this).removeClass('disabled');
     curator = $(this).data('tag');
     selectedTags = [curator];
     simpleStorage.set('selectedTags', selectedTags);
@@ -550,7 +585,6 @@ var onReviewerClick = function(e) {
 
     buildReviewerPlaylist();
     playNextSong();
-    $(this).removeClass('disabled');
 
     playerMode = 'reviewer';
     simpleStorage.set('playerMode', playerMode)
