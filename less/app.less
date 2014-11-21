@@ -212,6 +212,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .go,
 .go:active,
+.go:focus,
 .go:visited {
 	display: inline-block;
 	padding: 12px;
@@ -346,18 +347,11 @@ h1,h2,h3,h4,h5,h6 {
 
 	> .container-fluid {
 		padding: 0 @grid-gutter-width;
-		// max-width: @screen-lg;
 		margin: 0 auto;
-	}
-
-	&:first-child {
-		padding-top: @grid-gutter-width;
 	}
 
 	&:last-child {
 		background: @music-hp-dark;
-		padding-top: @grid-gutter-width;
-		padding-bottom: 0;
 	}
 
 	.song-info {
@@ -564,8 +558,7 @@ h1,h2,h3,h4,h5,h6 {
 	display: none;
 
 	> .container-fluid {
-		padding: @line-height-computed / 2 @grid-gutter-width;
-		// max-width: @screen-lg;
+		padding: 0 @grid-gutter-width @line-height-computed / 2;
 		margin: 0 auto;
 	}
 }
