@@ -296,10 +296,10 @@ var playNextSong = function() {
     if (onWelcome) {
         hideWelcome();
     } else {
-        // $songs.find('.song').last().delay(750).velocity("scroll", {
-        //     duration: 750,
-        //     offset: -60
-        // });
+        $songs.find('.song').last().delay(750).velocity("scroll", {
+            duration: 750,
+            offset: -60
+        });
     }
 
     currentSong = nextSong;
