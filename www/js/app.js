@@ -101,6 +101,8 @@ var onDocumentLoad = function(e) {
     $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
+    onWindowResize();
+
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -109,8 +111,6 @@ var onDocumentLoad = function(e) {
     clippy.on('ready', function(readyEvent) {
         clippy.on('aftercopy', onClippyCopy);
     });
-
-    onWindowResize();
 
     SONG_DATA = _.shuffle(SONG_DATA);
 
@@ -408,7 +408,11 @@ var loadState = function() {
     }
 
     if (playedSongs.length > 0 || selectedTags.length > 0) {
+        $landingReturnDeck.show();
         onReturnVisit();
+    }
+    else {
+        $landingFirstDeck.show();
     }
 
     writeSkipsRemaining();
@@ -665,8 +669,6 @@ var onReturnVisit = function() {
     }
     highlightSelectedTags();
     updateSongsPlayed();
-    $landingFirstDeck.hide();
-    $landingReturnDeck.show();
     _.delay(hideWelcome, 5000);
     _.delay(playNextSong, 5000);
 }
