@@ -82,6 +82,9 @@ var onDocumentLoad = function(e) {
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
     $shuffleSongs = $('.shuffle-songs');
+    onWindowResize();
+    $landing.show();
+
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -101,8 +104,6 @@ var onDocumentLoad = function(e) {
     $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
-    onWindowResize();
-
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
