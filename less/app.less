@@ -167,6 +167,10 @@ h1,h2,h3,h4,h5,h6 {
 		font-family: 'Gotham';
 		margin: 0 0 @line-height-computed;
 		color: #222;
+
+		@media screen and (max-width: @screen-xs-max){
+			font-size: @font-size-base * 3.2;
+		}
 	}
 
 	h2 {
@@ -175,6 +179,10 @@ h1,h2,h3,h4,h5,h6 {
 		margin-bottom: 2rem;
 		font-family: 'Knockout 31 4r';
 		text-transform: uppercase;
+
+		@media screen and (max-width: @screen-xs-max){
+			display: none;
+		}
 	}
 
 	p {
@@ -231,6 +239,11 @@ h1,h2,h3,h4,h5,h6 {
 		background-color: lighten(@music-red-light, 10%);
 		color: @white;
 	}
+
+	@media screen and (max-width: @screen-xs-max){
+		padding-top: 6px;
+		padding-bottom: 6px;
+	}
 }
 
 // Fixed header
@@ -247,6 +260,10 @@ h1,h2,h3,h4,h5,h6 {
 	background: fadeout(@white,10%);
 	z-index: @z-fixed-header;
 	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
+
+	@media screen and (max-width: @screen-xs-max){
+		position: absolute;
+	}
 
 	.logo,
 	.slug,
@@ -561,6 +578,14 @@ h1,h2,h3,h4,h5,h6 {
 	height: 5rem;
 	background: @music-dark;
 	line-height: 5rem;
+
+	@media screen and (max-width: @screen-xs-max){
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: fadeout(@music-dark, 5%);
+	}
 
 	.controls {
 		vertical-align: middle;
