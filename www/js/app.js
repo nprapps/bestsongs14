@@ -95,14 +95,16 @@ var onDocumentLoad = function(e) {
     $genreFilters.on('click', onGenreClick);
     $reviewerFilters.on('click', onReviewerClick);
     $skip.on('click', onSkipClick);
-    $fullscreenStart.on('click', onFullscreenButtonClick);
-    $fullscreenStop.on('click', onFullscreenButtonClick);
     $castStart.on('click', onCastStartClick);
     $castStop.on('click', onCastStopClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
-    $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
+    if (!(Modernizr.touch)) {
+        $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
+        $fullscreenStart.on('click', onFullscreenButtonClick);
+        $fullscreenStop.on('click', onFullscreenButtonClick);
+    }
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
 
