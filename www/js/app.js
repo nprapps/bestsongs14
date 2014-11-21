@@ -47,6 +47,7 @@ var playedsongCount = null;
 var usedSkips = [];
 var playerMode = null;
 var curator = null;
+var totalSongsPlayed = 0;
 
 /*
  * Run on page load.
@@ -296,6 +297,7 @@ var playNextSong = function() {
 
     currentSong = nextSong;
     markSongPlayed(currentSong);
+    updateTotalSongsPlayed();
 }
 
 var nextPlaylist = function() {
@@ -318,6 +320,15 @@ var nextPlaylist = function() {
     }
 
     playPlaylistEndAudio();
+}
+
+var updateTotalSongsPlayed = function() {
+    totalSongsPlayed++;
+    simpleStorage.set('totalSongsPlayed', totalSongsPlayed);
+
+    if (totalSongsPlayed % 5 === 0) {
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'songs-played', '', totalSongsPlayed]);
+    }
 }
 
 var playPlaylistEndAudio = function() {
@@ -385,6 +396,7 @@ var loadState = function() {
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
     playerMode = simpleStorage.get('playerMode') || 'genre';
+    totalSongsPlayed = simpleStorage.get('totalSongsPlayed') || 0;
 
     //reset
     if (playedSongs.length === SONG_DATA.length) {

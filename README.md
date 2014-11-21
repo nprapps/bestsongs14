@@ -372,5 +372,6 @@ The Google Analytics events tracked in this application are:
 |bestsongs14|song-skip|`song-title`|`usedSkips.length`||||
 |bestsongs14|curator-select|`curator`||||
 |bestsongs14|curator-finish|`curator`||||
+|bestsongs14|songs-played||`totalSongsPlayed`|||
 
 
