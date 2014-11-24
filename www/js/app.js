@@ -701,6 +701,9 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     curator = $(this).data('tag');
+    $allTags.addClass('disabled');
+    $(this).removeClass('disabled');
+
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-curator', curator);
     } else {
@@ -709,11 +712,8 @@ var onReviewerClick = function(e) {
 }
 
 var toggleCurator = function(curator) {
-    $allTags.addClass('disabled');
-    $(this).removeClass('disabled');
     selectedTags = [curator];
     simpleStorage.set('selectedTags', selectedTags);
-
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs)
 
@@ -734,6 +734,12 @@ var onGenreClick = function(e) {
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
     } else {
+        if (_.contains(selectedTags, genre)) {
+            $(this).addClass('disabled');
+        } else {
+            $(this).removeClass('disabled');
+        }
+
         toggleGenre(genre);
     }
 }
@@ -744,8 +750,6 @@ var toggleGenre = function(genre) {
         var index = selectedTags.indexOf(genre);
         selectedTags.splice(index, 1);
         simpleStorage.set('selectedTags', selectedTags);
-        $(this).addClass('disabled');
-
         buildGenrePlaylist();
     // adding a tag
     } else {
@@ -753,7 +757,6 @@ var toggleGenre = function(genre) {
         selectedTags.push(genre);
         simpleStorage.set('selectedTags', selectedTags);
         buildGenrePlaylist();
-        $(this).removeClass('disabled');
     }
 
     if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
