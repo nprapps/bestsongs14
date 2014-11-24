@@ -32,7 +32,7 @@ var $shuffleSongs = null;
 var $chromecastScreen = null;
 var $stack = null;
 var $songsCast = null;
-
+var $player = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -55,8 +55,8 @@ var playerMode = null;
 var curator = null;
 var totalSongsPlayed = 0;
 var songHistory = {};
-
-
+var songHeight = null;
+var is_small_screen = false
 /*
  * Run on page load.
  */
@@ -94,7 +94,7 @@ var onDocumentLoad = function(e) {
     $chromecastScreen = $('.cast-controls');
     $stack = $('.stack');
     $chromecastPlayer = $('.chromecast-player');
-
+    $player = $('.player')
     onWindowResize();
     $landing.show();
 
@@ -299,7 +299,6 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var $html = $(JST.song(context));
-    console.log($html)
 
 
     if (isCasting) {
@@ -331,17 +330,49 @@ var playNextSong = function() {
     }
 
     if (onWelcome) {
+        $html.css('min-height', songHeight).velocity('fadeIn');
+        $html.find('.container-fluid').css('min-height', songHeight);
+
         hideWelcome();
     } else {
-        $songs.find('.song').last().delay(1000).velocity("scroll", {
-            duration: 750,
-            offset: -60
+        $html.prev().velocity("scroll", {
+            duration: 500,
+            offset: is_small_screen ? 0 : -60,
+            complete: function(){
+                $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
+                $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
+                $html.css('min-height', songHeight)
+                .velocity('fadeIn', {
+                    duration: 500,
+                    complete: function(){
+                        $(this).velocity("scroll", {
+                            duration: 500,
+                            offset: is_small_screen ? 0 : -60,
+                            delay: 200
+                        });
+                    }
+                });
+                $html.find('.container-fluid').css('min-height', songHeight)
+            }
         });
     }
 
     currentSong = nextSong;
     markSongPlayed(currentSong);
     updateTotalSongsPlayed();
+}
+
+/*
+ *  Set the height of the currently playing song to fill the viewport.
+ */
+var setCurrentSongHeight = function(){
+    songHeight = $(window).height() - $player.height() - $fixedHeader.height();
+
+    if (is_small_screen){
+        songHeight += $fixedHeader.height();
+    }
+
+    $songs.children().last().find('.container-fluid').css('min-height', songHeight);
 }
 
 var checkSongHistory = function(song) {
@@ -828,8 +859,13 @@ var onFullscreenChange = function() {
  * Resize the welcome page to fit perfectly.
  */
 var onWindowResize = function(e) {
+    is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
+
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
+
+    setCurrentSongHeight();
+
 }
 
 /*
