@@ -351,7 +351,7 @@ var playNextSong = function() {
 
     $songs.find('.song').last().prev().velocity("scroll", {
         duration: 750,
-        offset: -60,
+        offset: is_small_screen ? 0 : -60,
         complete: function(){
             $(this).addClass('small');
         }
