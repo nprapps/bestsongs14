@@ -584,7 +584,10 @@ h1,h2,h3,h4,h5,h6 {
 	white-space: nowrap;
 	color: rgba(255,255,255,0.5);
 	font-size: @font-size-small;
-
+	max-height: 100%;
+	.transition(all 0.2s ease-in-out);
+	.scaleY(1);
+	opacity: 1;
 
 	ul {
 		display: inline-block;
@@ -603,10 +606,10 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-
-.song.small .tag-header,
 .song.small .song-tags {
-	display: none;
+	max-height: 0;
+	.scaleY(0);
+	opacity: 0;
 }
 
 // Player interface
