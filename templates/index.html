@@ -55,10 +55,18 @@
     </div>
 </div>
 
-{% include '_songs.html' %}
-{% include '_player.html' %}
-{% include '_filter.html' %}
-{% include '_share_modal.html' %}
+<div class="cast-controls">
+    {% include '_cast-player.html' %}
+    {% include '_filter.html' %}
+    {% include '_songs.html' %}
+</div>
+
+<div class="stack">
+    {% include '_songs.html' %}
+    {% include '_player.html' %}
+    {% include '_filter.html' %}
+    {% include '_share_modal.html' %}
+</div>
 
 <script>
     var SONG_DATA = {{ song_data|safe }};

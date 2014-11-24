@@ -29,11 +29,17 @@ var $landingFirstDeck = null;
 var $chromecastStart = null
 var $chromecastStop = null;
 var $shuffleSongs = null;
+var $chromecastScreen = null;
+var $stack = null;
+var $songsCast = null;
+
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
+var IS_FAKE_CASTER = (window.location.search.indexOf('fakecast') >= 0);
+
 
 var firstShareLoad = true;
 var playedSongs = [];
@@ -50,6 +56,7 @@ var curator = null;
 var totalSongsPlayed = 0;
 var songHistory = {};
 
+
 /*
  * Run on page load.
  */
@@ -60,6 +67,7 @@ var onDocumentLoad = function(e) {
     $goButton = $('.go');
     $audioPlayer = $('#audio-player');
     $songs = $('.songs');
+    $songsCast = $('.cast-controls .songs');
     $skip = $('.skip');
     $playerArtist = $('.player .artist');
     $playerTitle = $('.player .song-title');
@@ -83,6 +91,10 @@ var onDocumentLoad = function(e) {
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
     $shuffleSongs = $('.shuffle-songs');
+    $chromecastScreen = $('.cast-controls');
+    $stack = $('.stack');
+    $chromecastPlayer = $('.chromecast-player');
+
     onWindowResize();
     $landing.show();
 
@@ -145,8 +157,15 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
 
         if (loaded) {
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
+
+
             $castStart.show();
             $castStop.hide();
+              
+            if (IS_FAKE_CASTER) {
+              onCastStarted();
+            }      
+
         } else {
             // TODO: prompt to install?
         }
@@ -170,12 +189,11 @@ var onCastReady = function() {
 var onCastStarted = function() {
     // TODO: stop audio, hide player
 
+    $chromecastPlayer.show()
+    $stack.hide();
     $fullscreenStart.hide();
-    $fullscreenStop.hide();
-    $castStart.hide();
-    $castStop.show();
-
-    //$chromecastScreen.show();
+    $castStop.show();    
+    $castStart.hide();    
 
     isCasting = true;
 }
@@ -187,7 +205,7 @@ var onCastStopped = function() {
     //$chromecastScreen.hide();
 
     // TODO: start playing locally
-
+    $castStart.show();    
     isCasting = false;
 }
 
@@ -281,8 +299,17 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var $html = $(JST.song(context));
-    $songs.append($html);
-    $html.velocity('fadeIn');
+    console.log($html)
+
+
+    if (isCasting) {
+        console.log('isCasting')
+        $songs.prepend($html);
+        $chromecastScreen.find('.song').first().velocity('fadeIn');
+    } else {
+        $songs.append($html);        
+        $songs.find('.song').last().velocity('fadeIn');
+    }
 
     $songs.find('.song').last().prev().velocity("scroll", {
         duration: 750,
@@ -671,6 +698,9 @@ var onClearHistoryButtonClick = function(e) {
  * Hide the welcome screen and show the playing song
  */
 var hideWelcome  = function() {
+    if (isCasting) {
+        $chromecastScreen.show();    
+    }
     $('.songs, .player-container, .playlist-filters').show();
     $landing.velocity('slideUp', {
       duration: 1000,
@@ -682,6 +712,8 @@ var hideWelcome  = function() {
 
     onWelcome = false;
 }
+
+
 /*
  * Begin shuffled playback.
  */
