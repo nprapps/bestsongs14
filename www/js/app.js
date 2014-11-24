@@ -29,6 +29,7 @@ var $landingFirstDeck = null;
 var $chromecastStart = null
 var $chromecastStop = null;
 var $shuffleSongs = null;
+var $player = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -49,6 +50,7 @@ var playerMode = null;
 var curator = null;
 var totalSongsPlayed = 0;
 var songHistory = {};
+var songHeight = null;
 
 /*
  * Run on page load.
@@ -83,6 +85,7 @@ var onDocumentLoad = function(e) {
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
     $shuffleSongs = $('.shuffle-songs');
+    $player = $('.player')
     onWindowResize();
     $landing.show();
 
@@ -282,15 +285,6 @@ var playNextSong = function() {
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var $html = $(JST.song(context));
     $songs.append($html);
-    $html.velocity('fadeIn');
-
-    $songs.find('.song').last().prev().velocity("scroll", {
-        duration: 750,
-        offset: -60,
-        complete: function(){
-            $(this).addClass('small');
-        }
-    });
 
     $playerArtist.text(nextSong['artist'])
     $playerTitle.text(nextSong['title'])
@@ -304,17 +298,45 @@ var playNextSong = function() {
     }
 
     if (onWelcome) {
+        $html.css('min-height', songHeight).velocity('fadeIn');
+        $html.find('.container-fluid').css('min-height', songHeight);
+
         hideWelcome();
     } else {
-        $songs.find('.song').last().delay(1000).velocity("scroll", {
-            duration: 750,
-            offset: -60
+        $html.prev().velocity("scroll", {
+            duration: 500,
+            offset: -60,
+            complete: function(){
+                $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
+                $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
+                $html.css('min-height', songHeight)
+                .velocity('fadeIn', {
+                    duration: 500,
+                    complete: function(){
+                        $(this).velocity("scroll", {
+                            duration: 500,
+                            offset: -60,
+                            delay: 200
+                        });
+                    }
+                });
+                $html.find('.container-fluid').css('min-height', songHeight)
+            }
         });
     }
 
     currentSong = nextSong;
     markSongPlayed(currentSong);
     updateTotalSongsPlayed();
+}
+
+/*
+ *  Set the height of the currently playing song to fill the viewport.
+ */
+var setCurrentSongHeight = function(){
+    songHeight = $(window).height() - $player.height() - $fixedHeader.height();
+
+    $songs.children().last().find('.container-fluid').css('min-height', songHeight);
 }
 
 var checkSongHistory = function(song) {
@@ -798,6 +820,8 @@ var onFullscreenChange = function() {
 var onWindowResize = function(e) {
     $landing.find('.landing-wrapper').css('height', $(window).height());
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
+
+    setCurrentSongHeight();
 }
 
 /*

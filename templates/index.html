@@ -40,8 +40,8 @@
 
     <div class="fixed-header-controls">
         <div class="chromecast">
-            <a href="#" class="start btn btn-default">Start Chromecast</a>
-            <a href="#" class="stop btn btn-default">Stop Chromecast</a>
+            <a href="#" class="start btn btn-default">Start Casting</a>
+            <a href="#" class="stop btn btn-default">Stop Casting</a>
         </div>
 
         <div class="share">
@@ -49,8 +49,8 @@
         </div>
 
         <div class="fullscreen">
-            <a href="#" class="start btn btn-default"><span class="fa fa-arrows-alt"></span> Start fullscreen!</a>
-            <a href="#" class="stop btn btn-default"><span class="fa fa-arrows-alt"></span> Stop fullscreen!</a>
+            <a href="#" class="start btn btn-default"><span class="fa fa-arrows-alt"></span> Fullscreen</a>
+            <a href="#" class="stop btn btn-default"><span class="fa fa-arrows-alt"></span> Exit fullscreen</a>
         </div>
     </div>
 </div>
@@ -58,8 +58,8 @@
 <div class="songs"></div>
 
 <div class="player-container">
-    <div class="container-fluid">
-        <div class="row">
+<!--     <div class="container-fluid">
+        <div class="row"> -->
             <div class="player-wrapper">
                 <div class="player">
                     <div id="audio-player" class="jp-jplayer"></div>
@@ -79,18 +79,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="current-time"></div>
+                                <div class="playback-info">
+                                    <div class="current-time"></div>
+                                    <p class="skips"><span class="skips-remaining"></span> remaining.</p>
+                                </div>
+
                                 <a class="skip player-button" href="#"><i class="fa fa-step-forward"></i></a>
                             </div>
                         </div>
                     </div> <!-- end .jp-audio -->
                 </div> <!-- end #audio -->
-                <div class="skips">
-                    <p>You have <span class="skips-remaining"></span> remaining.</p>
-                </div>
             </div>
-        </div>
-    </div>
+<!--         </div>
+    </div> -->
 </div>
 
 <div class = 'filter-head container-fluid' style="display: none;" >
