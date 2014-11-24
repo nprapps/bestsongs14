@@ -351,13 +351,14 @@ h1,h2,h3,h4,h5,h6 {
 	background: darken(@music-hp-dark, 5%);
 	border-top: 2px solid @music-hp-dark;
 	padding: @line-height-computed / 2 0;
-	.transition(0.3s all ease-in-out);
+	.transition(0.3s background ease-in-out);
 	-webkit-backface-visibility: hidden; // prevent flickering in Safari
 
 	> .container-fluid {
 		padding: 0 @grid-gutter-width / 2;
 		margin: 0 auto;
-		.transition(0.3s all ease-in-out);
+		.transition(0.3s min-height ease-in-out);
+		-webkit-backface-visibility: hidden; // prevent flickering in Safari
 		display: table;
 		width: 100%;
 	}
@@ -372,12 +373,12 @@ h1,h2,h3,h4,h5,h6 {
 		vertical-align: middle;
 
 		.album-cover {
-			.transition(all 0.3s ease-in-out);
+			.transition(width 0.3s ease-in-out);
 			.make-xs-column(3);
 			.make-sm-column(3);
 
 			.small& {
-				.transition(all 0.3s ease-in-out  0.3s);
+				.transition(width 0.3s ease-in-out  0.3s);
 				.make-sm-column(1);
 				margin-bottom: 0;
 			}
@@ -387,7 +388,8 @@ h1,h2,h3,h4,h5,h6 {
 		}
 
 		.song-info-wrapper {
-			.transition(all 0.3s ease-in-out);
+			.transition(width 0.3s ease-in-out);
+
 			.make-sm-column(9);
 
 			@media screen and (max-width: @screen-xs-max){
@@ -406,7 +408,7 @@ h1,h2,h3,h4,h5,h6 {
 			}
 
 			.small& {
-				.transition(all 0.3s ease-in-out  0.3s);
+				.transition(width 0.3s ease-in-out  0.3s);
 				.make-sm-column(11);
 			}
 		}
@@ -436,7 +438,7 @@ h1,h2,h3,h4,h5,h6 {
 .review-wrapper {
 	clear: both;
 	.transition(all 0.2s ease-in-out 0.2s);
-	.transform-origin(middle);
+	.transform-origin(top);
 	.scaleY(1);
 	opacity: 1;
 	max-height: 100%;

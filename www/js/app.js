@@ -51,7 +51,7 @@ var curator = null;
 var totalSongsPlayed = 0;
 var songHistory = {};
 var songHeight = null;
-
+var is_small_screen = false
 /*
  * Run on page load.
  */
@@ -305,7 +305,7 @@ var playNextSong = function() {
     } else {
         $html.prev().velocity("scroll", {
             duration: 500,
-            offset: -60,
+            offset: is_small_screen ? 0 : -60,
             complete: function(){
                 $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
                 $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
@@ -315,7 +315,7 @@ var playNextSong = function() {
                     complete: function(){
                         $(this).velocity("scroll", {
                             duration: 500,
-                            offset: -60,
+                            offset: is_small_screen ? 0 : -60,
                             delay: 200
                         });
                     }
@@ -335,6 +335,10 @@ var playNextSong = function() {
  */
 var setCurrentSongHeight = function(){
     songHeight = $(window).height() - $player.height() - $fixedHeader.height();
+
+    if (is_small_screen){
+        songHeight += $fixedHeader.height();
+    }
 
     $songs.children().last().find('.container-fluid').css('min-height', songHeight);
 }
@@ -818,10 +822,13 @@ var onFullscreenChange = function() {
  * Resize the welcome page to fit perfectly.
  */
 var onWindowResize = function(e) {
+    is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
+
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
 
     setCurrentSongHeight();
+
 }
 
 /*
