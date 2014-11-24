@@ -861,9 +861,7 @@ var onFullscreenChange = function() {
 var onWindowResize = function(e) {
     is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
-
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
-
     setCurrentSongHeight();
 
 }
