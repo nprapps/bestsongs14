@@ -343,8 +343,8 @@ var playNextSong = function() {
                 $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
                 $html.css('min-height', songHeight)
                 .velocity('fadeIn', {
-                    duration: 500,
-                    complete: function(){
+                    duration: 300,
+                    begin: function(){
                         $(this).velocity("scroll", {
                             duration: 500,
                             offset: is_small_screen ? 0 : -60,
