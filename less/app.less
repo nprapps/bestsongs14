@@ -352,6 +352,7 @@ h1,h2,h3,h4,h5,h6 {
 	border-top: 2px solid @music-hp-dark;
 	padding: @line-height-computed / 2 0;
 	.transition(0.3s all ease-in-out);
+	-webkit-backface-visibility: hidden; // prevent flickering in Safari
 
 	> .container-fluid {
 		padding: 0 @grid-gutter-width / 2;
