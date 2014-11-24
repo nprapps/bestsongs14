@@ -318,7 +318,6 @@ var startPrerollAudio = function() {
     }
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
-        console.log('playing');
     }
 
     simpleStorage.set('playedPreroll', true);
@@ -515,7 +514,6 @@ var onPauseClick = function(e) {
  */
 var onSkipClick = function(e) {
     e.preventDefault();
-    console.log('fire');
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('skip-song');
     } else {
@@ -524,7 +522,6 @@ var onSkipClick = function(e) {
 }
 
 var skipSong = function() {
-    console.log('fire');
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
         playNextSong();
@@ -692,7 +689,6 @@ var getNextReviewer = function() {
             else {
                 $nextReviewer = $reviewerFilters.eq(i + 1);
             }
-            console.log($nextReviewer);
         }
     }
 
@@ -739,15 +735,15 @@ var onGenreClick = function(e) {
 
     var genre = $(this).text();
 
+    if (_.contains(selectedTags, genre)) {
+        $(this).addClass('disabled');
+    } else {
+        $(this).removeClass('disabled');
+    }
+
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
     } else {
-        if (_.contains(selectedTags, genre)) {
-            $(this).addClass('disabled');
-        } else {
-            $(this).removeClass('disabled');
-        }
-
         toggleGenre(genre);
     }
 }
