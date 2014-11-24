@@ -354,7 +354,7 @@ h1,h2,h3,h4,h5,h6 {
 	.transition(0.3s all ease-in-out);
 
 	> .container-fluid {
-		padding: 0 @grid-gutter-width;
+		padding: 0 @grid-gutter-width / 2;
 		margin: 0 auto;
 		.transition(0.3s all ease-in-out);
 		display: table;
@@ -569,24 +569,16 @@ h1,h2,h3,h4,h5,h6 {
 	background: fadeout(@music-hp-dark, 20%);
 	display: none;
 	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
-
-	// @media screen and (max-width: @screen-xs-max){
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 300;
-	// }
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 300;
 
 	> .container-fluid {
 		padding: 0;
 		margin: 0 auto;
 	}
-}
-
-.player-wrapper {
-	// .make-sm-column(9);
-	// .make-sm-column-offset(3);
 }
 
 .player {
@@ -634,7 +626,6 @@ h1,h2,h3,h4,h5,h6 {
 		right: 5rem;
 
 		.bar {
-			// display: none;
 			position: absolute;
 			height: 5rem;
 			top: 0;
@@ -691,7 +682,6 @@ h1,h2,h3,h4,h5,h6 {
 
 	.playlist-filters-wrapper {
 		padding: @grid-gutter-width;
-		// max-width: @screen-lg;
 		margin: 0 auto;
 	}
 

@@ -55,85 +55,9 @@
     </div>
 </div>
 
-<div class="songs"></div>
-
-<div class="player-container">
-<!--     <div class="container-fluid">
-        <div class="row"> -->
-            <div class="player-wrapper">
-                <div class="player">
-                    <div id="audio-player" class="jp-jplayer"></div>
-                    <div id="jp_container_1" class="jp-audio">
-                        <div class="jp-type-single">
-                            <div class="jp-gui jp-interface">
-                                <div class="jp-controls controls">
-                                    <a href="javascript:;" class="jp-play player-button" tabindex="1" title="play"><i class="fa fa-play"></i></a>
-                                    <a href="javascript:;" class="jp-pause player-button" tabindex="1" style="display: none;" title="pause"><i class="fa fa-pause"></i></a>
-                                </div>
-                                <div class="jp-progress-container">
-                                    <div class="player-progress jp-progress">
-                                        <h2 class="artist"></h2>
-                                        <h1 class="song-title"></h1>
-                                        <div class="jp-seek-bar">
-                                            <div class="jp-play-bar bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="playback-info">
-                                    <div class="current-time"></div>
-                                    <p class="skips"><span class="skips-remaining"></span> remaining.</p>
-                                </div>
-
-                                <a class="skip player-button" href="#"><i class="fa fa-step-forward"></i></a>
-                            </div>
-                        </div>
-                    </div> <!-- end .jp-audio -->
-                </div> <!-- end #audio -->
-            </div>
-<!--         </div>
-    </div> -->
-</div>
-
-<div class = 'filter-head container-fluid' style="display: none;" >
-</div>
-
-<div class="playlist-filters " style="display: none;">
-
-    <div class="playlist-filters-wrapper">
-        <h2 class="filter-title">Playing Now <span class="song-count"><span class="playlist-length"></span> songs out of <span class="total-songs"></span></h2>
-        <p class="instructions">Use the filters below to limit the songs on your mixtape, or <a href="#" class="shuffle-songs">shuffle all songs</a>. <span class="warning">(Your playlist must be seven songs long. Please select more tags.)</span> </p>
-
-
-        <div class="genre">
-            <h3>Genre</h3>
-            <ul class="tags list-unstyled">
-                {% for tag in GENRE_TAGS %}
-                <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="reviewer">
-            <h3>Reviewer</h3>
-                <ul class="reviewers list-unstyled">
-                    {% for reviewer, img in REVIEWER_IMAGES.items() %}
-                    <li>
-                        <a class="disabled" data-tag="{{ reviewer }}" href="#">
-                            <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ img }}">
-                            <span class="name">{{ reviewer }}</span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-        </div>
-
-        <div class="clear">
-            <p class="played-songs">Songs played so far: <span class="played-songs-length"></span></p>
-            <a class="btn btn-default clear-history">Clear history</a>
-        </div>
-    </div>
-</div>
-
+{% include '_songs.html' %}
+{% include '_player.html' %}
+{% include '_filter.html' %}
 {% include '_share_modal.html' %}
 
 <script>
