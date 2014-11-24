@@ -841,7 +841,7 @@ h1,h2,h3,h4,h5,h6 {
 		letter-spacing: 1px;
 		border-width: 2px;
 		border-style: solid;
-		background: fadeout(@music-medium, 80%);
+		// background: fadeout(@music-medium, 80%);
 		.transition(all 0.2s ease-in-out);
 	}
 
@@ -861,20 +861,20 @@ h1,h2,h3,h4,h5,h6 {
 		border-style: solid;
 	}
 
-	li.disabled:nth-child(1n) a { background: transparent; border-color: @tag-1; color: @tag-1; }
-	li.disabled:nth-child(2n) a { background: transparent; border-color: @tag-2; color: @tag-2; }
-	li.disabled:nth-child(3n) a { background: transparent; border-color: @tag-3; color: @tag-3; }
-	li.disabled:nth-child(4n) a { background: transparent; border-color: @tag-4; color: @tag-4; }
-	li.disabled:nth-child(5n) a { background: transparent; border-color: @tag-5; color: @tag-5; }
-	li.disabled:nth-child(6n) a { background: transparent; border-color: @tag-6; color: @tag-6; }
-	li.disabled:nth-child(7n) a { background: transparent; border-color: @tag-7; color: @tag-7; }
-	li.disabled:nth-child(8n) a { background: transparent; border-color: @tag-8; color: @tag-8; }
-	li.disabled:nth-child(9n) a { background: transparent; border-color: @tag-9; color: @tag-9; }
-	li.disabled:nth-child(10n) a { background: transparent; border-color: @tag-10; color: @tag-10; }
+	li:nth-child(1n) a.disabled { background: transparent; border-color: @tag-1; color: @tag-1; }
+	li:nth-child(2n) a.disabled { background: transparent; border-color: @tag-2; color: @tag-2; }
+	li:nth-child(3n) a.disabled { background: transparent; border-color: @tag-3; color: @tag-3; }
+	li:nth-child(4n) a.disabled { background: transparent; border-color: @tag-4; color: @tag-4; }
+	li:nth-child(5n) a.disabled { background: transparent; border-color: @tag-5; color: @tag-5; }
+	li:nth-child(6n) a.disabled { background: transparent; border-color: @tag-6; color: @tag-6; }
+	li:nth-child(7n) a.disabled { background: transparent; border-color: @tag-7; color: @tag-7; }
+	li:nth-child(8n) a.disabled { background: transparent; border-color: @tag-8; color: @tag-8; }
+	li:nth-child(9n) a.disabled { background: transparent; border-color: @tag-9; color: @tag-9; }
+	li:nth-child(10n) a.disabled { background: transparent; border-color: @tag-10; color: @tag-10; }
 
 	li a:hover {
 		text-decoration: none;
-		opacity: .5;
+		opacity: .6;
 	}
 
 	.disabled {
