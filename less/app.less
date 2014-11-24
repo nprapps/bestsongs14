@@ -404,6 +404,10 @@ h1,h2,h3,h4,h5,h6 {
 		display: table-cell;
 		vertical-align: middle;
 
+		@media screen and (orientation: portrait){
+			vertical-align: top;
+		}
+
 		.album-cover {
 			.transition(width 0.3s ease-in-out);
 			.make-xs-column(3);
