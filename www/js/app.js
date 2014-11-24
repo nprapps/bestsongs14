@@ -33,13 +33,14 @@ var $chromecastScreen = null;
 var $stack = null;
 var $songsCast = null;
 var $player = null;
+var $play = null;
+var $pause = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
 var IS_FAKE_CASTER = (window.location.search.indexOf('fakecast') >= 0);
-
 
 var firstShareLoad = true;
 var playedSongs = [];
@@ -95,9 +96,10 @@ var onDocumentLoad = function(e) {
     $stack = $('.stack');
     $chromecastPlayer = $('.chromecast-player');
     $player = $('.player')
+    $play = $('.play');
+    $pause = $('.pause');
     onWindowResize();
     $landing.show();
-
 
     // Bind events
     $shareModal.on('shown.bs.modal', onShareModalShown);
@@ -109,6 +111,8 @@ var onDocumentLoad = function(e) {
     $skip.on('click', onSkipClick);
     $castStart.on('click', onCastStartClick);
     $castStop.on('click', onCastStopClick);
+    $play.on('click', onPlayClick);
+    $pause.on('click', onPauseClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
@@ -130,10 +134,6 @@ var onDocumentLoad = function(e) {
 
     SONG_DATA = _.shuffle(SONG_DATA);
 
-    if (IS_CAST_RECEIVER) {
-        CHROMECAST_RECEIVER.setup();
-    }
-
     if (RESET_STATE) {
         resetState();
         resetLegalLimits();
@@ -142,6 +142,15 @@ var onDocumentLoad = function(e) {
     setupAudio();
     loadState();
     setInterval(checkSkips, 1000);
+
+    if (IS_CAST_RECEIVER) {
+        CHROMECAST_RECEIVER.setup();
+        CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
+        CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
+        CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
+        CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
+        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+    }
 }
 
 /*
@@ -161,10 +170,10 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
 
             $castStart.show();
             $castStop.hide();
-              
+
             if (IS_FAKE_CASTER) {
               onCastStarted();
-            }      
+            }
 
         } else {
             // TODO: prompt to install?
@@ -187,15 +196,21 @@ var onCastReady = function() {
  * A cast session started.
  */
 var onCastStarted = function() {
-    // TODO: stop audio, hide player
+    // TODO: stop audio
 
-    $chromecastPlayer.show()
     $stack.hide();
     $fullscreenStart.hide();
-    $castStop.show();    
-    $castStart.hide();    
+    $castStop.show();
+    $castStart.hide();
+    $audioPlayer.jPlayer('stop');
 
     isCasting = true;
+
+    if (!IS_FAKE_CASTER) {
+        $chromecastScreen.show();
+    }
+
+    CHROMECAST_SENDER.sendMessage('init', playlist);
 }
 
 /*
@@ -205,7 +220,8 @@ var onCastStopped = function() {
     //$chromecastScreen.hide();
 
     // TODO: start playing locally
-    $castStart.show();    
+    $castStart.show();
+    $castStop.hide();
     isCasting = false;
 }
 
@@ -234,6 +250,31 @@ var onCastStopClick = function(e) {
     $castStart.show();
 }
 
+var onCastReceiverToggleAudio = function(message) {
+    if (message === 'play') {
+        $audioPlayer.jPlayer('play');
+    } else {
+        $audioPlayer.jPlayer('pause');
+    }
+}
+
+var onCastReceiverSkipSong = function() {
+    playNextSong();
+}
+
+var onCastReceiverToggleGenre = function(message) {
+    toggleGenre(message);
+}
+
+var onCastReceiverToggleCurator = function(message) {
+    toggleCurator(message);
+}
+
+var onCastReceiverInit = function(message) {
+    playlist = message;
+    hideWelcome();
+    playNextSong();
+}
 
 /*
 // PLAYER
@@ -300,13 +341,11 @@ var playNextSong = function() {
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var $html = $(JST.song(context));
 
-
     if (isCasting) {
-        console.log('isCasting')
         $songs.prepend($html);
         $chromecastScreen.find('.song').first().velocity('fadeIn');
     } else {
-        $songs.append($html);        
+        $songs.append($html);
         $songs.find('.song').last().velocity('fadeIn');
     }
 
@@ -328,6 +367,8 @@ var playNextSong = function() {
             mp3: nextsongURL
         }).jPlayer('play');
     }
+    $play.hide();
+    $pause.show();
 
     if (onWelcome) {
         $html.css('min-height', songHeight).velocity('fadeIn');
@@ -439,6 +480,31 @@ var playPlaylistEndAudio = function() {
         }).jPlayer('play');
     }
 }
+
+var onPlayClick = function(e) {
+    e.preventDefault();
+    if (isCasting) {
+        CHROMECAST_SENDER.sendMessage('toggle-audio', 'play');
+    } else {
+        $audioPlayer.jPlayer('play');
+    }
+
+    $play.hide();
+    $pause.show();
+}
+
+var onPauseClick = function(e) {
+    e.preventDefault();
+    if (isCasting) {
+        CHROMECAST_SENDER.sendMessage('toggle-audio', 'pause');
+    } else {
+        $audioPlayer.jPlayer('pause');
+    }
+
+    $pause.hide();
+    $play.show();
+}
+
 
 /*
  * Skip the current song.
@@ -634,9 +700,17 @@ var getNextReviewer = function() {
  */
 var onReviewerClick = function(e) {
     e.preventDefault();
+    curator = $(this).data('tag');
+    if (isCasting) {
+        CHROMECAST_SENDER.sendMessage('toggle-curator', curator);
+    } else {
+        toggleCurator(curator);
+    }
+}
+
+var toggleCurator = function(curator) {
     $allTags.addClass('disabled');
     $(this).removeClass('disabled');
-    curator = $(this).data('tag');
     selectedTags = [curator];
     simpleStorage.set('selectedTags', selectedTags);
 
@@ -655,11 +729,19 @@ var onReviewerClick = function(e) {
 var onGenreClick = function(e) {
     e.preventDefault();
 
-    var tag = $(this).text();
+    var genre = $(this).text();
 
+    if (isCasting) {
+        CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
+    } else {
+        toggleGenre(genre);
+    }
+}
+
+var toggleGenre = function(genre) {
     // deselecting a tag
-    if (_.contains(selectedTags, tag)) {
-        var index = selectedTags.indexOf(tag);
+    if (_.contains(selectedTags, genre)) {
+        var index = selectedTags.indexOf(genre);
         selectedTags.splice(index, 1);
         simpleStorage.set('selectedTags', selectedTags);
         $(this).addClass('disabled');
@@ -668,7 +750,7 @@ var onGenreClick = function(e) {
     // adding a tag
     } else {
         $reviewerFilters.addClass('disabled');
-        selectedTags.push(tag);
+        selectedTags.push(genre);
         simpleStorage.set('selectedTags', selectedTags);
         buildGenrePlaylist();
         $(this).removeClass('disabled');
@@ -730,7 +812,7 @@ var onClearHistoryButtonClick = function(e) {
  */
 var hideWelcome  = function() {
     if (isCasting) {
-        $chromecastScreen.show();    
+        $chromecastScreen.show();
     }
     $('.songs, .player-container, .playlist-filters').show();
     $landing.velocity('slideUp', {
