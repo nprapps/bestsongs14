@@ -149,7 +149,7 @@ var onDocumentLoad = function(e) {
         CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
         CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
         CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
-        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+        startCastReceiver();
     }
 }
 
@@ -209,8 +209,6 @@ var onCastStarted = function() {
     if (!IS_FAKE_CASTER) {
         $chromecastScreen.show();
     }
-
-    CHROMECAST_SENDER.sendMessage('init', playlist);
 }
 
 /*
@@ -223,6 +221,10 @@ var onCastStopped = function() {
     $castStart.show();
     $castStop.hide();
     isCasting = false;
+
+    $chromecastScreen.hide();
+    $stack.show();
+    playNextSong();
 }
 
 /*
@@ -259,7 +261,7 @@ var onCastReceiverToggleAudio = function(message) {
 }
 
 var onCastReceiverSkipSong = function() {
-    playNextSong();
+    skipSong();
 }
 
 var onCastReceiverToggleGenre = function(message) {
@@ -270,10 +272,11 @@ var onCastReceiverToggleCurator = function(message) {
     toggleCurator(message);
 }
 
-var onCastReceiverInit = function(message) {
-    playlist = message;
-    hideWelcome();
-    playNextSong();
+var startCastReceiver = function() {
+    $landing.hide();
+    $('.songs, .player-container, .playlist-filters').show();
+
+    _.delay(playNextSong, 2000);
 }
 
 /*
@@ -315,6 +318,7 @@ var startPrerollAudio = function() {
     }
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
+        console.log('playing');
     }
 
     simpleStorage.set('playedPreroll', true);
@@ -511,10 +515,16 @@ var onPauseClick = function(e) {
  */
 var onSkipClick = function(e) {
     e.preventDefault();
-    skipSong();
+    console.log('fire');
+    if (isCasting) {
+        CHROMECAST_SENDER.sendMessage('skip-song');
+    } else {
+        skipSong();
+    }
 }
 
 var skipSong = function() {
+    console.log('fire');
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
         playNextSong();
@@ -556,7 +566,6 @@ var writeSkipsRemaining = function() {
  */
 var loadState = function() {
 
-    // playedSongs = [];
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
@@ -576,8 +585,7 @@ var loadState = function() {
     if (playedSongs.length > 0 || selectedTags.length > 0) {
         $landingReturnDeck.show();
         onReturnVisit();
-    }
-    else {
+    } else {
         $landingFirstDeck.show();
     }
 

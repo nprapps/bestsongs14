@@ -204,7 +204,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	.headphone-prompt {
 		font-size: .7rem;
-		margin-top: -10px; 
+		margin-top: -10px;
 		color: lighten(#666, 20%);
 	}
 
@@ -236,6 +236,9 @@ h1,h2,h3,h4,h5,h6 {
 	margin: 0 @grid-gutter-width;
 	// width: 100p
 
+	.toggle-audio {
+		display: inline-block;
+	}
 	.controls {
 		padding: @grid-gutter-width/2;
 		font-size: @font-size-large*1.2;
@@ -638,6 +641,12 @@ h1,h2,h3,h4,h5,h6 {
 		z-index: @z-player-controls;
 	}
 
+	.skip {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
 	.artist,
 	.song-title {
 		position: relative;
@@ -699,12 +708,6 @@ h1,h2,h3,h4,h5,h6 {
 		color: #fff;
 		background: lighten(@music-red-light, 10%);
 	}
-}
-
-.skip {
-	position: absolute;
-	right: 0;
-	top: 0;
 }
 
 .skips {
