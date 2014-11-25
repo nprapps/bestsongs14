@@ -387,7 +387,7 @@ var playNextSong = function() {
     }
 
     $songs.find('.song').last().prev().velocity("scroll", {
-        duration: 750,
+        duration: 350,
         offset: is_small_screen ? 0 : -60,
         complete: function(){
             $(this).addClass('small');
@@ -420,11 +420,11 @@ var playNextSong = function() {
             $html.show();
         } else {
             $html.prev().velocity("scroll", {
-                duration: 500,
+                duration: 350,
                 offset: is_small_screen ? 0 : -60,
                 complete: function(){
-                    $html.prev().find('.container-fluid').css('height', '0').addClass('small').removeClass('vertical-center');
-                    $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
+                    $html.prev().find('.container-fluid').css('height', '0');
+                    $html.prev().css('min-height', '0').addClass('small');
                     $html.css('min-height', songHeight)
                     .velocity('fadeIn', {
                         duration: 300,
