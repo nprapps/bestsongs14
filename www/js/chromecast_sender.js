@@ -2,6 +2,8 @@ var CHROMECAST_SENDER = (function() {
     var obj = {};
 
     var MESSAGE_DELIMITER = 'NPRVIZ';
+    var _messageRegex = new RegExp('(\\S+)' + MESSAGE_DELIMITER + '(.+)$');
+
     var _session = null;
     var _readyCallback = null;
     var _startedCallback = null;
@@ -112,6 +114,10 @@ var CHROMECAST_SENDER = (function() {
     }
 
     var onSessionStopError = function() {}
+
+    obj.onMessage = function(messageType, callback) {
+        _session.addMessageListener(messageType, callback);
+    }
 
     /*
      * Send a message to the receiver.

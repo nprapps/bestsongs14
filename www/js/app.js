@@ -153,7 +153,6 @@ var onDocumentLoad = function(e) {
     setInterval(checkSkips, 1000);
 
     if (IS_CAST_RECEIVER) {
-        CHROMECAST_RECEIVER.setup();
         CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
         CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
         CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
@@ -165,6 +164,8 @@ var onDocumentLoad = function(e) {
         CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
 
         CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+
+        CHROMECAST_RECEIVER.setup();
     }
 }
 
@@ -183,8 +184,6 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
 
             $chromeCastButtons.show();
-            $castStart.show();
-            $castStop.hide();
 
             if (IS_FAKE_CASTER) {
               onCastStarted();
@@ -195,11 +194,6 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         }
     });
 }
-
-
-/*
-// CHROMECAST
-*/
 /*
  * A cast device is available.
  */
@@ -230,6 +224,9 @@ var onCastStarted = function() {
     CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
     CHROMECAST_SENDER.sendMessage('send-played', playedSongs);
     CHROMECAST_SENDER.sendMessage('init');
+
+    CHROMECAST_SENDER.onMessage('genre-ended', onCastGenreEnded);
+    CHROMECAST_SENDER.onMessage('reviewer-ended', onCastReviewerEnded);
 }
 
 /*
@@ -267,6 +264,16 @@ var onCastStopClick = function(e) {
 
     $castStop.hide();
     $castStart.show();
+}
+
+var onCastGenreEnded = function() {
+    console.log('fired');
+    resetGenreFilters();
+}
+
+var onCastReviewerEnded = function() {
+    console.log('fired');
+    getNextReviewer();
 }
 
 var onCastReceiverToggleAudio = function(message) {
@@ -494,9 +501,16 @@ var nextPlaylist = function() {
 
     // determine next playlist based on player mode
     if (playerMode == 'genre') {
+        if (IS_CAST_RECEIVER) {
+            CHROMECAST_RECEIVER.sendMessage('genre-ended');
+            console.log('fire message');
+        }
         resetGenreFilters();
         buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
+        if (IS_CAST_RECEIVER) {
+            CHROMECAST_RECEIVER.sendMessage('reviewer-ended');
+        }
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-finish', curator]);
         getNextReviewer();
         playedSongs = [];
