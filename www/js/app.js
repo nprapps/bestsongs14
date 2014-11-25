@@ -13,6 +13,7 @@ var $totalSongs = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
+var $fullscreenButtons = null;
 var $fullscreenStart = null;
 var $fullscreenStop = null;
 var $castStart = null;
@@ -81,6 +82,7 @@ var onDocumentLoad = function(e) {
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
+    $fullscreenButtons = $('.fullscreen');
     $fullscreenStart = $('.fullscreen .start');
     $fullscreenStop = $('.fullscreen .stop');
     $chromeCastButtons = $('.chromecast');
@@ -874,6 +876,11 @@ var hideWelcome  = function() {
     if (isCasting) {
         $chromecastScreen.show();
     }
+
+    if (!(Modernizr.touch)) {
+        $fullscreenButtons.show();
+    }
+
     $('.songs, .player-container, .playlist-filters').show();
     $landing.velocity('slideUp', {
       duration: 1000,
