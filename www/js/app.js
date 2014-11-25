@@ -149,7 +149,13 @@ var onDocumentLoad = function(e) {
         CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
         CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
         CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
-        startCastReceiver();
+
+        CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
+        CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
+        CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
+        CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
+
+        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
     }
 }
 
@@ -209,22 +215,25 @@ var onCastStarted = function() {
     if (!IS_FAKE_CASTER) {
         $chromecastScreen.show();
     }
+
+    console.log(selectedTags, playlist, songHistory, playedSongs);
+    CHROMECAST_SENDER.sendMessage('send-tags', selectedTags);
+    CHROMECAST_SENDER.sendMessage('send-playlist', JSON.stringify(playlist));
+    CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
+    CHROMECAST_SENDER.sendMessage('send-played', playedSongs);
+    CHROMECAST_SENDER.sendMessage('init');
 }
 
 /*
  * A cast session stopped.
  */
 var onCastStopped = function() {
-    //$chromecastScreen.hide();
-
-    // TODO: start playing locally
     $castStart.show();
     $castStop.hide();
     isCasting = false;
 
     $chromecastScreen.hide();
     $stack.show();
-    playNextSong();
 }
 
 /*
@@ -272,12 +281,29 @@ var onCastReceiverToggleCurator = function(message) {
     toggleCurator(message);
 }
 
-var startCastReceiver = function() {
+var onCastReceiverPlaylist = function(message) {
+    playlist = JSON.parse(message);
+}
+
+var onCastReceiverTags = function(message) {
+    selectedTags = [message];
+}
+
+var onCastReceiverHistory = function(message) {
+    songHistory = JSON.parse(message);
+}
+
+var onCastReceiverPlayed = function(message) {
+    playedSongs = [message];
+}
+
+var onCastReceiverInit = function() {
     $landing.hide();
     $('.songs, .player-container, .playlist-filters').show();
-
-    _.delay(playNextSong, 2000);
+    _.delay(playNextSong, 1000);
 }
+
+
 
 /*
 // PLAYER
