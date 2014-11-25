@@ -505,12 +505,14 @@ var nextPlaylist = function() {
             CHROMECAST_RECEIVER.sendMessage('genre-ended');
             console.log('fire message');
         }
+
         resetGenreFilters();
         buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
         if (IS_CAST_RECEIVER) {
             CHROMECAST_RECEIVER.sendMessage('reviewer-ended');
         }
+
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-finish', curator]);
         getNextReviewer();
         playedSongs = [];

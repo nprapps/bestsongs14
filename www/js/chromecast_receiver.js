@@ -51,7 +51,6 @@ var CHROMECAST_RECEIVER = (function() {
         _customMessageBus.broadcast(
             messageType + MESSAGE_DELIMITER + message
         );
-        console.log('message sent');
     }
 
     return obj;
