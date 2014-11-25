@@ -216,7 +216,6 @@ var onCastStarted = function() {
         $chromecastScreen.show();
     }
 
-    console.log(selectedTags, playlist, songHistory, playedSongs);
     CHROMECAST_SENDER.sendMessage('send-tags', selectedTags);
     CHROMECAST_SENDER.sendMessage('send-playlist', JSON.stringify(playlist));
     CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
@@ -405,26 +404,33 @@ var playNextSong = function() {
 
         hideWelcome();
     } else {
-        $html.prev().velocity("scroll", {
-            duration: 500,
-            offset: is_small_screen ? 0 : -60,
-            complete: function(){
-                $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
-                $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
-                $html.css('min-height', songHeight)
-                .velocity('fadeIn', {
-                    duration: 300,
-                    begin: function(){
-                        $(this).velocity("scroll", {
-                            duration: 500,
-                            offset: is_small_screen ? 0 : -60,
-                            delay: 200
-                        });
-                    }
-                });
-                $html.find('.container-fluid').css('min-height', songHeight)
-            }
-        });
+        if (IS_CAST_RECEIVER) {
+            $html.prev().hide();
+            $html.css('min-height', songHeight);
+            $html.find('.container-fluid').css('min-height', songHeight);
+            $html.show();
+        } else {
+            $html.prev().velocity("scroll", {
+                duration: 500,
+                offset: is_small_screen ? 0 : -60,
+                complete: function(){
+                    $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
+                    $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
+                    $html.css('min-height', songHeight)
+                    .velocity('fadeIn', {
+                        duration: 300,
+                        begin: function(){
+                            $(this).velocity("scroll", {
+                                duration: 500,
+                                offset: is_small_screen ? 0 : -60,
+                                delay: 200
+                            });
+                        }
+                    });
+                    $html.find('.container-fluid').css('min-height', songHeight)
+                }
+            });
+        }
     }
 
     currentSong = nextSong;
