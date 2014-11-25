@@ -156,7 +156,13 @@ var onDocumentLoad = function(e) {
         CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
         CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
         CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
-        startCastReceiver();
+
+        CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
+        CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
+        CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
+        CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
+
+        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
     }
 }
 
@@ -216,22 +222,24 @@ var onCastStarted = function() {
     if (!IS_FAKE_CASTER) {
         $chromecastScreen.show();
     }
+
+    CHROMECAST_SENDER.sendMessage('send-tags', selectedTags);
+    CHROMECAST_SENDER.sendMessage('send-playlist', JSON.stringify(playlist));
+    CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
+    CHROMECAST_SENDER.sendMessage('send-played', playedSongs);
+    CHROMECAST_SENDER.sendMessage('init');
 }
 
 /*
  * A cast session stopped.
  */
 var onCastStopped = function() {
-    //$chromecastScreen.hide();
-
-    // TODO: start playing locally
     $castStart.show();
     $castStop.hide();
     isCasting = false;
 
     $chromecastScreen.hide();
     $stack.show();
-    playNextSong();
 }
 
 /*
@@ -279,12 +287,29 @@ var onCastReceiverToggleCurator = function(message) {
     toggleCurator(message);
 }
 
-var startCastReceiver = function() {
+var onCastReceiverPlaylist = function(message) {
+    playlist = JSON.parse(message);
+}
+
+var onCastReceiverTags = function(message) {
+    selectedTags = [message];
+}
+
+var onCastReceiverHistory = function(message) {
+    songHistory = JSON.parse(message);
+}
+
+var onCastReceiverPlayed = function(message) {
+    playedSongs = [message];
+}
+
+var onCastReceiverInit = function() {
     $landing.hide();
     $('.songs, .player-container, .playlist-filters').show();
-
-    _.delay(playNextSong, 2000);
+    _.delay(playNextSong, 1000);
 }
+
+
 
 /*
 // PLAYER
@@ -325,7 +350,6 @@ var startPrerollAudio = function() {
     }
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
-        console.log('playing');
     }
 
     simpleStorage.set('playedPreroll', true);
@@ -387,26 +411,33 @@ var playNextSong = function() {
 
         hideWelcome();
     } else {
-        $html.prev().velocity("scroll", {
-            duration: 500,
-            offset: is_small_screen ? 0 : -60,
-            complete: function(){
-                $html.prev().find('.container-fluid').css('height', '0').addClass('small').removeClass('vertical-center');
-                $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
-                $html.css('min-height', songHeight)
-                .velocity('fadeIn', {
-                    duration: 300,
-                    begin: function(){
-                        $(this).velocity("scroll", {
-                            duration: 500,
-                            offset: is_small_screen ? 0 : -60,
-                            delay: 200
-                        });
-                    }
-                });
-                $html.find('.container-fluid').css('height', songHeight)
-            }
-        });
+        if (IS_CAST_RECEIVER) {
+            $html.prev().hide();
+            $html.css('min-height', songHeight);
+            $html.find('.container-fluid').css('min-height', songHeight);
+            $html.show();
+        } else {
+            $html.prev().velocity("scroll", {
+                duration: 500,
+                offset: is_small_screen ? 0 : -60,
+                complete: function(){
+                    $html.prev().find('.container-fluid').css('height', '0').addClass('small').removeClass('vertical-center');
+                    $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
+                    $html.css('min-height', songHeight)
+                    .velocity('fadeIn', {
+                        duration: 300,
+                        begin: function(){
+                            $(this).velocity("scroll", {
+                                duration: 500,
+                                offset: is_small_screen ? 0 : -60,
+                                delay: 200
+                            });
+                        }
+                    });
+                    $html.find('.container-fluid').css('height', songHeight)
+                }
+            });
+        }
     }
 
     currentSong = nextSong;
@@ -536,7 +567,6 @@ var onFiltersButtonClick = function(e) {
  */
 var onSkipClick = function(e) {
     e.preventDefault();
-    console.log('fire');
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('skip-song');
     } else {
@@ -545,7 +575,6 @@ var onSkipClick = function(e) {
 }
 
 var skipSong = function() {
-    console.log('fire');
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
         playNextSong();
@@ -713,7 +742,6 @@ var getNextReviewer = function() {
             else {
                 $nextReviewer = $reviewerFilters.eq(i + 1);
             }
-            console.log($nextReviewer);
         }
     }
 
@@ -760,15 +788,15 @@ var onGenreClick = function(e) {
 
     var genre = $(this).text();
 
+    if (_.contains(selectedTags, genre)) {
+        $(this).addClass('disabled');
+    } else {
+        $(this).removeClass('disabled');
+    }
+
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
     } else {
-        if (_.contains(selectedTags, genre)) {
-            $(this).addClass('disabled');
-        } else {
-            $(this).removeClass('disabled');
-        }
-
         toggleGenre(genre);
     }
 }
