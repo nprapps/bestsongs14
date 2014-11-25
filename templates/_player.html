@@ -1,4 +1,23 @@
 <div class="player-container">
+    <div class="fixed-controls">
+        <div class="filters">
+            <a href="#" class="js-toggle-filters">Playlist Filters</a>
+        </div>
+        <div class="chromecast" style="display: none;">
+            <a href="#" class="start">Start Casting</a>
+            <a href="#" class="stop">Stop Casting</a>
+        </div>
+
+        <div class="share">
+            <a class="" data-toggle="modal" data-backdrop="static" data-target="#share-modal"><strong>Share</strong> <i class="fa fa-share"></i></a>
+        </div>
+
+        <div class="fullscreen">
+            <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Fullscreen</a>
+            <a href="#" class="stop" style="display: none;"><span class="fa fa-arrows-alt"></span> Exit fullscreen</a>
+        </div>
+    </div>
+
     <div class="player-wrapper">
         <div class="player">
             <div id="audio-player" class="jp-jplayer"></div>
@@ -29,4 +48,6 @@
             </div> <!-- end .jp-audio -->
         </div> <!-- end #audio -->
     </div>
+
+
 </div>

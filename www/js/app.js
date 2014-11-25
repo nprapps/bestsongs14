@@ -26,6 +26,7 @@ var $reviewerFilters = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
+var $chromeCastButtons = null;
 var $chromecastStart = null
 var $chromecastStop = null;
 var $shuffleSongs = null;
@@ -35,6 +36,8 @@ var $songsCast = null;
 var $player = null;
 var $play = null;
 var $pause = null;
+var $filtersButton = null;
+var $filtersContainer = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -80,6 +83,7 @@ var onDocumentLoad = function(e) {
     $playlistLengthWarning = $('.warning');
     $fullscreenStart = $('.fullscreen .start');
     $fullscreenStop = $('.fullscreen .stop');
+    $chromeCastButtons = $('.chromecast');
     $castStart = $('.chromecast .start');
     $castStop = $('.chromecast .stop');
     $tagsWrapper = $('.tags-wrapper');
@@ -95,9 +99,11 @@ var onDocumentLoad = function(e) {
     $chromecastScreen = $('.cast-controls');
     $stack = $('.stack');
     $chromecastPlayer = $('.chromecast-player');
-    $player = $('.player')
+    $player = $('.player-container')
     $play = $('.play');
     $pause = $('.pause');
+    $filtersButton = $('.js-toggle-filters');
+    $filtersContainer = $('.stack .playlist-filters');
     onWindowResize();
     $landing.show();
 
@@ -113,6 +119,7 @@ var onDocumentLoad = function(e) {
     $castStop.on('click', onCastStopClick);
     $play.on('click', onPlayClick);
     $pause.on('click', onPauseClick);
+    $filtersButton.on('click', onFiltersButtonClick);
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
@@ -167,7 +174,7 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         if (loaded) {
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
 
-
+            $chromeCastButtons.show();
             $castStart.show();
             $castStop.hide();
 
@@ -376,7 +383,7 @@ var playNextSong = function() {
 
     if (onWelcome) {
         $html.css('min-height', songHeight).velocity('fadeIn');
-        $html.find('.container-fluid').css('min-height', songHeight);
+        $html.find('.container-fluid').css('height', songHeight);
 
         hideWelcome();
     } else {
@@ -384,7 +391,7 @@ var playNextSong = function() {
             duration: 500,
             offset: is_small_screen ? 0 : -60,
             complete: function(){
-                $html.prev().find('.container-fluid').css('min-height', '0').addClass('small').removeClass('vertical-center');
+                $html.prev().find('.container-fluid').css('height', '0').addClass('small').removeClass('vertical-center');
                 $html.prev().css('min-height', '0').addClass('small').removeClass('vertical-center');
                 $html.css('min-height', songHeight)
                 .velocity('fadeIn', {
@@ -397,7 +404,7 @@ var playNextSong = function() {
                         });
                     }
                 });
-                $html.find('.container-fluid').css('min-height', songHeight)
+                $html.find('.container-fluid').css('height', songHeight)
             }
         });
     }
@@ -417,7 +424,7 @@ var setCurrentSongHeight = function(){
         songHeight += $fixedHeader.height();
     }
 
-    $songs.children().last().find('.container-fluid').css('min-height', songHeight);
+    $songs.children().last().find('.container-fluid').css('height', songHeight);
 }
 
 var checkSongHistory = function(song) {
@@ -507,6 +514,20 @@ var onPauseClick = function(e) {
 
     $pause.hide();
     $play.show();
+}
+
+/*
+ * Skip the current song.
+ */
+var onFiltersButtonClick = function(e) {
+    if ($filtersContainer.offset().top > songHeight + $(document).scrollTop()) {
+        $filtersContainer.velocity('scroll', 300);
+    } else {
+        $songs.find('.song:last-child').velocity('scroll', {
+            offset: is_small_screen ? 0 : -60,
+            duration: 300
+        });
+    }
 }
 
 

@@ -20,11 +20,12 @@
         <div class="reviewer">
             <h3>Reviewer</h3>
                 <ul class="reviewers list-unstyled">
+                    {% set dj_bio = cycler('metal and polka', 'ska and screamo') %}
                     {% for reviewer, img in REVIEWER_IMAGES.items() %}
                     <li>
                         <a class="disabled" data-tag="{{ reviewer }}" href="#">
                             <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ img }}">
-                            <span class="name">{{ reviewer }}</span>
+                            <span class="bio"><span class="name">{{ reviewer }}</span>  likes {{ dj_bio.next() }}.</span>
                         </a>
                     </li>
                     {% endfor %}
