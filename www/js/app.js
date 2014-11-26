@@ -915,6 +915,7 @@ var toggleGenre = function(genre) {
         return false;
     }
     if (playerMode != 'genre') {
+        $currentDj.text('');
         playerMode = 'genre';
         simpleStorage.set('playerMode', playerMode);
         playNextSong();
