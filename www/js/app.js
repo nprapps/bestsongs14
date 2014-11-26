@@ -472,7 +472,7 @@ var playNextSong = function() {
  *  Set the height of the currently playing song to fill the viewport.
  */
 var setCurrentSongHeight = function(){
-    songHeight = $(window).height() - $player.height() - $fixedHeader.height();
+    songHeight = $(window).height() - $player.height() - $fixedHeader.height() - $fixedControls.height();
 
     if (is_small_screen){
         songHeight += $fixedHeader.height();
