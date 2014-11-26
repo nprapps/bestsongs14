@@ -4,14 +4,22 @@ var CHROMECAST_RECEIVER = (function() {
     var MESSAGE_DELIMITER = 'NPRVIZ';
     var _messageHandlers = {};
     var _messageRegex = new RegExp('(\\S+)' + MESSAGE_DELIMITER + '(.+)$');
+    var _senderID = null;
+    var _castReceiverManager = null;
+    var _customMessageBus = null;
 
-    obj.setup = function() { 
-        var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-        var customMessageBus = castReceiverManager.getCastMessageBus(APP_CONFIG.CHROMECAST_NAMESPACE);
+    obj.setup = function() {
+        _castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        _customMessageBus = _castReceiverManager.getCastMessageBus(APP_CONFIG.CHROMECAST_NAMESPACE);
 
-        customMessageBus.onMessage = onReceiveMessage; 
+        _castReceiverManager.onReady = onCastReceiverReady;
+        _customMessageBus.onMessage = onReceiveMessage;
 
-        castReceiverManager.start();
+        _castReceiverManager.start();
+    }
+
+    var onCastReceiverReady = function(e) {
+        _senderID = e.data.launchingSenderId;
     }
 
     var onReceiveMessage = function(e) {
@@ -37,6 +45,13 @@ var CHROMECAST_RECEIVER = (function() {
         }
 
         _messageHandlers[messageType].push(callback);
+    }
+
+    obj.sendMessage = function(messageType, message) {
+        _customMessageBus.send(
+            _senderID,
+            messageType + MESSAGE_DELIMITER + message
+        );
     }
 
     return obj;

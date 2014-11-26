@@ -43,7 +43,8 @@ var $currentDj = null;
 var $fixedControls = null;
 
 // Global state
-var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
+var pathArray = window.location.pathname.split('/');
+var IS_CAST_RECEIVER = pathArray[1] == 'chromecast';
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
 var IS_FAKE_CASTER = (window.location.search.indexOf('fakecast') >= 0);
@@ -153,23 +154,29 @@ var onDocumentLoad = function(e) {
     }
 
     setupAudio();
-    loadState();
-    setInterval(checkSkips, 1000);
 
     if (IS_CAST_RECEIVER) {
-        CHROMECAST_RECEIVER.setup();
-        CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
-        CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
-        CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
-        CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
+        playlist = SONG_DATA;
+        resetGenreFilters();
+        _.delay(playNextSong, 500);
 
-        CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
-        CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
-        CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
-        CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
+        // CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
+        // CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
+        // CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
+        // CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
 
-        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+        // CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
+        // CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
+        // CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
+        // CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
+
+        // CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+
+        // CHROMECAST_RECEIVER.setup();
+    } else {
+        loadState();
     }
+    setInterval(checkSkips, 1000);
 }
 
 /*
@@ -187,8 +194,6 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
             CHROMECAST_SENDER.setup(onCastReady, onCastStarted, onCastStopped);
 
             $chromeCastButtons.show();
-            $castStart.show();
-            $castStop.hide();
 
             if (IS_FAKE_CASTER) {
               onCastStarted();
@@ -199,11 +204,6 @@ window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
         }
     });
 }
-
-
-/*
-// CHROMECAST
-*/
 /*
  * A cast device is available.
  */
@@ -229,11 +229,14 @@ var onCastStarted = function() {
         $chromecastScreen.show();
     }
 
-    CHROMECAST_SENDER.sendMessage('send-tags', selectedTags);
+    CHROMECAST_SENDER.sendMessage('send-tags', JSON.stringify(selectedTags));
     CHROMECAST_SENDER.sendMessage('send-playlist', JSON.stringify(playlist));
     CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
-    CHROMECAST_SENDER.sendMessage('send-played', playedSongs);
+    CHROMECAST_SENDER.sendMessage('send-played', JSON.stringify(playedSongs));
     CHROMECAST_SENDER.sendMessage('init');
+
+    CHROMECAST_SENDER.onMessage('genre-ended', onCastGenreEnded);
+    CHROMECAST_SENDER.onMessage('reviewer-ended', onCastReviewerEnded);
 }
 
 /*
@@ -273,6 +276,16 @@ var onCastStopClick = function(e) {
     $castStart.show();
 }
 
+var onCastGenreEnded = function() {
+    console.log('fired');
+    resetGenreFilters();
+}
+
+var onCastReviewerEnded = function() {
+    console.log('fired');
+    getNextReviewer();
+}
+
 var onCastReceiverToggleAudio = function(message) {
     if (message === 'play') {
         $audioPlayer.jPlayer('play');
@@ -298,7 +311,7 @@ var onCastReceiverPlaylist = function(message) {
 }
 
 var onCastReceiverTags = function(message) {
-    selectedTags = [message];
+    selectedTags = JSON.parse(message);
 }
 
 var onCastReceiverHistory = function(message) {
@@ -306,7 +319,11 @@ var onCastReceiverHistory = function(message) {
 }
 
 var onCastReceiverPlayed = function(message) {
-    playedSongs = [message];
+    playedSongs = JSON.parse(message);
+
+    for (i = 0; i < playedSongs.length; i++) {
+        playedSongs[i] = parseInt(playedSongs[i]);
+    }
 }
 
 var onCastReceiverInit = function() {
@@ -498,9 +515,18 @@ var nextPlaylist = function() {
 
     // determine next playlist based on player mode
     if (playerMode == 'genre') {
+        if (IS_CAST_RECEIVER) {
+            // CHROMECAST_RECEIVER.sendMessage('genre-ended');
+            console.log('fire message');
+        }
+
         resetGenreFilters();
         buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
+        if (IS_CAST_RECEIVER) {
+            // CHROMECAST_RECEIVER.sendMessage('reviewer-ended');
+        }
+
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-finish', curator]);
         getNextReviewer();
         playedSongs = [];
@@ -687,6 +713,7 @@ var buildListeningHistory = function() {
         var song = _.find(SONG_DATA, function(song) {
             return songID === song['id']
         });
+
 
         var context = $.extend(APP_CONFIG, song);
         var html = JST.song(context);
