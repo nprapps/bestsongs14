@@ -48,7 +48,8 @@ var CHROMECAST_RECEIVER = (function() {
     }
 
     obj.sendMessage = function(messageType, message) {
-        _customMessageBus.broadcast(
+        _customMessageBus.send(
+            _senderID,
             messageType + MESSAGE_DELIMITER + message
         );
     }

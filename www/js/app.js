@@ -219,10 +219,10 @@ var onCastStarted = function() {
         $chromecastScreen.show();
     }
 
-    CHROMECAST_SENDER.sendMessage('send-tags', selectedTags);
+    CHROMECAST_SENDER.sendMessage('send-tags', JSON.stringify(selectedTags));
     CHROMECAST_SENDER.sendMessage('send-playlist', JSON.stringify(playlist));
     CHROMECAST_SENDER.sendMessage('send-history', JSON.stringify(songHistory));
-    CHROMECAST_SENDER.sendMessage('send-played', playedSongs);
+    CHROMECAST_SENDER.sendMessage('send-played', JSON.stringify(playedSongs));
     CHROMECAST_SENDER.sendMessage('init');
 
     CHROMECAST_SENDER.onMessage('genre-ended', onCastGenreEnded);
@@ -298,18 +298,26 @@ var onCastReceiverToggleCurator = function(message) {
 
 var onCastReceiverPlaylist = function(message) {
     playlist = JSON.parse(message);
+    console.log(playlist);
 }
 
 var onCastReceiverTags = function(message) {
-    selectedTags = [message];
+    selectedTags = JSON.parse(message);
+    console.log(selectedTags);
 }
 
 var onCastReceiverHistory = function(message) {
     songHistory = JSON.parse(message);
+    console.log(songHistory);
 }
 
 var onCastReceiverPlayed = function(message) {
-    playedSongs = [message];
+    playedSongs = JSON.parse(message);
+
+    for (i = 0; i < playedSongs.length; i++) {
+        playedSongs[i] = parseInt(playedSongs[i]);
+    }
+    console.log(playedSongs);
 }
 
 var onCastReceiverInit = function() {
@@ -698,10 +706,13 @@ var updateSongsPlayed = function() {
 var buildListeningHistory = function() {
     for (var i = 0; i < playedSongs.length; i++) {
         var songID = playedSongs[i];
+        console.log(songID);
 
         var song = _.find(SONG_DATA, function(song) {
             return songID === song['id']
         });
+
+        console.log(song);
 
         var context = $.extend(APP_CONFIG, song);
         var html = JST.song(context);
