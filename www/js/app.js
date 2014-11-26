@@ -163,11 +163,13 @@ var onDocumentLoad = function(e) {
         resetGenreFilters();
         _.delay(playNextSong, 500);
 
+        // messages that are sent on click
         // CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
         // CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
         // CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
         // CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
 
+        // messages that are sent immediately
         // CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
         // CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
         // CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
