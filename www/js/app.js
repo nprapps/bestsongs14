@@ -41,7 +41,8 @@ var $filtersButton = null;
 var $filtersContainer = null;
 
 // Global state
-var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
+var pathArray = window.location.pathname.split('/');
+var IS_CAST_RECEIVER = pathArray[1] == 'chromecast';
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
 var IS_FAKE_CASTER = (window.location.search.indexOf('fakecast') >= 0);
@@ -148,25 +149,29 @@ var onDocumentLoad = function(e) {
         resetLegalLimits();
     }
 
+    if (IS_CAST_RECEIVER) {
+        playlist = SONG_DATA;
+        resetGenreFilters();
+        // playNextSong();
+
+        // CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
+        // CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
+        // CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
+        // CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
+
+        // CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
+        // CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
+        // CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
+        // CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
+
+        // CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
+
+        // CHROMECAST_RECEIVER.setup();
+    }
+
     setupAudio();
     loadState();
     setInterval(checkSkips, 1000);
-
-    if (IS_CAST_RECEIVER) {
-        CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
-        CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
-        CHROMECAST_RECEIVER.onMessage('toggle-genre', onCastReceiverToggleGenre);
-        CHROMECAST_RECEIVER.onMessage('toggle-curator', onCastReceiverToggleCurator);
-
-        CHROMECAST_RECEIVER.onMessage('send-playlist', onCastReceiverPlaylist);
-        CHROMECAST_RECEIVER.onMessage('send-tags', onCastReceiverTags);
-        CHROMECAST_RECEIVER.onMessage('send-history', onCastReceiverHistory);
-        CHROMECAST_RECEIVER.onMessage('send-played', onCastReceiverPlayed);
-
-        CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
-
-        CHROMECAST_RECEIVER.setup();
-    }
 }
 
 /*
@@ -506,7 +511,7 @@ var nextPlaylist = function() {
     // determine next playlist based on player mode
     if (playerMode == 'genre') {
         if (IS_CAST_RECEIVER) {
-            CHROMECAST_RECEIVER.sendMessage('genre-ended');
+            // CHROMECAST_RECEIVER.sendMessage('genre-ended');
             console.log('fire message');
         }
 
@@ -514,7 +519,7 @@ var nextPlaylist = function() {
         buildGenrePlaylist();
     } else if (playerMode == 'reviewer') {
         if (IS_CAST_RECEIVER) {
-            CHROMECAST_RECEIVER.sendMessage('reviewer-ended');
+            // CHROMECAST_RECEIVER.sendMessage('reviewer-ended');
         }
 
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-finish', curator]);
@@ -702,13 +707,11 @@ var updateSongsPlayed = function() {
 var buildListeningHistory = function() {
     for (var i = 0; i < playedSongs.length; i++) {
         var songID = playedSongs[i];
-        console.log(songID);
 
         var song = _.find(SONG_DATA, function(song) {
             return songID === song['id']
         });
 
-        console.log(song);
 
         var context = $.extend(APP_CONFIG, song);
         var html = JST.song(context);

@@ -5,7 +5,6 @@
 @import "less/adhesion";
 @import "less/share-modal.less";
 
-
 //color palette
 @primary-control: #6d8ac4;
 @deep-blue: #7598c9;
@@ -976,3 +975,34 @@ h1,h2,h3,h4,h5,h6 {
 	100% { opacity: 1; }
 }
 
+.chromecast-screen {
+	height: 100vh;
+
+	.fixed-header {
+		display: block;
+	}
+
+	.songs {
+		display: block;
+		height: 100vh;
+		.song-tools {
+			display: none;
+		}
+	}
+	.player-container {
+		display: block;
+
+		.fixed-controls, .skip, .controls {
+			display: none;
+		}
+
+		.player-progress {
+			left: 0;
+			right: 0;
+		}
+
+		.playback-info {
+			right: 1rem;
+		}
+	}
+}
