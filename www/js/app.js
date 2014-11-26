@@ -149,10 +149,12 @@ var onDocumentLoad = function(e) {
         resetLegalLimits();
     }
 
+    setupAudio();
+
     if (IS_CAST_RECEIVER) {
         playlist = SONG_DATA;
         resetGenreFilters();
-        // playNextSong();
+        _.delay(playNextSong, 500);
 
         // CHROMECAST_RECEIVER.onMessage('toggle-audio', onCastReceiverToggleAudio);
         // CHROMECAST_RECEIVER.onMessage('skip-song', onCastReceiverSkipSong);
@@ -167,10 +169,9 @@ var onDocumentLoad = function(e) {
         // CHROMECAST_RECEIVER.onMessage('init', onCastReceiverInit);
 
         // CHROMECAST_RECEIVER.setup();
+    } else {
+        loadState();
     }
-
-    setupAudio();
-    loadState();
     setInterval(checkSkips, 1000);
 }
 
