@@ -40,13 +40,14 @@ var $pause = null;
 var $filtersButton = null;
 var $filtersContainer = null;
 
-// Global state
+// URL params
 var pathArray = window.location.pathname.split('/');
 var IS_CAST_RECEIVER = pathArray[1] == 'chromecast';
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
 var IS_FAKE_CASTER = (window.location.search.indexOf('fakecast') >= 0);
 
+// Global state
 var firstShareLoad = true;
 var playedSongs = [];
 var playlist = [];
@@ -63,6 +64,7 @@ var totalSongsPlayed = 0;
 var songHistory = {};
 var songHeight = null;
 var is_small_screen = false
+
 /*
  * Run on page load.
  */
@@ -142,6 +144,7 @@ var onDocumentLoad = function(e) {
         clippy.on('aftercopy', onClippyCopy);
     });
 
+    // set up the app
     SONG_DATA = _.shuffle(SONG_DATA);
 
     if (RESET_STATE) {
@@ -272,16 +275,9 @@ var onCastStopClick = function(e) {
     $castStart.show();
 }
 
-var onCastGenreEnded = function() {
-    console.log('fired');
-    resetGenreFilters();
-}
-
-var onCastReviewerEnded = function() {
-    console.log('fired');
-    getNextReviewer();
-}
-
+/*
+ * Toggle audio on Chromecast receiver
+ */
 var onCastReceiverToggleAudio = function(message) {
     if (message === 'play') {
         $audioPlayer.jPlayer('play');
@@ -290,49 +286,66 @@ var onCastReceiverToggleAudio = function(message) {
     }
 }
 
+/*
+ * Skip song on Chromecast receiver
+ */
 var onCastReceiverSkipSong = function() {
     skipSong();
 }
 
+/*
+ * Toggle genre on Chromecast receiver
+ */
 var onCastReceiverToggleGenre = function(message) {
     toggleGenre(message);
 }
 
+/*
+ * Toggle curator on Chromecast receiver
+ */
 var onCastReceiverToggleCurator = function(message) {
     toggleCurator(message);
 }
 
+/*
+ * Set playlist on Chromecast receiver
+ */
 var onCastReceiverPlaylist = function(message) {
     playlist = JSON.parse(message);
 }
 
+/*
+ * Set tags on Chromecast receiver
+ */
 var onCastReceiverTags = function(message) {
     selectedTags = JSON.parse(message);
 }
 
+/*
+ * Set song history on Chromecast receiver
+ */
 var onCastReceiverHistory = function(message) {
     songHistory = JSON.parse(message);
 }
 
-var onCastReceiverPlayed = function(message) {
+/*
+ * Set played songs on Chromecast receiver
+ */
+ var onCastReceiverPlayed = function(message) {
     playedSongs = JSON.parse(message);
 
+    // everything comes back as a string, should be ints
     for (i = 0; i < playedSongs.length; i++) {
         playedSongs[i] = parseInt(playedSongs[i]);
     }
 }
 
+/*
+ * Start the player on the cast receiver
+ */
 var onCastReceiverInit = function() {
-    $landing.hide();
-    $('.songs, .player-container, .playlist-filters').show();
     _.delay(playNextSong, 1000);
 }
-
-
-
-/*
-// PLAYER
-/*
 
 /*
  * Configure jPlayer.
@@ -431,6 +444,7 @@ var playNextSong = function() {
         hideWelcome();
     } else {
         if (IS_CAST_RECEIVER) {
+            // animations on Chromecast are so sloooow
             $html.prev().hide();
             $html.css('min-height', songHeight);
             $html.find('.container-fluid').css('min-height', songHeight);
@@ -477,6 +491,10 @@ var setCurrentSongHeight = function(){
     $songs.children().last().find('.container-fluid').css('height', songHeight);
 }
 
+/*
+ * Check the song history to see if you've played it
+ * more than 4 times in 3 hours
+ */
 var checkSongHistory = function(song) {
     if (songHistory[song['id']]) {
         for (var i = 0; i < songHistory[song['id']].length; i++) {
@@ -501,6 +519,9 @@ var checkSongHistory = function(song) {
     return true;
 }
 
+/*
+ * Get the next playlist when one is finished
+ */
 var nextPlaylist = function() {
     if (playedSongs.length == SONG_DATA.length) {
         // if all songs have been played, reset to shuffle
@@ -532,6 +553,10 @@ var nextPlaylist = function() {
     playPlaylistEndAudio();
 }
 
+
+/*
+ * Update the total songs played
+ */
 var updateTotalSongsPlayed = function() {
     totalSongsPlayed++;
     simpleStorage.set('totalSongsPlayed', totalSongsPlayed);
@@ -541,6 +566,9 @@ var updateTotalSongsPlayed = function() {
     }
 }
 
+/*
+ * Play audio when you've reached the end of a playlist
+ */
 var playPlaylistEndAudio = function() {
     var playlistEndAudioURL = APP_CONFIG.S3_BASE_URL + "/assets/ocean_breeze.mp3";
 
@@ -551,6 +579,9 @@ var playPlaylistEndAudio = function() {
     }
 }
 
+/*
+ * Play the appropriate player
+ */
 var onPlayClick = function(e) {
     e.preventDefault();
     if (isCasting) {
@@ -563,6 +594,9 @@ var onPlayClick = function(e) {
     $pause.show();
 }
 
+/*
+ * Pause the appropriate player
+ */
 var onPauseClick = function(e) {
     e.preventDefault();
     if (isCasting) {
@@ -576,7 +610,7 @@ var onPauseClick = function(e) {
 }
 
 /*
- * Skip the current song.
+ * Animate properly when you click a filter.
  */
 var onFiltersButtonClick = function(e) {
     if ($filtersContainer.offset().top > songHeight + $(document).scrollTop()) {
@@ -591,7 +625,7 @@ var onFiltersButtonClick = function(e) {
 
 
 /*
- * Skip the current song.
+ * Handle clicks on the skip button.
  */
 var onSkipClick = function(e) {
     e.preventDefault();
@@ -602,6 +636,9 @@ var onSkipClick = function(e) {
     }
 }
 
+/*
+ * Skip to the next song
+ */
 var skipSong = function() {
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
@@ -612,6 +649,9 @@ var skipSong = function() {
     }
 }
 
+/*
+ * Check to see if some skips are past the skip limit window
+ */
 var checkSkips = function() {
     var now = moment.utc();
     for (i = 0; i < usedSkips.length; i++) {
@@ -623,6 +663,9 @@ var checkSkips = function() {
     writeSkipsRemaining();
 }
 
+/*
+ * Update the skip limit display
+ */
 var writeSkipsRemaining = function() {
     if (usedSkips.length == APP_CONFIG.SKIP_LIMIT - 1) {
         $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip')
@@ -636,14 +679,9 @@ var writeSkipsRemaining = function() {
 }
 
 /*
-// APP STATE
-*/
-
-/*
- * Load previously played songs from browser storage
+ * Load state from browser storage
  */
 var loadState = function() {
-
     playedSongs = simpleStorage.get('playedSongs') || [];
     selectedTags = simpleStorage.get('selectedTags') || [];
     usedSkips = simpleStorage.get('usedSkips') || [];
@@ -651,12 +689,11 @@ var loadState = function() {
     totalSongsPlayed = simpleStorage.get('totalSongsPlayed') || 0;
     songHistory = simpleStorage.get('songHistory') || {};
 
-    //reset
     if (playedSongs.length === SONG_DATA.length) {
         playedSongs = [];
     }
 
-    if (playedSongs) {
+    if (playedSongs.length > 0) {
         buildListeningHistory();
     }
 
@@ -670,6 +707,9 @@ var loadState = function() {
     writeSkipsRemaining();
 }
 
+/*
+ * Reset everything we can legally reset
+ */
 var resetState = function() {
     playedSongs = [];
     selectedTags = [];
@@ -681,6 +721,9 @@ var resetState = function() {
     simpleStorage.set('playedPreroll', false);
 }
 
+/*
+ * Reset the legal limitations. For development only.
+ */
 var resetLegalLimits = function() {
     usedSkips = [];
     simpleStorage.set('usedSkips', usedSkips);
@@ -722,8 +765,8 @@ var buildListeningHistory = function() {
 }
 
 /*
-// PLAYLIST CREATION
-*/
+ * Build a playlist from a selected curator
+ */
 var buildReviewerPlaylist = function() {
     playlist = _.filter(SONG_DATA, function(song) {
         for (var i = 0; i < song['curator_tags'].length; i++) {
@@ -735,6 +778,7 @@ var buildReviewerPlaylist = function() {
 
     updatePlaylistLength();
 }
+
 /*
  * Build a playlist from a set of tags.
  */
@@ -750,17 +794,26 @@ var buildGenrePlaylist = function() {
     updatePlaylistLength();
 }
 
+/*
+ * Update playlist length display.
+ */
 var updatePlaylistLength = function() {
     $playlistLength.text(playlist.length);
     $totalSongs.text(SONG_DATA.length);
 }
 
+/*
+ * Turn on all of the genre filters.
+ */
 var resetGenreFilters = function() {
     $genreFilters.removeClass('disabled');
     selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
 }
 
+/*
+ * Cycle to the next curator in the list.
+ */
 var getNextReviewer = function() {
     var $nextReviewer = null;
     for (i = 0; i < $reviewerFilters.length; i++) {
@@ -782,7 +835,7 @@ var getNextReviewer = function() {
 }
 
 /*
- * Handle clicks on tags.
+ * Handle clicks on curators.
  */
 var onReviewerClick = function(e) {
     e.preventDefault();
@@ -797,6 +850,9 @@ var onReviewerClick = function(e) {
     }
 }
 
+/*
+ * Turn on a curator and build the playlist.
+ */
 var toggleCurator = function(curator) {
     selectedTags = [curator];
     simpleStorage.set('selectedTags', selectedTags);
@@ -812,6 +868,9 @@ var toggleCurator = function(curator) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-select', curator]);
 }
 
+/*
+ * Handle clicks on genre buttons
+ */
 var onGenreClick = function(e) {
     e.preventDefault();
 
@@ -830,6 +889,9 @@ var onGenreClick = function(e) {
     }
 }
 
+/*
+ * Turn a genre on or off, rebuild the playlist.
+ */
 var toggleGenre = function(genre) {
     // deselecting a tag
     if (_.contains(selectedTags, genre)) {
@@ -878,6 +940,9 @@ var highlightSelectedTags = function() {
     }
 }
 
+/*
+ * Shuffle all the songs.
+ */
 var onShuffleSongsClick = function(e) {
     resetState();
     playerMode = 'genre';
@@ -887,6 +952,9 @@ var onShuffleSongsClick = function(e) {
     playNextSong();
 }
 
+/*
+ * Clear displayed history of played songs (but not the legal limits).
+ */
 var onClearHistoryButtonClick = function(e) {
     e.preventDefault()
 
@@ -993,31 +1061,30 @@ var onDocumentKeyDown = function(e) {
         case 39:
             skipSong();
             break;
-
         // space
         case 32:
             e.preventDefault();
-            if($audioPlayer.data('jPlayer').status.paused) {
+            if ($audioPlayer.data('jPlayer').status.paused) {
                 $audioPlayer.jPlayer('play');
             } else {
                 $audioPlayer.jPlayer('pause');
             }
-
             break;
     }
-
-    // jquery.fullpage handles actual scrolling
     return true;
 }
 
 /*
- * Enable/disable fullscreen.
+ * Handle fullscreen button click.
  */
 var onFullscreenButtonClick = function(e) {
     e.preventDefault();
     screenfull.toggle();
 }
 
+/*
+ * Change the fullscreen state.
+ */
 var onFullscreenChange = function() {
     if (screenfull.isFullscreen) {
         $fullscreenStop.show();
@@ -1039,7 +1106,6 @@ var onWindowResize = function(e) {
     $landing.find('.landing-wrapper').css('height', $(window).height());
     $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
     setCurrentSongHeight();
-
 }
 
 /*
