@@ -812,6 +812,8 @@ var resetGenreFilters = function() {
     $genreFilters.removeClass('disabled');
     selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
+
+    $currentDj.text('All songs');
 }
 
 /*
@@ -922,6 +924,13 @@ var toggleGenre = function(genre) {
         simpleStorage.set('playerMode', playerMode);
         playNextSong();
     }
+
+    if (selectedTags.length === APP_CONFIG.GENRE_TAGS.length) {
+        $currentDj.text('All songs');
+    } else {
+        $currentDj.text('');
+    }
+
 }
 
 /*
@@ -1009,6 +1018,8 @@ var onGoButtonClick = function(e) {
     simpleStorage.set('playedSongs', playedSongs);
     selectedTags = APP_CONFIG.GENRE_TAGS.slice(0);
     simpleStorage.set('selectedTags', selectedTags);
+
+    $currentDj.text('All songs');
 
     buildGenrePlaylist();
     highlightSelectedTags();
