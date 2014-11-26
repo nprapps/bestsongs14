@@ -39,6 +39,8 @@ var $play = null;
 var $pause = null;
 var $filtersButton = null;
 var $filtersContainer = null;
+var $currentDj = null;
+var $fixedControls = null;
 
 // Global state
 var IS_CAST_RECEIVER = (window.location.search.indexOf('chromecast') >= 0);
@@ -106,6 +108,8 @@ var onDocumentLoad = function(e) {
     $pause = $('.pause');
     $filtersButton = $('.js-toggle-filters');
     $filtersContainer = $('.stack .playlist-filters');
+    $currentDj = $('.current-dj');
+    $fixedControls = $('.fixed-controls');
     onWindowResize();
     $landing.show();
 
@@ -550,16 +554,13 @@ var onPauseClick = function(e) {
 }
 
 /*
- * Skip the current song.
+ * Toggle filter panel
  */
 var onFiltersButtonClick = function(e) {
-    if ($filtersContainer.offset().top > songHeight + $(document).scrollTop()) {
-        $filtersContainer.velocity('scroll', 300);
+    if (!$fixedControls.hasClass('expand')) {
+        $fixedControls.addClass('expand');
     } else {
-        $songs.find('.song:last-child').velocity('scroll', {
-            offset: is_small_screen ? 0 : -60,
-            duration: 300
-        });
+        $fixedControls.removeClass('expand');
     }
 }
 
@@ -760,8 +761,10 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
     curator = $(this).data('tag');
+    $currentDj.text(curator);
     $allTags.addClass('disabled');
     $(this).removeClass('disabled');
+    onFiltersButtonClick();
 
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-curator', curator);
@@ -853,6 +856,8 @@ var highlightSelectedTags = function() {
 
 var onShuffleSongsClick = function(e) {
     resetState();
+    $currentDj.text('');
+    onFiltersButtonClick();
     playerMode = 'genre';
     simpleStorage.set('playerMode', playerMode);
     resetGenreFilters();
@@ -881,7 +886,7 @@ var hideWelcome  = function() {
         $fullscreenButtons.show();
     }
 
-    $('.songs, .player-container, .playlist-filters').show();
+    $('.songs, .player-container').show();
     $landing.velocity('slideUp', {
       duration: 1000,
         complete: function(){
