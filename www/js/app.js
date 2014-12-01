@@ -908,6 +908,9 @@ var toggleGenre = function(genre) {
         buildGenrePlaylist();
     // adding a tag
     } else {
+        if (playerMode !== 'genre') {
+            selectedTags = [];
+        }
         $reviewerFilters.addClass('disabled');
         selectedTags.push(genre);
         simpleStorage.set('selectedTags', selectedTags);
@@ -918,7 +921,7 @@ var toggleGenre = function(genre) {
         $playlistLengthWarning.show();
         return false;
     }
-    if (playerMode != 'genre') {
+    if (playerMode !== 'genre') {
         $currentDj.text('');
         playerMode = 'genre';
         simpleStorage.set('playerMode', playerMode);
