@@ -10,6 +10,7 @@ import json
 from fabric.api import task, local
 from facebook import GraphAPI
 from twitter import Twitter, OAuth
+import requests
 
 import app_config
 import copytext
@@ -25,7 +26,7 @@ def update():
 
 @task
 def update_songs():
-    local('curl -o data/songs.csv https://docs.google.com/spreadsheets/d/19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU/export?format=csv&id=19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU&gid=0')
+    local('curl -s -o data/songs.csv https://docs.google.com/spreadsheets/d/19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU/export?format=csv&id=19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU&gid=0')
 
     output = []
 
@@ -39,6 +40,7 @@ def update_songs():
                 stripped_row[name] = value.strip()
 
             row = stripped_row
+            check_song_links(row)
 
             row['genre_tags'] = []
             for i in range(1,4):
@@ -63,6 +65,22 @@ def update_songs():
 
     with open('data/songs.json', 'w') as f:
         json.dump(output, f)
+
+@task
+def check_song_links(row):
+    """
+    Verify all links in the song data are working
+    """
+    audio_link = 'http://pd.npr.org/anon.npr-mp3%s.mp3' % row['media_url']
+    song_art_link = 'http://npr.org%s' % row['song_art']
+
+    audio_request = requests.get(audio_link)
+    if audio_request.status_code != 200:
+        print '%s - The audio URL for %s - %s is invalid: %s' % (audio_request.status_code, row['artist'], row['title'], audio_link)
+
+    song_art_request = requests.get(song_art_link)
+    if song_art_request.status_code != 200:
+        print '%s - The song art URL for %s - %s is invalid: %s' % (song_art_request, row['artist'], row['title'], song_art_link)
 
 @task
 def update_featured_social():
