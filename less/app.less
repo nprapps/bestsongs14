@@ -324,7 +324,7 @@ h1,h2,h3,h4,h5,h6 {
 		display: inline-block;
 		line-height: 60px;
 		vertical-align: middle;
-		margin: 0 20px 0 0;
+		margin: 0 1rem 0 0;
 	}
 
 	.logo {
@@ -359,9 +359,36 @@ h1,h2,h3,h4,h5,h6 {
 		.pull-right;
 	}
 
+	.fixed-header-controls a {
+		font-size: @font-size-base * 0.875;
+		color: @music-red-light;
+		font-family: 'Knockout 31 4r';
+		text-transform: uppercase;
+		letter-spacing: 1px;
+
+		&:hover {
+			color: @music-red;
+			text-decoration: none;
+		}
+	}
+
+	.fixed-header-controls img {
+		height: 1.75rem;
+		display: inline-block;
+		margin-top: -0.25rem;
+	}
+
+	.fixed-header-controls > div {
+		margin-right: 0.5rem;
+	}
+
+	@media screen and (max-width: @screen-sm-max){
+		.slug { display: none; }
+	}
+
 	@media screen and (max-width: @screen-xs-max){
-		.slug,
-		.fixed-header-controls {
+		.chromecast,
+		.fullscreen {
 			display: none;
 		}
 	}

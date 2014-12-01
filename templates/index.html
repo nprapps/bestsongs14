@@ -42,18 +42,20 @@
     <h4 class="slug">{{ COPY.content.brand }}</h4>
     <h1 class="title">{{ COPY.content.project_name }}</h1>
 
-    <div class="chromecast" style="display: none;">
-        <a href="#" class="start">Start Casting</a>
-        <a href="#" class="stop">Stop Casting</a>
-    </div>
+    <div class="fixed-header-controls">
+        <div class="chromecast" style="display: none;">
+            <a href="#" class="start"><img src="{{ S3_BASE_URL }}/assets/chromecast_off.svg"> Cast</a>
+            <a href="#" class="stop"><img src="{{ S3_BASE_URL }}/assets/chromecast_on.svg"> Stop Casting</a>
+        </div>
 
-    <div class="share">
-        <a class="" data-toggle="modal" data-backdrop="static" data-target="#share-modal">Share <i class="fa fa-share"></i></a>
-    </div>
+        <div class="fullscreen" style="display: none;">
+            <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Fullscreen</a>
+            <a href="#" class="stop" style="display: none;"><span class="fa fa-arrows-alt"></span> Exit fullscreen</a>
+        </div>
 
-    <div class="fullscreen" style="display: none;">
-        <a href="#" class="start"><span class="fa fa-arrows-alt"></span> Fullscreen</a>
-        <a href="#" class="stop" style="display: none;"><span class="fa fa-arrows-alt"></span> Exit fullscreen</a>
+        <div class="share">
+            <a class="" data-toggle="modal" data-backdrop="static" data-target="#share-modal"><i class="fa fa-share"></i> Share </a>
+        </div>
     </div>
 </div>
 
