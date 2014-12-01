@@ -1015,8 +1015,9 @@ var hideWelcome  = function() {
 }
 
 var swapTapeDeck = function() {
-    $landing.find('.poster-static').remove();
-    $landing.find('.poster').css('display', 'table-cell');
+    $landing.find('.poster-static').css('opacity', 0);
+    $landing.find('.poster').css('opacity', 1);
+    $landing.addClass('start');
 }
 
 
@@ -1027,6 +1028,7 @@ var onGoButtonClick = function(e) {
     e.preventDefault();
     swapTapeDeck();
     $songs.find('.song').remove();
+
 
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
@@ -1137,7 +1139,6 @@ var onFullscreenChange = function() {
 var onWindowResize = function(e) {
     is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
-    $landing.find('.poster').css('background-size', 'auto ' + $(window).height() + 'px');
     setCurrentSongHeight();
 }
 
