@@ -893,7 +893,8 @@ var highlightSelectedTag = function() {
     $allTags.filter('[data-tag="' + selectedTag + '"]').removeClass('disabled');
 
     if (selectedTag === null) {
-        $currentDj.text('All songs');
+        $currentDj.text('All our favorite songs');
+        $shuffleSongs.removeClass('disabled');
     } else {
         $currentDj.text(selectedTag);
     }
@@ -903,6 +904,8 @@ var highlightSelectedTag = function() {
  * Shuffle all the songs.
  */
 var onShuffleSongsClick = function(e) {
+    e.preventDefault();
+
     shuffleSongs();
     resetState();
     toggleFilterPanel();
