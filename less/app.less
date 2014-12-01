@@ -121,10 +121,9 @@ h1,h2,h3,h4,h5,h6 {
 		width: 100%;
 	}
 
-	.poster {
+	.poster, .poster-static {
 		position: relative;
 		width: 100% * 2/3;
-		background-image: url('../assets/img/tape.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: left center;
@@ -145,6 +144,15 @@ h1,h2,h3,h4,h5,h6 {
 			display: none;
 		}
 	}
+	.poster {
+		background-image: url('../assets/img/tape.gif');
+		display: none;
+	}
+
+	.poster-static {
+		background-image: url('../assets/img/tape.jpg');
+	}
+
 	.landing-firstload-deck, .landing-return-deck {
 		display:none;
 	}

@@ -1014,13 +1014,18 @@ var hideWelcome  = function() {
     onWelcome = false;
 }
 
+var swapTapeDeck = function() {
+    $landing.find('.poster-static').remove();
+    $landing.find('.poster').css('display', 'table-cell');
+}
+
 
 /*
  * Begin shuffled playback.
  */
 var onGoButtonClick = function(e) {
     e.preventDefault();
-    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
+    swapTapeDeck();
     $songs.find('.song').remove();
 
     playedSongs = [];
@@ -1042,7 +1047,7 @@ var onGoButtonClick = function(e) {
  * Begin playback where the user left off.
  */
 var onReturnVisit = function() {
-    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
+    swapTapeDeck();
 
     if (playerMode == 'reviewer') {
         buildReviewerPlaylist();
@@ -1060,7 +1065,7 @@ var onReturnVisit = function() {
  */
 var onLandingGenreClick = function(e) {
     e.preventDefault();
-    $landing.find('.poster').css('background-image', 'url(../assets/img/tape.gif)');
+    swapTapeDeck();
     selectedTags = [$(this).data('tag')];
     simpleStorage.set('selectedTags', selectedTags);
     buildGenrePlaylist();
