@@ -148,7 +148,7 @@ var onDocumentLoad = function(e) {
     });
 
     // set up the app
-    SONG_DATA = _.shuffle(SONG_DATA);
+    shuffleSongs();
 
     if (RESET_STATE) {
         resetState();
@@ -772,6 +772,10 @@ var buildPlaylist = function() {
     updatePlaylistLength();
 }
 
+var shuffleSongs = function() {
+    SONG_DATA = _.shuffle(SONG_DATA);
+}
+
 /*
  * Update playlist length display.
  */
@@ -818,6 +822,8 @@ var onReviewerClick = function(e) {
     highlightSelectedTag();
     toggleFilterPanel();
 
+    shuffleSongs();
+
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-curator', selectedTag);
     } else {
@@ -855,6 +861,8 @@ var onGenreClick = function(e) {
 
     highlightSelectedTag();
     toggleFilterPanel();
+
+    shuffleSongs();
 
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
@@ -895,7 +903,7 @@ var highlightSelectedTag = function() {
  * Shuffle all the songs.
  */
 var onShuffleSongsClick = function(e) {
-    SONG_DATA = _.shuffle(SONG_DATA);
+    shuffleSongs();
     resetState();
     toggleFilterPanel();
     highlightSelectedTag();
