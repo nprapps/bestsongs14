@@ -30,7 +30,7 @@ def index():
 
     return make_response(render_template('index.html', **context))
 
-@app.route('/chromecast')
+@app.route('/chromecast/')
 def chromecast():
     """
     Route for the Chromecast receiver
