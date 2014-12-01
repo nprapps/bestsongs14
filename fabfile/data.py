@@ -40,7 +40,7 @@ def update_songs():
                 stripped_row[name] = value.strip()
 
             row = stripped_row
-            check_song_links(row)
+            _check_song_links(row)
 
             row['genre_tags'] = []
             for i in range(1,4):
@@ -66,8 +66,7 @@ def update_songs():
     with open('data/songs.json', 'w') as f:
         json.dump(output, f)
 
-@task
-def check_song_links(row):
+def _check_song_links(row):
     """
     Verify all links in the song data are working
     """
