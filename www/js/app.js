@@ -149,7 +149,9 @@ var onDocumentLoad = function(e) {
     });
 
     // set up the app
+    console.log('pre-shuffle', SONG_DATA);
     SONG_DATA = _.shuffle(SONG_DATA);
+    console.log('post-shuffle', SONG_DATA);
 
     if (RESET_STATE) {
         resetState();
@@ -908,6 +910,7 @@ var toggleGenre = function(genre) {
         buildGenrePlaylist();
     // adding a tag
     } else {
+        // clear curators out of tags if we're switching modes
         if (playerMode !== 'genre') {
             selectedTags = [];
         }
@@ -962,6 +965,9 @@ var highlightSelectedTags = function() {
  * Shuffle all the songs.
  */
 var onShuffleSongsClick = function(e) {
+    console.log('pre-shuffle', SONG_DATA);
+    SONG_DATA = _.shuffle(SONG_DATA);
+    console.log('post-shuffle', SONG_DATA);
     resetState();
     $currentDj.text('');
     onFiltersButtonClick();
