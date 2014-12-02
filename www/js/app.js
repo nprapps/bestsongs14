@@ -138,6 +138,10 @@ var onDocumentLoad = function(e) {
     }
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
+    $songs.on('click', '.song-tools .amazon', onAmazonClick);
+    $songs.on('click', '.song-tools .itunes', oniTunesClick);
+    $songs.on('click', '.song-tools .rdio', onRdioClick);
+    $songs.on('click', '.song-tools .spotify', onSpotifyClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -633,10 +637,11 @@ var onSkipClick = function(e) {
 var skipSong = function() {
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerArtist.text(), usedSkips.length]);
         playNextSong();
         simpleStorage.set('usedSkips', usedSkips);
         writeSkipsRemaining();
-        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerTitle.text(), usedSkips.length, ]);
+
     }
 }
 
@@ -1013,8 +1018,6 @@ var onLandingGenreClick = function(e) {
  * Toggle played song card size
  */
 var onSongCardClick = function(e) {
-    e.preventDefault();
-
     $(this).toggleClass('small');
 }
 
@@ -1062,6 +1065,44 @@ var onFullscreenChange = function() {
         $fullscreenStart.show();
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen-stop']);
     }
+}
+
+var onAmazonClick = function(e) {
+    var thisArtist = getArtist($(this));
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'amazon-click', thisArtist]);
+
+    e.stopPropagation();
+}
+
+var oniTunesClick = function(e) {
+    var thisArtist = getArtist($(this));
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'itunes-click', thisArtist]);
+
+    e.stopPropagation();
+}
+
+var onRdioClick = function(e) {
+    var thisArtist = getArtist($(this));
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'rdio-click', thisArtist]);
+
+    e.stopPropagation();
+}
+
+var onSpotifyClick = function(e) {
+    var thisArtist = getArtist($(this));
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'spotify-click', thisArtist]);
+
+    e.stopPropagation();
+}
+
+var getArtist = function($el) {
+    var thisArtist = $el.parents('.song').find('.song-info .artist').text();
+
+    return thisArtist;
 }
 
 /*
