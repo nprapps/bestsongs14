@@ -128,10 +128,33 @@ DISQUS_UUID = '1e6c6345-69ba-11e4-95c2-80e650107db6'
 CHROMECAST_APP_ID = None
 CHROMECAST_NAMESPACE = 'urn:x-cast:nprviz.bestsongs14'
 
-GENRE_TAGS = ['Folk / Americana', 'Rock', 'Unclassified', 'Electronic / Dance', 'Pop', 'R&B']
+GENRE_TAGS = [
+    'Folk / Americana',
+    'Rock',
+    'Unclassified',
+    'Electronic / Dance',
+    'Pop',
+    'R&B'
+]
 
-PLAYLIST_LIMIT = 1
-SKIP_LIMIT = 6
+REVIEWER_TAGS = [
+    'Bob Boilen',
+    'Robin Hilton',
+    'Ann Powers',
+    'Stephen Thompson',
+    'Anastasia Tsioulcas',
+    'Tom Huizenga',
+    'Patrick Jarenwattananon',
+    'Lars Gotrich',
+    'Frannie Kelley',
+    'Jason King',
+    'Felix Contreras',
+    'Jasmine Garsd',
+    'Jason Bentley',
+    'David Dye',
+    'Rita Houston',
+    'Kevin Cole'
+]
 
 REVIEWER_IMAGES = {
     'Lars Gotrich': 'lars.jpg',
@@ -144,6 +167,9 @@ REVIEWER_IMAGES = {
     'Jason King': 'jason.jpg',
     'Bob Boilen': 'bob.jpg'
 }
+
+PLAYLIST_LIMIT = 1
+SKIP_LIMIT = 6
 
 """
 Utilities
