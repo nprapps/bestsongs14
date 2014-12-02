@@ -539,9 +539,17 @@ var nextPlaylist = function() {
     }
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'tag-finish', selectedTag]);
-    // TODO TKTK
-    // getNextReviewer();
+
+    if (_.contains(APP_CONFIG.GENRE_TAGS, selectedTag)) {
+        selectedTag = null;
+        simpleStorage.set('selectedTag', selectedTag);
+    } else {
+        getNextReviewer();
+    }
+
+    updateTagDisplay();
     playedSongs = [];
+    shuffleSongs();
     buildPlaylist();
     playPlaylistEndAudio();
 }
@@ -824,7 +832,7 @@ var onReviewerClick = function(e) {
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs)
 
-    highlightSelectedTag();
+    updateTagDisplay();
     toggleFilterPanel();
 
     shuffleSongs();
@@ -864,7 +872,7 @@ var onGenreClick = function(e) {
         simpleStorage.set('selectedTag', selectedTag);
     }
 
-    highlightSelectedTag();
+    updateTagDisplay();
     toggleFilterPanel();
 
     shuffleSongs();
@@ -893,7 +901,7 @@ var startGenrePlaylist = function() {
 /*
  * Highlight whichever tags are currently selected and clear all other highlights.
  */
-var highlightSelectedTag = function() {
+var updateTagDisplay = function() {
     $allTags.addClass('disabled');
     $allTags.filter('[data-tag="' + selectedTag + '"]').removeClass('disabled');
 
@@ -914,7 +922,7 @@ var onShuffleSongsClick = function(e) {
     shuffleSongs();
     resetState();
     toggleFilterPanel();
-    highlightSelectedTag();
+    updateTagDisplay();
     buildPlaylist();
     playNextSong();
 }
@@ -979,7 +987,7 @@ var onGoButtonClick = function(e) {
     $currentDj.text('All songs');
 
     buildPlaylist();
-    highlightSelectedTag();
+    updateTagDisplay();
     startPrerollAudio();
     updateSongsPlayed();
 
@@ -993,7 +1001,7 @@ var onReturnVisit = function() {
     swapTapeDeck();
 
     buildPlaylist();
-    highlightSelectedTag();
+    updateTagDisplay();
     updateSongsPlayed();
     _.delay(hideWelcome, 5000);
     _.delay(playNextSong, 5000);
@@ -1008,7 +1016,7 @@ var onLandingGenreClick = function(e) {
     selectedTag = $(this).data('tag');
     simpleStorage.set('selectedTag', selectedTag);
     buildPlaylist();
-    highlightSelectedTag();
+    updateTagDisplay();
     startPrerollAudio();
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'landing-genre-select', $(this).data('tag')]);
