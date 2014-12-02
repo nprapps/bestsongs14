@@ -369,9 +369,13 @@ The Google Analytics events tracked in this application are:
 |bestsongs14|landing-genre-select|`genre`||||
 |bestsongs14|fullscreen-start||||
 |bestsongs14|fullscreen-stop||||
-|bestsongs14|song-skip|`song-title`|`usedSkips.length`||||
-|bestsongs14|curator-select|`curator`||||
+|bestsongs14|song-skip|`playerArtist.text()`|`usedSkips.length`||||
+|bestsongs14|switch-tag|`selectedTag`||||
 |bestsongs14|tag-finish|`selectedTag`||||
 |bestsongs14|songs-played||`totalSongsPlayed`|||
+|bestsongs14|amazon-click|`artist`||||
+|bestsongs14|itunes-click|`artist`||||
+|bestsongs14|rdio-click|`artist`||||
+|bestsongs14|spotify-click|`artist`||||
 
 
