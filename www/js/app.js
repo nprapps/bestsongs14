@@ -909,7 +909,7 @@ var hideWelcome  = function() {
         $chromecastScreen.show();
     }
 
-    if (!(Modernizr.touch)) {
+    if (Modernizr.fullscreen) {
         $fullscreenButtons.show();
     }
 
