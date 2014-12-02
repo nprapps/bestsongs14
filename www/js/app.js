@@ -113,7 +113,6 @@ var onDocumentLoad = function(e) {
     $pause.on('click', onPauseClick);
     $filtersButton.on('click', onFiltersButtonClick);
     $(window).on('resize', onWindowResize);
-    $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
     if (Modernizr.fullscreen) {
         $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
@@ -678,6 +677,8 @@ var hideWelcome  = function() {
     })
 
     onWelcome = false;
+
+    $(document).keydown(onDocumentKeyDown);
 }
 
 var swapTapeDeck = function() {
