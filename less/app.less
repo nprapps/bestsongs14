@@ -268,22 +268,6 @@ h1,h2,h3,h4,h5,h6 {
 		margin-top: -10px;
 		color: lighten(#666, 20%);
 	}
-
-	.continue {
-		display: inline-block;
-		font-size: .875rem;
-		color: @deep-blue;
-		border: 1px solid @gray-light;
-		margin-top: @line-height-computed;
-		padding: 10px;
-		.border-radius(5px);
-
-		&:hover {
-			background: @gray-light;
-			color: @white;
-			text-decoration: none;
-		}
-	}
 }
 
 
@@ -314,7 +298,11 @@ h1,h2,h3,h4,h5,h6 {
 .go,
 .go:active,
 .go:focus,
-.go:visited {
+.go:visited,
+.continue,
+.continue:active,
+.continue:focus,
+.continue:visited {
 	display: inline-block;
 	padding: 12px;
 	color: @white;
@@ -333,9 +321,6 @@ h1,h2,h3,h4,h5,h6 {
 	padding-right: 20px;
 	.border-radius(10px);
 
-	.continue {
-		display: none;
-	}
 	.transition(all 0.2s ease-in-out);
 
 	&:hover {

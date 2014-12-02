@@ -2,6 +2,7 @@
 var $body = null;
 var $shareModal = null;
 var $goButton = null;
+var $continueButton = null;
 var $audioPlayer = null;
 var $playerArtist = null;
 var $playerTitle = null;
@@ -74,6 +75,7 @@ var onDocumentLoad = function(e) {
     $body = $('body');
     $shareModal = $('#share-modal');
     $goButton = $('.go');
+    $continueButton = $('.continue');
     $audioPlayer = $('#audio-player');
     $songs = $('.songs');
     $songsCast = $('.cast-controls .songs');
@@ -119,6 +121,7 @@ var onDocumentLoad = function(e) {
     $shareModal.on('shown.bs.modal', onShareModalShown);
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
+    $continueButton.on('click', onContinueButtonClick);
     $landingGenreButtons.on('click', onLandingGenreClick);
     $genreFilters.on('click', onGenreClick);
     $reviewerFilters.on('click', onReviewerClick);
@@ -698,7 +701,7 @@ var loadState = function() {
 
     if (playedSongs.length > 0 || selectedTag !== null) {
         $landingReturnDeck.show();
-        onReturnVisit();
+
     } else {
         $landingFirstDeck.show();
     }
@@ -946,17 +949,11 @@ var onGoButtonClick = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'shuffle']);
 }
 
-/*
- * Begin playback where the user left off.
- */
-var onReturnVisit = function() {
+var onContinueButtonClick = function(e) {
+    e.preventDefault();
     swapTapeDeck();
-
-    buildPlaylist();
-    updateTagDisplay();
-    updateSongsPlayed();
     _.delay(hideWelcome, 5000);
-    _.delay(playNextSong, 5000);
+    _.delay(switchTag, 5000, selectedTag);
 }
 
 /*
