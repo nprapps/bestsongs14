@@ -539,18 +539,14 @@ var nextPlaylist = function() {
     }
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'tag-finish', selectedTag]);
+    var tag = null;
 
-    if (_.contains(APP_CONFIG.GENRE_TAGS, selectedTag)) {
-        selectedTag = null;
-        simpleStorage.set('selectedTag', selectedTag);
+    if (selectedTag === null || _.contains(APP_CONFIG.GENRE_TAGS, selectedTag)) {
+        // go to shuffle
     } else {
-        getNextReviewer();
+        tag = getNextReviewer();
     }
-
-    updateTagDisplay();
-    playedSongs = [];
-    shuffleSongs();
-    buildPlaylist();
+    switchTag(tag, true);
     playPlaylistEndAudio();
 }
 
@@ -815,9 +811,7 @@ var getNextReviewer = function() {
 
     $reviewerFilters.addClass('disabled');
     $nextReviewer.removeClass('disabled');
-    var reviewer = $nextReviewer.data('tag');
-    selectedTag = reviewer;
-    simpleStorage.set('selectedTag', selectedTag);
+    return $nextReviewer.data('tag');
 }
 
 /*
@@ -826,35 +820,9 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
 
-    selectedTag = $(this).data('tag');
-    simpleStorage.set('selectedTag', selectedTag);
-
-    playedSongs = [];
-    simpleStorage.set('playedSongs', playedSongs)
-
-    updateTagDisplay();
+    var reviewer = $(this).data('tag')
+    switchTag(reviewer);
     toggleFilterPanel();
-
-    shuffleSongs();
-
-    if (isCasting) {
-        CHROMECAST_SENDER.sendMessage('toggle-curator', selectedTag);
-    } else {
-        startCuratorPlaylist();
-    }
-
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'curator-select', selectedTag]);
-}
-
-/*
- * Turn on a curator and build the playlist.
- *
- * May happen on local device or on remote Chromecast.
- */
-var startCuratorPlaylist = function() {
-    playedSongs = [];
-    buildPlaylist();
-    playNextSong();
 }
 
 /*
@@ -864,38 +832,30 @@ var onGenreClick = function(e) {
     e.preventDefault();
 
     var genre = $(this).data('tag');
+    switchTag(genre);
+    toggleFilterPanel();
+}
 
-    if (selectedTag === genre) {
+var switchTag = function(tag, noAutoplay) {
+    if (selectedTag === tag && tag !== null) {
         return;
     } else {
-        selectedTag = genre;
+        selectedTag = tag;
         simpleStorage.set('selectedTag', selectedTag);
     }
 
     updateTagDisplay();
-    toggleFilterPanel();
-
     shuffleSongs();
 
     if (isCasting) {
-        CHROMECAST_SENDER.sendMessage('toggle-genre', genre);
+        CHROMECAST_SENDER.sendMessage('switch-tag', selectedTag);
     } else {
-        startGenrePlaylist();
+        playedSongs = [];
+        buildPlaylist();
+        if (noAutoplay !== true) {
+            playNextSong();
+        }
     }
-}
-
-/*
- * Turn a genre on or off, rebuild the playlist.
- */
-var startGenrePlaylist = function() {
-    buildPlaylist();
-
-    if (playlist.length < APP_CONFIG.PLAYLIST_LIMIT) {
-        $playlistLengthWarning.show();
-        return false;
-    }
-
-    playNextSong();
 }
 
 /*
@@ -981,15 +941,8 @@ var onGoButtonClick = function(e) {
 
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
-    selectedTag = null;
-    simpleStorage.set('selectedTag', selectedTag);
-
-    $currentDj.text('All songs');
-
-    buildPlaylist();
-    updateTagDisplay();
+    switchTag(null, true);
     startPrerollAudio();
-    updateSongsPlayed();
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'shuffle']);
 }
@@ -1013,10 +966,8 @@ var onReturnVisit = function() {
 var onLandingGenreClick = function(e) {
     e.preventDefault();
     swapTapeDeck();
-    selectedTag = $(this).data('tag');
-    simpleStorage.set('selectedTag', selectedTag);
-    buildPlaylist();
-    updateTagDisplay();
+    var tag = $(this).data('tag');
+    switchTag(tag, true);
     startPrerollAudio();
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'landing-genre-select', $(this).data('tag')]);
