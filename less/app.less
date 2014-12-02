@@ -319,7 +319,7 @@ h1,h2,h3,h4,h5,h6 {
 	padding-left: 60px;
 	margin-bottom: 24px;
 	padding-right: 20px;
-	.border-radius(10px);
+	// .border-radius(10px);
 
 	.transition(all 0.2s ease-in-out);
 
@@ -346,7 +346,7 @@ h1,h2,h3,h4,h5,h6 {
 	right: 0;
 	height: 60px;
 	padding: 0 @grid-gutter-width;
-	background: fadeout(@white,10%);
+	background: @white;
 	z-index: @z-fixed-header;
 	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
 
@@ -480,6 +480,8 @@ h1,h2,h3,h4,h5,h6 {
 		.make-row();
 		display: table-cell;
 		vertical-align: middle;
+		.transition(vertical-align 0.3s ease-in-out);
+
 
 		@media screen and (orientation: portrait){
 			vertical-align: top;
