@@ -52,7 +52,7 @@ def seamus():
     # Read the books JSON into the page.
     with open('data/songs.json', 'rb') as readfile:
         songs_data = json.load(readfile)
-        songs = sorted(songs_data, key=lambda k: k['title'])
+        songs = sorted(songs_data, key=lambda k: k['artist'])
 
     context['songs'] = songs
 
