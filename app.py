@@ -42,6 +42,22 @@ def chromecast():
 
     return make_response(render_template('chromecast.html', **context))
 
+@app.route('/seamus')
+def seamus():
+    """
+    Preview for Seamus page
+    """
+    context = make_context()
+
+    # Read the books JSON into the page.
+    with open('data/songs.json', 'rb') as readfile:
+        songs_data = json.load(readfile)
+        songs = sorted(songs_data, key=lambda k: k['title'])
+
+    context['songs'] = songs
+
+    return render_template('seamus-preview.html', **context)
+
 
 app.register_blueprint(static.static)
 
