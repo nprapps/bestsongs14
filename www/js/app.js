@@ -939,8 +939,6 @@ var onGoButtonClick = function(e) {
     e.preventDefault();
     swapTapeDeck();
     $songs.find('.song').remove();
-
-
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
     switchTag(null, true);
@@ -952,8 +950,10 @@ var onGoButtonClick = function(e) {
 var onContinueButtonClick = function(e) {
     e.preventDefault();
     swapTapeDeck();
+    buildPlaylist();
+    updateTagDisplay();
     _.delay(hideWelcome, 5000);
-    _.delay(switchTag, 5000, selectedTag);
+    _.delay(playNextSong, 5000);
 }
 
 /*
