@@ -850,7 +850,6 @@ var switchTag = function(tag, noAutoplay) {
     if (isCasting) {
         CHROMECAST_SENDER.sendMessage('switch-tag', selectedTag);
     } else {
-        playedSongs = [];
         buildPlaylist();
         if (noAutoplay !== true) {
             playNextSong();
