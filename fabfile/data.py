@@ -49,8 +49,6 @@ def update_songs():
                 if row[key]:
                     row['genre_tags'].append(row[key])
 
-                del row[key]
-
             row['curator_tags'] = []
             for i in range(1,4):
                 key = 'curator%i' % i
