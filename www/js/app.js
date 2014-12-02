@@ -134,7 +134,7 @@ var onDocumentLoad = function(e) {
     $(window).on('resize', onWindowResize);
     $(document).keydown(onDocumentKeyDown);
     $clearHistory.on('click', onClearHistoryButtonClick);
-    if (!(Modernizr.touch)) {
+    if (Modernizr.fullscreen) {
         $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
         $fullscreenStart.on('click', onFullscreenButtonClick);
         $fullscreenStop.on('click', onFullscreenButtonClick);
