@@ -1,3 +1,8 @@
 {% for song in songs %}
-<p><b>{{ song.title }}</b><br/>by {{ song.artist }}</p>
+<div class="song clearfix" style="margin-bottom: 1.3em;">
+	<img style="float: right; margin: 0 0 15px 15px; max-width: 25%" src="http://npr.org{{ song.song_art }}">
+	<h2 style="font-size: 1.2em; line-height: 1.5; margin-bottom: 1.3em;"><strong>{{ song.artist }}, "{{ song.title }}"</strong></h2>
+	<p>{{ song.review }}</p>
+	<p><em>– {{ song.reviewer }}</em></p>
+</div>
 {% endfor %}
