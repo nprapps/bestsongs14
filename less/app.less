@@ -270,27 +270,6 @@ h1,h2,h3,h4,h5,h6 {
 	}
 }
 
-
-.cast-controls {
-	display: none;
-	margin-top: 85px;
-}
-
-.chromecast-player {
-	height: 80px;
-	margin: 0 @grid-gutter-width;
-	// width: 100p
-
-	.toggle-audio {
-		display: inline-block;
-	}
-	.controls {
-		padding: @grid-gutter-width/2;
-		font-size: @font-size-large*1.2;
-		display: inline-block;
-	}
-}
-
 .stack {
 	display: block;
 }
@@ -358,7 +337,6 @@ h1,h2,h3,h4,h5,h6 {
 	.logo,
 	.slug,
 	.title,
-	.chromecast,
 	.fullscreen,
 	.share {
 		display: inline-block;
@@ -428,7 +406,6 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	@media screen and (max-width: @screen-xs-max){
-		.chromecast,
 		.fullscreen,
 		.share span {
 			display: none;
@@ -436,11 +413,6 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.fullscreen .stop {
-	    display: none;
-	}
-
-	.chromecast .start,
-	.chromecast .stop {
 	    display: none;
 	}
 }
@@ -754,6 +726,10 @@ h1,h2,h3,h4,h5,h6 {
 		position: absolute;
 		right: 0;
 		top: 0;
+		&.disabled {
+			background: lighten(@music-red, 20%);
+			cursor: not-allowed;
+		}
 	}
 
 	.artist,
@@ -1083,36 +1059,4 @@ h1,h2,h3,h4,h5,h6 {
 	50% { background: @tag-10; }
 	75% { background: @tag-5; }
 	100% { background: @tag-1; }
-}
-
-.chromecast-screen {
-	height: 100vh;
-
-	.fixed-header {
-		display: block;
-	}
-
-	.songs {
-		display: block;
-		height: 100vh;
-		.song-tools {
-			display: none;
-		}
-	}
-	.player-container {
-		display: block;
-
-		.fixed-controls, .skip, .controls {
-			display: none;
-		}
-
-		.player-progress {
-			left: 0;
-			right: 0;
-		}
-
-		.playback-info {
-			right: 1rem;
-		}
-	}
 }

@@ -30,18 +30,6 @@ def index():
 
     return make_response(render_template('index.html', **context))
 
-@app.route('/chromecast/')
-def chromecast():
-    """
-    Route for the Chromecast receiver
-    """
-    context = make_context()
-
-    with open('data/songs.json') as f:
-        context['song_data'] = f.read()
-
-    return make_response(render_template('chromecast.html', **context))
-
 @app.route('/seamus')
 def seamus():
     """
