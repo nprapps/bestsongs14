@@ -726,6 +726,10 @@ h1,h2,h3,h4,h5,h6 {
 		position: absolute;
 		right: 0;
 		top: 0;
+		&.disabled {
+			background: lighten(@music-red, 20%);
+			cursor: not-allowed;
+		}
 	}
 
 	.artist,

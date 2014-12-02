@@ -432,12 +432,15 @@ var checkSkips = function() {
 var writeSkipsRemaining = function() {
     if (usedSkips.length == APP_CONFIG.SKIP_LIMIT - 1) {
         $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip')
+        $skip.removeClass('disabled');
     }
     else if (usedSkips.length == APP_CONFIG.SKIP_LIMIT) {
         $('.skips-remaining').text('no skips');
+        $skip.addClass('disabled');
     }
     else {
         $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips')
+        $skip.removeClass('disabled');
     }
 }
 
