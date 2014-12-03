@@ -36,6 +36,7 @@ var $fixedControls = null;
 // URL params
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
 var RESET_STATE = (window.location.search.indexOf('resetstate') >= 0);
+var ALL_HISTORY = (window.location.search.indexOf('allhistory') >= 0);
 
 // Global state
 var firstShareLoad = true;
@@ -133,6 +134,7 @@ var onDocumentLoad = function(e) {
 
     setupAudio();
     loadState();
+
     setInterval(checkSkips, 60000);
 }
 
@@ -301,6 +303,7 @@ var nextPlaylist = function() {
     if (playedSongs.length == SONG_DATA.length) {
         // if all songs have been played, reset to shuffle
         resetState();
+        console.log('length reached');
     }
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'tag-finish', selectedTag]);
@@ -442,6 +445,12 @@ var loadState = function() {
     totalSongsPlayed = simpleStorage.get('totalSongsPlayed') || 0;
     songHistory = simpleStorage.get('songHistory') || {};
 
+    if (ALL_HISTORY) {
+        for (var i=1; i < SONG_DATA.length; i++) {
+            markSongPlayed(SONG_DATA[i]);
+        }
+    }
+
     if (playedSongs.length === SONG_DATA.length) {
         playedSongs = [];
     }
@@ -452,7 +461,6 @@ var loadState = function() {
 
     if (playedSongs.length > 0 || selectedTag !== null) {
         $landingReturnDeck.show();
-
     } else {
         $landingFirstDeck.show();
     }
