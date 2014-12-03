@@ -103,30 +103,16 @@ SHARING
 SHARE_URL = 'http://%s/%s/' % (PRODUCTION_S3_BUCKET['bucket_name'], PROJECT_SLUG)
 
 """
-ADS
-"""
-
-NPR_DFP = {
-    'STORY_ID': '1002',
-    'TARGET': 'homepage',
-    'ENVIRONMENT': 'NPRTEST',
-    'TESTSERVER': 'false'
-}
-
-"""
 SERVICES
 """
 GOOGLE_ANALYTICS = {
     'ACCOUNT_ID': 'UA-5828686-4',
     'DOMAIN': PRODUCTION_S3_BUCKET['bucket_name'],
-    'TOPICS': '' # e.g. '[1014,3,1003,1002,1001]'
+    'TOPICS': '[1039]'
 }
 
 DISQUS_API_KEY = 'tIbSzEhGBE9NIptbnQWn4wy1gZ546CsQ2IHHtxJiYAceyyPoAkDkVnQfCifmCaQW'
 DISQUS_UUID = '1e6c6345-69ba-11e4-95c2-80e650107db6'
-
-CHROMECAST_APP_ID = None
-CHROMECAST_NAMESPACE = 'urn:x-cast:nprviz.bestsongs14'
 
 GENRE_TAGS = [
     'Folk / Americana',
