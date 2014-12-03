@@ -653,8 +653,9 @@ var onClearHistoryButtonClick = function(e) {
  */
 var hideWelcome  = function() {
     $('.songs, .player-container').show();
+
     $landing.velocity('slideUp', {
-      duration: 1000,
+        duration: 1000,
         complete: function(){
             $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
             $fixedHeader.velocity('fadeIn', { duration: 'slow' });
@@ -690,11 +691,10 @@ var onGoButtonClick = function(e) {
 
 var onContinueButtonClick = function(e) {
     e.preventDefault();
-    swapTapeDeck();
     buildPlaylist();
     updateTagDisplay();
-    _.delay(hideWelcome, 500);
-    _.delay(playNextSong, 500);
+    hideWelcome();
+    playNextSong();
 }
 
 /*
@@ -785,8 +785,12 @@ var getSong = function($el) {
  * Resize the welcome page to fit perfectly.
  */
 var onWindowResize = function(e) {
+    var height = $(window).height();
+    var width = (height * 3) / 2;
+
     is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
+    $landing.find('.poster-static').css('background-size', width + 'px ' + height + 'px');
     setCurrentSongHeight();
 }
 
