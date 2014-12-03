@@ -342,6 +342,9 @@ var playPlaylistEndAudio = function() {
             mp3: playlistEndAudioURL
         }).jPlayer('play');
     }
+
+    $playerArtist.text('');
+    $playerTitle.text('');
 }
 
 /*
