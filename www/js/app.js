@@ -133,7 +133,7 @@ var onDocumentLoad = function(e) {
 
     setupAudio();
     loadState();
-    setInterval(checkSkips, 1000);
+    setInterval(checkSkips, 60000);
 }
 
 /*
@@ -406,7 +406,7 @@ var skipSong = function() {
 var checkSkips = function() {
     var now = moment.utc();
     for (i = 0; i < usedSkips.length; i++) {
-        if (now.subtract(1, 'minute').isAfter(usedSkips[i])) {
+        if (now.subtract(1, 'hour').isAfter(usedSkips[i])) {
             usedSkips.splice(i, 1);
         }
     }
