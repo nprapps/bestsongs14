@@ -14,9 +14,6 @@ var $totalSongs = null;
 var $skip = null;
 var $songs = null;
 var $playlistLengthWarning = null;
-var $fullscreenButtons = null;
-var $fullscreenStart = null;
-var $fullscreenStop = null;
 var $landing = null;
 var $genreFilters = null;
 var $landingGenreButtons = null;
@@ -76,9 +73,6 @@ var onDocumentLoad = function(e) {
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
     $playlistLengthWarning = $('.warning');
-    $fullscreenButtons = $('.fullscreen');
-    $fullscreenStart = $('.fullscreen .start');
-    $fullscreenStop = $('.fullscreen .stop');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $genreFilters = $('.genre li a');
@@ -114,11 +108,6 @@ var onDocumentLoad = function(e) {
     $filtersButton.on('click', onFiltersButtonClick);
     $(window).on('resize', onWindowResize);
     $clearHistory.on('click', onClearHistoryButtonClick);
-    if (Modernizr.fullscreen) {
-        $(document).on(screenfull.raw.fullscreenchange, onFullscreenChange);
-        $fullscreenStart.on('click', onFullscreenButtonClick);
-        $fullscreenStop.on('click', onFullscreenButtonClick);
-    }
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
     $songs.on('click', '.song-tools .amazon', onAmazonClick);
@@ -663,10 +652,6 @@ var onClearHistoryButtonClick = function(e) {
  * Hide the welcome screen and show the playing song
  */
 var hideWelcome  = function() {
-    if (Modernizr.fullscreen) {
-        $fullscreenButtons.show();
-    }
-
     $('.songs, .player-container').show();
     $landing.velocity('slideUp', {
       duration: 1000,
@@ -752,30 +737,6 @@ var onDocumentKeyDown = function(e) {
             break;
     }
     return true;
-}
-
-/*
- * Handle fullscreen button click.
- */
-var onFullscreenButtonClick = function(e) {
-    e.preventDefault();
-    screenfull.toggle();
-}
-
-/*
- * Change the fullscreen state.
- */
-var onFullscreenChange = function() {
-    if (screenfull.isFullscreen) {
-        $fullscreenStop.show();
-        $fullscreenStart.hide();
-        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen-start']);
-    }
-    else {
-        $fullscreenStop.hide();
-        $fullscreenStart.show();
-        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'fullscreen-stop']);
-    }
 }
 
 var onAmazonClick = function(e) {
