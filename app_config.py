@@ -154,7 +154,6 @@ REVIEWER_IMAGES = {
     'Bob Boilen': 'bob.jpg'
 }
 
-PLAYLIST_LIMIT = 1
 SKIP_LIMIT = 6
 
 """
