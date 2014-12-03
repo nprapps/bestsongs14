@@ -232,11 +232,13 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.title {
-		font-size: @font-size-base * 4;
+		font-size: @font-size-base * 2;
 		line-height: 1;
 		font-family: 'Gotham';
-		margin: 0 0 @line-height-computed;
-		color: #222;
+		text-transform: uppercase;
+		margin: 0 0 @line-height-computed / 2;
+		color: @music-red-light;
+		color: #333;
 
 		@media screen and (max-width: @screen-xs-max){
 			font-size: @font-size-base * 3.2;
@@ -244,11 +246,11 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	h2 {
-		color: #222;
-		font-size: @font-size-large;
+		color: #999;
+		font-size: @font-size-small;
 		margin-bottom: 2rem;
-		font-family: 'Knockout 31 4r';
-		text-transform: uppercase;
+		font-family: 'Gotham SSm';
+		text-transform: lowercase;
 
 		@media screen and (max-width: @screen-xs-max){
 			display: none;
@@ -256,14 +258,14 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	p {
-		color: #666;
+		color: #999;
 		font-size: .875rem;
 		text-transform: uppercase;
 	}
 
 
 	.headphone-prompt {
-		font-size: .7rem;
+		font-size: 0.7rem;
 		margin-top: -10px;
 		color: lighten(#666, 20%);
 	}
@@ -362,8 +364,10 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.title {
-		color: #222;
 		font-size: @font-size-base * 1.1;
+		font-family: 'Gotham SSm';
+		color: #333;
+		text-transform: uppercase;
 
 		@media screen and (max-width: @screen-xs-max){
 			margin-right: 0;
