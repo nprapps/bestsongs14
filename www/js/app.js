@@ -18,7 +18,6 @@ var $landing = null;
 var $genreFilters = null;
 var $landingGenreButtons = null;
 var $playedSongsLength = null;
-var $clearHistory = null;
 var $reviewerFilters = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
@@ -78,8 +77,6 @@ var onDocumentLoad = function(e) {
     $landing = $('.landing');
     $genreFilters = $('.genre li a');
     $reviewerFilters = $('.reviewer li a');
-    $playedSongsLength = $('.played-songs-length');
-    $clearHistory = $('.clear-history');
     $fixedHeader = $('.fixed-header');
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
@@ -108,7 +105,6 @@ var onDocumentLoad = function(e) {
     $pause.on('click', onPauseClick);
     $filtersButton.on('click', onFiltersButtonClick);
     $(window).on('resize', onWindowResize);
-    $clearHistory.on('click', onClearHistoryButtonClick);
     $shuffleSongs.on('click', onShuffleSongsClick);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
     $songs.on('click', '.song-tools .amazon', onAmazonClick);
@@ -483,11 +479,6 @@ var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
 
     simpleStorage.set('playedSongs', playedSongs);
-    updateSongsPlayed();
-}
-
-var updateSongsPlayed = function() {
-    $playedSongsLength.text(playedSongs.length);
 }
 
 /*
@@ -628,18 +619,6 @@ var onShuffleSongsClick = function(e) {
     updateTagDisplay();
     buildPlaylist();
     playIntroAudio();
-}
-
-/*
- * Clear displayed history of played songs (but not the legal limits).
- */
-var onClearHistoryButtonClick = function(e) {
-    e.preventDefault()
-
-    $('.song:not(:last-child)').remove();
-    playedSongs = [currentSong['id']];
-    simpleStorage.set('playedSongs', playedSongs);
-    updateSongsPlayed();
 }
 
 /*
