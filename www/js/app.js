@@ -403,7 +403,7 @@ var onSkipClick = function(e) {
 var skipSong = function() {
     if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
         usedSkips.push(moment.utc());
-        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerArtist.text(), usedSkips.length]);
+        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerArtist.text() + ' - ' + $playerTitle.text(), usedSkips.length]);
         playNextSong();
         simpleStorage.set('usedSkips', usedSkips);
         writeSkipsRemaining();
@@ -708,8 +708,8 @@ var onContinueButtonClick = function(e) {
     swapTapeDeck();
     buildPlaylist();
     updateTagDisplay();
-    _.delay(hideWelcome, 5000);
-    _.delay(playNextSong, 5000);
+    _.delay(hideWelcome, 500);
+    _.delay(playNextSong, 500);
 }
 
 /*
@@ -779,41 +779,45 @@ var onFullscreenChange = function() {
 }
 
 var onAmazonClick = function(e) {
-    var thisArtist = getArtist($(this));
+    var thisSong = getSong($(this));
 
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'amazon-click', thisArtist]);
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'amazon-click', thisSong]);
 
     e.stopPropagation();
 }
 
 var oniTunesClick = function(e) {
-    var thisArtist = getArtist($(this));
+    var thisSong = getSong($(this));
 
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'itunes-click', thisArtist]);
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'itunes-click', thisSong]);
 
     e.stopPropagation();
 }
 
 var onRdioClick = function(e) {
-    var thisArtist = getArtist($(this));
+    var thisSong = getSong($(this));
 
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'rdio-click', thisArtist]);
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'rdio-click', thisSong]);
 
     e.stopPropagation();
 }
 
 var onSpotifyClick = function(e) {
-    var thisArtist = getArtist($(this));
+    var thisSong = getSong($(this));
 
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'spotify-click', thisArtist]);
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'spotify-click', thisSong]);
 
     e.stopPropagation();
 }
 
-var getArtist = function($el) {
+var getSong = function($el) {
     var thisArtist = $el.parents('.song').find('.song-info .artist').text();
+    var thisTitle = $el.parents('.song').find('.song-info .song-title').text();
 
-    return thisArtist;
+    // cut out the smart quotes
+    thisTitle = thisTitle.substring(1, thisTitle.length - 1);
+
+    return thisArtist + ' - ' + thisTitle;
 }
 
 /*
