@@ -143,11 +143,6 @@ var onDocumentLoad = function(e) {
  */
 var setupAudio = function() {
     $audioPlayer.jPlayer({
-        ready: function() {
-            $(this).jPlayer('setMedia', {
-                mp3: 'http://download.lardlad.com/sounds/season4/monorail14.mp3'
-            });
-        },
         ended: playNextSong,
         supplied: 'mp3',
         loop: false,
@@ -166,16 +161,21 @@ var onTimeUpdate = function(e) {
 /*
  * Start playing the preoroll audio.
  */
-var startPrerollAudio = function() {
-    if (simpleStorage.get('playedPreroll')) {
-        playNextSong();
-        return;
+var playIntroAudio = function() {
+    var audioFile = APP_CONFIG.SHUFFLE_AUDIO_INTRO;
+    if (selectedTag) {
+        audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
+
+    $audioPlayer.jPlayer('setMedia', {
+        mp3: APP_CONFIG.S3_BASE_URL + '/assets/' + audioFile
+    });
+    $playerArtist.text('');
+    $playerTitle.text('');
+
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
     }
-
-    simpleStorage.set('playedPreroll', true);
 }
 
 /*
@@ -209,8 +209,8 @@ var playNextSong = function() {
         }
     });
 
-    $playerArtist.text(nextSong['artist'])
-    $playerTitle.text(nextSong['title'])
+    $playerArtist.text(nextSong['artist']);
+    $playerTitle.text(nextSong['title']);
 
     var nextsongURL = 'http://pd.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 
@@ -315,7 +315,6 @@ var nextPlaylist = function() {
         tag = getNextReviewer();
     }
     switchTag(tag, true);
-    playPlaylistEndAudio();
 }
 
 
@@ -329,22 +328,6 @@ var updateTotalSongsPlayed = function() {
     if (totalSongsPlayed % 5 === 0) {
         _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'songs-played', '', totalSongsPlayed]);
     }
-}
-
-/*
- * Play audio when you've reached the end of a playlist
- */
-var playPlaylistEndAudio = function() {
-    var playlistEndAudioURL = APP_CONFIG.S3_BASE_URL + "/assets/ocean_breeze.mp3";
-
-    if (!NO_AUDIO){
-        $audioPlayer.jPlayer('setMedia', {
-            mp3: playlistEndAudioURL
-        }).jPlayer('play');
-    }
-
-    $playerArtist.text('');
-    $playerTitle.text('');
 }
 
 /*
@@ -614,7 +597,7 @@ var switchTag = function(tag, noAutoplay) {
     buildPlaylist();
 
     if (noAutoplay !== true) {
-        playNextSong();
+        playIntroAudio();
     }
 }
 
@@ -644,7 +627,7 @@ var onShuffleSongsClick = function(e) {
     toggleFilterPanel();
     updateTagDisplay();
     buildPlaylist();
-    playNextSong();
+    playIntroAudio();
 }
 
 /*
@@ -695,7 +678,7 @@ var onGoButtonClick = function(e) {
     playedSongs = [];
     simpleStorage.set('playedSongs', playedSongs);
     switchTag(null, true);
-    startPrerollAudio();
+    playIntroAudio();
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'shuffle']);
 }
@@ -716,7 +699,7 @@ var onLandingGenreClick = function(e) {
     swapTapeDeck();
     var tag = $(this).data('tag');
     switchTag(tag, true);
-    startPrerollAudio();
+    playIntroAudio();
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'landing-genre-select', $(this).data('tag')]);
 }
