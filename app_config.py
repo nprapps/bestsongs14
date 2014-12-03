@@ -15,7 +15,7 @@ NAMES
 """
 # Project name to be used in urls
 # Use dashes, not underscores!
-PROJECT_SLUG = 'bestsongs14'
+PROJECT_SLUG = 'best-songs-2014'
 
 # Project name to be used in file paths
 PROJECT_FILENAME = 'bestsongs14'
