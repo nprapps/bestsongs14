@@ -143,15 +143,10 @@ REVIEWER_TAGS = [
 ]
 
 REVIEWER_IMAGES = {
-    'Lars Gotrich': 'lars.jpg',
-    'Ann Powers': 'ann.jpg',
-    'Otis Hart': 'otis.jpg',
-    'Jacob Ganz': 'jacob.jpg',
-    'Sami Yenigun': 'sami.jpg',
-    'Stephen Thompson': 'sthompson.jpg',
-    'Robin Hilton': 'robin.jpg',
-    'Jason King': 'jason.jpg',
-    'Bob Boilen': 'bob.jpg'
+    'Jason Bentley': 'jason-bentley.jpg',
+    'Rita Houston': 'rita-houst.jpg',
+    'David Dye': 'david-dye.jpg',
+    'Kevin Cole': 'kevin-cole.jpg'
 }
 
 SHUFFLE_AUDIO_INTRO = 'assets/shuffle-intro.mp3'
