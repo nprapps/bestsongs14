@@ -7,7 +7,7 @@
 <!--         <div class="shuffle">
             <h3>Shuffle</h3>
             <ul class="tags list-unstyled">
-                
+
             </ul>
         </div> -->
 
@@ -15,7 +15,7 @@
             <h3>Select a mix</h3>
             <ul class="tags list-unstyled">
                 {% for tag in GENRE_TAGS %}
-                <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
+                <li><a class="disabled genre-btn" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                 {% endfor %}
                 <li><a href="#" class="shuffle-songs">All Our Favorite Songs</a></li>
             </ul>
