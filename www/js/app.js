@@ -197,16 +197,7 @@ var playNextSong = function() {
 
     var context = $.extend(APP_CONFIG, COPY, nextSong);
     var $html = $(JST.song(context));
-
     $songs.append($html);
-    $songs.find('.song').last().velocity('fadeIn');
-    $songs.find('.song').last().prev().velocity("scroll", {
-        duration: 350,
-        offset: is_small_screen ? 0 : -fixedHeaderHeight,
-        complete: function(){
-            $(this).addClass('small');
-        }
-    });
 
     $playerArtist.text(nextSong['artist']);
     $playerTitle.text(nextSong['title']);
@@ -222,11 +213,12 @@ var playNextSong = function() {
     $pause.show();
 
     if (onWelcome) {
-        $html.css('min-height', songHeight).velocity('fadeIn');
+        $html.css('min-height', songHeight).show();
         $html.find('.container-fluid').css('height', songHeight);
 
         hideWelcome();
     } else {
+        $html.find('.container-fluid').css('height', songHeight);
         $html.prev().velocity("scroll", {
             duration: 350,
             offset: is_small_screen ? 0 : -fixedHeaderHeight,
@@ -245,7 +237,6 @@ var playNextSong = function() {
                             });
                         }
                     });
-                $html.find('.container-fluid').css('height', songHeight)
             }
         });
     }
