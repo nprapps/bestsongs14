@@ -851,9 +851,8 @@ h1,h2,h3,h4,h5,h6 {
 		}
 	}
 
-	&:after {
+	.carot {
 		font-family: FontAwesome;
-		content: '\f106';
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -866,8 +865,11 @@ h1,h2,h3,h4,h5,h6 {
 		text-align: center;
 		// margin-right: @grid-gutter-width;
 
-		.expand & {
-			content: '\f107';
+		&:after {
+			content: '\f106';
+			.expand & {
+				content: '\f107';
+			}
 		}
 	}
 
