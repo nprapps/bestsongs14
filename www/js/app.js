@@ -146,6 +146,7 @@ var setupAudio = function() {
         supplied: 'mp3',
         loop: false,
         timeupdate: onTimeUpdate,
+        swfPath: APP_CONFIG.S3_BASE_URL + '/js/lib/jquery.jplayer.swf'
     });
 }
 
@@ -201,6 +202,7 @@ var playNextSong = function() {
 
     $playerArtist.text(nextSong['artist']);
     $playerTitle.text(nextSong['title']);
+    document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | The Perfect Mixtape';
 
     var nextsongURL = 'http://pd.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 

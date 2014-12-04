@@ -118,13 +118,13 @@ GENRE_TAGS = [
     'Classical',
     'Country/Americana',
     'Electronic',
-    '\m/ >_< \m/',
     'Hip-hop',
     'Jazz',
     'Latin',
     'Pop',
     'R&B',
     'Rock',
+    '\m/ >_< \m/',
     'World'
 ]
 
@@ -148,6 +148,15 @@ REVIEWER_TAGS = [
 ]
 
 REVIEWER_IMAGES = {
+    'Lars Gotrich': 'lars.jpg',
+    'Ann Powers': 'ann.jpg',
+    'Otis Hart': 'otis.jpg',
+    'Jacob Ganz': 'jacob.jpg',
+    'Sami Yenigun': 'sami.jpg',
+    'Stephen Thompson': 'sthompson.jpg',
+    'Robin Hilton': 'robin.jpg',
+    'Jason King': 'jason.jpg',
+    'Bob Boilen': 'bob.jpg',
     'Jason Bentley': 'jason-bentley.jpg',
     'Rita Houston': 'rita-houst.jpg',
     'David Dye': 'david-dye.jpg',
@@ -160,13 +169,13 @@ TAG_AUDIO_INTROS = {
     'Classical': 'assets/genre-intro.mp3',
     'Country/Americana': 'assets/genre-intro.mp3',
     'Electronic': 'assets/genre-intro.mp3',
-    '\m/ >_< \m/': 'assets/genre-intro.mp3',
     'Hip-hop': 'assets/genre-intro.mp3',
     'Jazz': 'assets/genre-intro.mp3',
     'Latin': 'assets/genre-intro.mp3',
     'Pop': 'assets/genre-intro.mp3',
     'R&B': 'assets/genre-intro.mp3',
     'Rock': 'assets/genre-intro.mp3',
+    '\m/ >_< \m/': 'assets/genre-intro.mp3',
     'World': 'assets/genre-intro.mp3',
     'Bob Boilen': 'assets/reviewer-intro.mp3',
     'Robin Hilton': 'assets/reviewer-intro.mp3',

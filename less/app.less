@@ -1025,6 +1025,10 @@ h1,h2,h3,h4,h5,h6 {
 		.transition(opacity 0.2s ease-in-out);
 	}
 
+    li a[data-tag^="\\m/"] {
+        text-transform: lowercase;
+    }
+
 	li:nth-child(1n) a { background: @tag-1; border-color: @tag-1; }
 	li:nth-child(2n) a { background: @tag-2; border-color: @tag-2; }
 	li:nth-child(3n) a { background: @tag-3; border-color: @tag-3; }
