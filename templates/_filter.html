@@ -4,12 +4,12 @@
 <div class="playlist-filters">
 
     <div class="playlist-filters-wrapper">
-        <div class="shuffle">
+<!--         <div class="shuffle">
             <h3>Shuffle</h3>
             <ul class="tags list-unstyled">
-                <li><a href="#" class="shuffle-songs">All Our Favorite Songs</a></li>
+                
             </ul>
-        </div>
+        </div> -->
 
         <div class="genre">
             <h3>Genre</h3>
@@ -17,6 +17,7 @@
                 {% for tag in GENRE_TAGS %}
                 <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                 {% endfor %}
+                <li><a href="#" class="shuffle-songs">All Our Favorite Songs</a></li>
             </ul>
         </div>
 
@@ -36,6 +37,6 @@
         </div>
 
         <p class="instructions">Currently playing <span class="song-count"><span class="playlist-length"></span> songs out of <span class="total-songs"></span>.</span>
-        
+
     </div>
 </div>
