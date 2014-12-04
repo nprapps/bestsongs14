@@ -821,36 +821,40 @@ h1,h2,h3,h4,h5,h6 {
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
 	background: @music-hp-light;
-	color: #666;
-	font-size: @font-size-base;
+	color: #9b9b9b;
+	font-size: @font-size-small;
 	letter-spacing: 0.2rem;
 	height: 4rem;
-	line-height: 4rem;
+	padding-top: 0.6rem;
+	line-height: 1.5;
 	margin-bottom: 0;
 	border-bottom: 1px solid #ddd;
 	cursor: pointer;
-	padding-left: @grid-gutter-width;
-
-	@media screen and (max-width: @screen-xs-max){
-		padding-left: @grid-gutter-width / 2;
-		font-size: @font-size-small;
-	}
+	padding-left: 6rem;
 
 	&:hover {
-		background: @white;
+		// background: @white;
+
+		&:after {
+			background: @primary-control;
+			color: @white;
+		}
 	}
 
 	&:after {
 		font-family: FontAwesome;
 		content: '\f106';
-		float: right;
+		position: absolute;
+		left: 0;
+		top: 0;
 		font-size: 1.5rem;
-		color: @music-red-light;
-		margin-right: @grid-gutter-width;
-
-		@media screen and (max-width: @screen-xs-max){
-			margin-right: @grid-gutter-width / 2;
-		}
+		width: 5rem;
+		height: 4rem;
+		line-height: 4rem;
+		background: rgba(0,0,0,0.1);
+		color: #666;
+		text-align: center;
+		// margin-right: @grid-gutter-width;
 
 		.expand & {
 			content: '\f107';
@@ -858,7 +862,13 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.song-count,
-	.current-dj { color: @music-red-light; }
+	.current-dj { color: #666 }
+
+	.current-dj {
+		display: block;
+		color: @music-red-light;
+		font-family: 'Gotham SSm',Helvetica,Arial,sans-serif;
+	}
 }
 
 .playlist-filters {
