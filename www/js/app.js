@@ -765,7 +765,7 @@ var getSong = function($el) {
 var onWindowResize = function(e) {
     var height = $(window).height();
     var width = (height * 3) / 2;
-    fixedHeaderHeight = $html.css('font-size') * 4;
+    fixedHeaderHeight = parseInt($html.css('font-size')) * 4;
 
     is_small_screen = Modernizr.mq('screen and (max-width: 767px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
