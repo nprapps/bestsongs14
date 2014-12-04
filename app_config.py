@@ -154,6 +154,33 @@ REVIEWER_IMAGES = {
     'Bob Boilen': 'bob.jpg'
 }
 
+SHUFFLE_AUDIO_INTRO = 'shuffle-intro.mp3'
+
+TAG_AUDIO_INTROS = {
+    'Folk / Americana': 'genre-intro.mp3',
+    'Rock': 'genre-intro.mp3',
+    'Unclassified': 'genre-intro.mp3',
+    'Electronic / Dance': 'genre-intro.mp3',
+    'Pop': 'genre-intro.mp3',
+    'R&B': 'genre-intro.mp3',
+    'Bob Boilen': 'reviewer-intro.mp3',
+    'Robin Hilton': 'reviewer-intro.mp3',
+    'Ann Powers': 'reviewer-intro.mp3',
+    'Stephen Thompson': 'reviewer-intro.mp3',
+    'Anastasia Tsioulcas': 'reviewer-intro.mp3',
+    'Tom Huizenga': 'reviewer-intro.mp3',
+    'Patrick Jarenwattananon': 'reviewer-intro.mp3',
+    'Lars Gotrich': 'reviewer-intro.mp3',
+    'Frannie Kelley': 'reviewer-intro.mp3',
+    'Jason King': 'reviewer-intro.mp3',
+    'Felix Contreras': 'reviewer-intro.mp3',
+    'Jasmine Garsd': 'reviewer-intro.mp3',
+    'Jason Bentley': 'reviewer-intro.mp3',
+    'David Dye': 'reviewer-intro.mp3',
+    'Rita Houston': 'reviewer-intro.mp3',
+    'Kevin Cole': 'reviewer-intro.mp3'
+}
+
 SKIP_LIMIT = 6
 
 """
