@@ -21,10 +21,18 @@
                 </div>
 
                 <ul class="song-tools list-unstyled">
+                    <% if (ASIN) { %>
                     <li><a target="_blank" href="http://amazon.com/dp/<%= ASIN %>?tag=npr-5-20" class="amazon"><span class="icon-amazon"></span></a></li>
+                    <% } %>
+                    <% if (itunes) { %>
                     <li><a target="_blank" href="<%= itunes %>&at=11l79Y" class="itunes"><span class="icon-apple"></span></a></li>
+                    <% } %>
+                    <% if (rdio) { %>
                     <li><a target="_blank" href="<%= rdio %>" class="rdio"><span class="icon-rdio"></span></a></li>
+                    <% } %>
+                    <% if (spotify) { %>
                     <li><a target="_blank" href="<%= spotify %>" class="spotify"><span class="icon-spotify-circled"></span></a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
