@@ -167,7 +167,7 @@ var playIntroAudio = function() {
     }
 
     $audioPlayer.jPlayer('setMedia', {
-        mp3: APP_CONFIG.S3_BASE_URL + '/assets/' + audioFile
+        mp3: audioFile
     });
     $playerArtist.text('');
     $playerTitle.text('');

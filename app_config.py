@@ -154,31 +154,31 @@ REVIEWER_IMAGES = {
     'Bob Boilen': 'bob.jpg'
 }
 
-SHUFFLE_AUDIO_INTRO = 'shuffle-intro.mp3'
+SHUFFLE_AUDIO_INTRO = 'assets/shuffle-intro.mp3'
 
 TAG_AUDIO_INTROS = {
-    'Folk / Americana': 'genre-intro.mp3',
-    'Rock': 'genre-intro.mp3',
-    'Unclassified': 'genre-intro.mp3',
-    'Electronic / Dance': 'genre-intro.mp3',
-    'Pop': 'genre-intro.mp3',
-    'R&B': 'genre-intro.mp3',
-    'Bob Boilen': 'reviewer-intro.mp3',
-    'Robin Hilton': 'reviewer-intro.mp3',
-    'Ann Powers': 'reviewer-intro.mp3',
-    'Stephen Thompson': 'reviewer-intro.mp3',
-    'Anastasia Tsioulcas': 'reviewer-intro.mp3',
-    'Tom Huizenga': 'reviewer-intro.mp3',
-    'Patrick Jarenwattananon': 'reviewer-intro.mp3',
-    'Lars Gotrich': 'reviewer-intro.mp3',
-    'Frannie Kelley': 'reviewer-intro.mp3',
-    'Jason King': 'reviewer-intro.mp3',
-    'Felix Contreras': 'reviewer-intro.mp3',
-    'Jasmine Garsd': 'reviewer-intro.mp3',
-    'Jason Bentley': 'reviewer-intro.mp3',
-    'David Dye': 'reviewer-intro.mp3',
-    'Rita Houston': 'reviewer-intro.mp3',
-    'Kevin Cole': 'reviewer-intro.mp3'
+    'Folk / Americana': 'assets/genre-intro.mp3',
+    'Rock': 'assets/genre-intro.mp3',
+    'Unclassified': 'assets/genre-intro.mp3',
+    'Electronic / Dance': 'assets/genre-intro.mp3',
+    'Pop': 'assets/genre-intro.mp3',
+    'R&B': 'assets/genre-intro.mp3',
+    'Bob Boilen': 'assets/reviewer-intro.mp3',
+    'Robin Hilton': 'assets/reviewer-intro.mp3',
+    'Ann Powers': 'assets/reviewer-intro.mp3',
+    'Stephen Thompson': 'assets/reviewer-intro.mp3',
+    'Anastasia Tsioulcas': 'assets/reviewer-intro.mp3',
+    'Tom Huizenga': 'http://pd.npr.org/anon.npr-mp3/npr/specials/2014/12/20141204_specials_huizengaid.mp3',
+    'Patrick Jarenwattananon': 'assets/reviewer-intro.mp3',
+    'Lars Gotrich': 'assets/reviewer-intro.mp3',
+    'Frannie Kelley': 'assets/reviewer-intro.mp3',
+    'Jason King': 'assets/reviewer-intro.mp3',
+    'Felix Contreras': 'assets/reviewer-intro.mp3',
+    'Jasmine Garsd': 'assets/reviewer-intro.mp3',
+    'Jason Bentley': 'assets/reviewer-intro.mp3',
+    'David Dye': 'assets/reviewer-intro.mp3',
+    'Rita Houston': 'assets/reviewer-intro.mp3',
+    'Kevin Cole': 'assets/reviewer-intro.mp3'
 }
 
 SKIP_LIMIT = 6
