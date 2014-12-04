@@ -12,7 +12,7 @@
         </div> -->
 
         <div class="genre">
-            <h3>Genre</h3>
+            <h3>Select a station</h3>
             <ul class="tags list-unstyled">
                 {% for tag in GENRE_TAGS %}
                 <li><a class="disabled" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
@@ -22,7 +22,6 @@
         </div>
 
         <div class="reviewer">
-            <h3>Our Mixtapes</h3>
                 <ul class="reviewers tags list-unstyled">
                     {% set dj_bio = cycler('metal and polka', 'ska and screamo') %}
                     {% for reviewer in REVIEWER_TAGS %}
