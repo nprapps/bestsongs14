@@ -328,8 +328,9 @@ h1,h2,h3,h4,h5,h6 {
 	right: 0;
 	height: 4rem;
 	padding: 0 @grid-gutter-width;
-	background: @music-dark;
+	background: @music-hp-dark;
 	color: @music-medium;
+	border-bottom: 1px solid #253645;
 	z-index: @z-fixed-header;
 	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
 
@@ -387,7 +388,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	.fixed-header-controls a {
 		font-size: @font-size-base * 0.875;
-		color: @white;
+		color: @music-hp-link-color;
 		-webkit-font-smoothing: antialiased;
 		// font-family: 'Knockout 31 4r';
 		text-transform: lowercase;
@@ -395,7 +396,7 @@ h1,h2,h3,h4,h5,h6 {
 		cursor: pointer;
 
 		&:hover {
-			color: @primary-control;
+			color: @white;
 			text-decoration: none;
 		}
 	}
@@ -428,7 +429,8 @@ h1,h2,h3,h4,h5,h6 {
 .songs {
 	display: none;
 	color: @white;
-	background: @music-hp-dark;
+	background-color: #142129;
+	background: repeating-radial-gradient(circle at 0 0, #121b21, #19232b 7rem);
 	padding-top: 4rem;
 	padding-bottom: 9rem;
 }
@@ -448,8 +450,13 @@ h1,h2,h3,h4,h5,h6 {
 		width: 100%;
 	}
 
+	&:first-child {
+		border-color: transparent;
+	}
+
 	&:last-child {
-		background: @music-hp-dark;
+		background: transparent;
+		border-color: transparent;
 	}
 
 	&:not(:last-child) {
