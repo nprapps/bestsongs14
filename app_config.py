@@ -115,12 +115,17 @@ DISQUS_API_KEY = 'tIbSzEhGBE9NIptbnQWn4wy1gZ546CsQ2IHHtxJiYAceyyPoAkDkVnQfCifmCa
 DISQUS_UUID = '1e6c6345-69ba-11e4-95c2-80e650107db6'
 
 GENRE_TAGS = [
-    'Folk / Americana',
-    'Rock',
-    'Unclassified',
-    'Electronic / Dance',
+    'Classical',
+    'Country/Americana',
+    'Electronic',
+    '\m/ >_< \m/',
+    'Hip-hop',
+    'Jazz',
+    'Latin',
     'Pop',
-    'R&B'
+    'R&B',
+    'Rock',
+    'World'
 ]
 
 REVIEWER_TAGS = [
@@ -152,12 +157,17 @@ REVIEWER_IMAGES = {
 SHUFFLE_AUDIO_INTRO = 'assets/shuffle-intro.mp3'
 
 TAG_AUDIO_INTROS = {
-    'Folk / Americana': 'assets/genre-intro.mp3',
-    'Rock': 'assets/genre-intro.mp3',
-    'Unclassified': 'assets/genre-intro.mp3',
-    'Electronic / Dance': 'assets/genre-intro.mp3',
+    'Classical': 'assets/genre-intro.mp3',
+    'Country/Americana': 'assets/genre-intro.mp3',
+    'Electronic': 'assets/genre-intro.mp3',
+    '\m/ >_< \m/': 'assets/genre-intro.mp3',
+    'Hip-hop': 'assets/genre-intro.mp3',
+    'Jazz': 'assets/genre-intro.mp3',
+    'Latin': 'assets/genre-intro.mp3',
     'Pop': 'assets/genre-intro.mp3',
     'R&B': 'assets/genre-intro.mp3',
+    'Rock': 'assets/genre-intro.mp3',
+    'World': 'assets/genre-intro.mp3',
     'Bob Boilen': 'assets/reviewer-intro.mp3',
     'Robin Hilton': 'assets/reviewer-intro.mp3',
     'Ann Powers': 'assets/reviewer-intro.mp3',
