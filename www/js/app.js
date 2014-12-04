@@ -1,4 +1,5 @@
 // Global jQuery references
+var $html = null;
 var $body = null;
 var $shareModal = null;
 var $goButton = null;
@@ -51,6 +52,7 @@ var curator = null;
 var totalSongsPlayed = 0;
 var songHistory = {};
 var songHeight = null;
+var fixedHeaderHeight = null;
 var is_small_screen = false
 
 /*
@@ -58,6 +60,7 @@ var is_small_screen = false
  */
 var onDocumentLoad = function(e) {
     // Cache jQuery references
+    $html = $('html');
     $body = $('body');
     $shareModal = $('#share-modal');
     $goButton = $('.go');
@@ -199,7 +202,7 @@ var playNextSong = function() {
     $songs.find('.song').last().velocity('fadeIn');
     $songs.find('.song').last().prev().velocity("scroll", {
         duration: 350,
-        offset: is_small_screen ? 0 : -60,
+        offset: is_small_screen ? 0 : -fixedHeaderHeight,
         complete: function(){
             $(this).addClass('small');
         }
@@ -226,21 +229,22 @@ var playNextSong = function() {
     } else {
         $html.prev().velocity("scroll", {
             duration: 350,
-            offset: is_small_screen ? 0 : -60,
+            offset: is_small_screen ? 0 : -fixedHeaderHeight,
             complete: function(){
                 $html.prev().find('.container-fluid').css('height', '0');
+                $html.prev().find('.song-info').css('min-height', $html.prev().find('.song-info').outerHeight());
                 $html.prev().css('min-height', '0').addClass('small');
                 $html.css('min-height', songHeight)
-                .velocity('fadeIn', {
-                    duration: 300,
-                    begin: function(){
-                        $(this).velocity("scroll", {
-                            duration: 500,
-                            offset: is_small_screen ? 0 : -60,
-                            delay: 200
-                        });
-                    }
-                });
+                    .velocity('fadeIn', {
+                        duration: 300,
+                        begin: function(){
+                            $(this).velocity("scroll", {
+                                duration: 500,
+                                offset: is_small_screen ? 0 : -fixedHeaderHeight,
+                                delay: 200
+                            });
+                        }
+                    });
                 $html.find('.container-fluid').css('height', songHeight)
             }
         });
@@ -262,6 +266,7 @@ var setCurrentSongHeight = function(){
     }
 
     $songs.children().last().find('.container-fluid').css('height', songHeight);
+    $songs.children().last().find('.song-info').css('min-height', $songs.children().last().find('.song-info').outerHeight());
 }
 
 /*
@@ -631,7 +636,7 @@ var hideWelcome  = function() {
         duration: 1000,
         begin: function() {
             $fixedHeader.show();
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
+            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
         }
     })
 
@@ -760,8 +765,9 @@ var getSong = function($el) {
 var onWindowResize = function(e) {
     var height = $(window).height();
     var width = (height * 3) / 2;
+    fixedHeaderHeight = $html.css('font-size') * 4;
 
-    is_small_screen = Modernizr.mq('screen and (max-width: 480px)');
+    is_small_screen = Modernizr.mq('screen and (max-width: 767px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
     $landing.find('.poster-static').css('background-size', width + 'px ' + height + 'px');
     setCurrentSongHeight();
