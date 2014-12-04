@@ -98,6 +98,7 @@ Changes to deployment requires a full-stack test. Deployment
 has two primary functions: Pushing flat files to S3 and deploying
 code to a remote server if required.
 """
+
 def _deploy_to_s3(path='.gzip'):
     """
     Deploy project files to S3.
@@ -114,8 +115,8 @@ def _deploy_to_s3(path='.gzip'):
             exclude_flags += '--exclude "%s" ' % line.strip()
             include_flags += '--include "%s" ' % line.strip()
 
-    exclude_flags += '--exclude "www/assets" '
-    
+    exclude_flags += '--exclude "assets/*" '
+
     sync = ('aws s3 sync %s/ %s/ --acl "public-read" ' + exclude_flags + ' --cache-control "max-age=%i" --region "%s"') % (
         path,
         app_config.S3_DEPLOY_URL,
@@ -130,20 +131,17 @@ def _deploy_to_s3(path='.gzip'):
         app_config.S3_BUCKET['region']
     )
 
-    local(sync)
-    local(sync_gzip)
-
-def _deploy_assets():
-    """
-    Deploy assets to S3.
-    """
-    sync_assets = 'aws s3 sync www/assets/ %s/assets/ --acl "public-read" --cache-control "max-age=%i" --region "%s"' % (
+    sync_assets = 'aws s3 sync %s/assets/ %s/assets/ --acl "public-read" --cache-control "max-age=%i" --region "%s"' % (
+        path,
         app_config.S3_DEPLOY_URL,
         app_config.ASSETS_MAX_AGE,
         app_config.S3_BUCKET['region']
     )
 
+    local(sync)
+    local(sync_gzip)
     local(sync_assets)
+
 
 def _gzip(in_path='www', out_path='.gzip'):
     """
@@ -158,7 +156,7 @@ def update():
     """
     text.update()
     assets.sync()
-    data.update()
+    #data.update()
 
 @task
 def deploy(remote='origin'):
@@ -191,7 +189,6 @@ def deploy(remote='origin'):
     render.render_all()
     _gzip('www', '.gzip')
     _deploy_to_s3()
-    _deploy_assets()
 
 """
 Destruction
@@ -217,7 +214,7 @@ def shiva_the_destroyer():
             app_config.S3_BUCKET['bucket_name'],
             app_config.PROJECT_SLUG,
             app_config.S3_BUCKET['region']
-        ) 
+        )
 
         local(sync)
 
