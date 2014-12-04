@@ -760,7 +760,6 @@ var onWindowResize = function(e) {
 
     is_small_screen = Modernizr.mq('screen and (max-width: 767px)');
     $landing.find('.landing-wrapper').css('height', $(window).height());
-    $landing.find('.poster-static').css('background-size', width + 'px ' + height + 'px');
     setCurrentSongHeight();
 }
 
