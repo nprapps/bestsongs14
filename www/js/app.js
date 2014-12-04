@@ -146,6 +146,7 @@ var setupAudio = function() {
         supplied: 'mp3',
         loop: false,
         timeupdate: onTimeUpdate,
+        swfPath: APP_CONFIG.S3_BASE_URL + '/js/lib/jquery.jplayer.swf'
     });
 }
 
