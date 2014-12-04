@@ -201,6 +201,7 @@ var playNextSong = function() {
 
     $playerArtist.text(nextSong['artist']);
     $playerTitle.text(nextSong['title']);
+    document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | The Perfect Mixtape';
 
     var nextsongURL = 'http://pd.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 
