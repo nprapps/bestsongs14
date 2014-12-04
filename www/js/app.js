@@ -665,11 +665,11 @@ var onClearHistoryButtonClick = function(e) {
 var hideWelcome  = function() {
     $('.songs, .player-container').show();
 
-    $landing.velocity('slideUp', {
+    $landing.velocity('fadeOut', {
         duration: 1000,
-        complete: function(){
+        begin: function() {
+            $fixedHeader.show();
             $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -60 });
-            $fixedHeader.velocity('fadeIn', { duration: 'slow' });
         }
     })
 
