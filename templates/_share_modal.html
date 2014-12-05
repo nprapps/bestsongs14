@@ -15,6 +15,14 @@
                         <h4><a href="mailto:?body={{ COPY.share.email_body|safe }}&subject={{ COPY.share.email_subject }}" onclick="_gaq.push(['_trackEvent', '{{ PROJECT_SLUG }}', 'email', 'share-discuss']);"><i class="fa fa-envelope share-icon"></i> <b>Email to a friend</b></a></h4>
                     </div><!-- / email-friend -->
 
+                <div class="tumblr-share share-section">
+                    <h4>On Tumblr</h4>
+
+                    <p class="share-story">
+                        <a href="http://www.tumblr.com/share/photo?source={{ S3_BASE_URL|urlencode }}/{{ COPY.share.tumblr_image_url|urlencode }}&amp;caption={{ COPY.share.tumblr_image_caption|urlencode }}&amp;clickthru={{ COPY.share.share_url|urlencode }}" target="_blank"><i class="fa fa-tumblr share-icon"></i> <b>Share story on Tumblr</b></a>
+                    </p>
+                </div>
+
                 <div class="facebook-share share-section">
 
                     <h4>On Facebook</h4>
