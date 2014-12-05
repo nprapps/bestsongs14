@@ -247,11 +247,11 @@ var playNextSong = function() {
                 $html.css('min-height', songHeight)
                     .velocity('fadeIn', {
                         duration: 300,
-                        begin: function(){
+                        complete: function(){
                             $(this).velocity("scroll", {
                                 duration: 500,
                                 offset: is_small_screen ? 0 : -fixedHeaderHeight,
-                                delay: 200
+                                delay: 300
                             });
                         }
                     });
@@ -728,8 +728,12 @@ var onDocumentKeyDown = function(e) {
             e.preventDefault();
             if ($audioPlayer.data('jPlayer').status.paused) {
                 $audioPlayer.jPlayer('play');
+                $pause.show();
+                $play.hide();
             } else {
                 $audioPlayer.jPlayer('pause');
+                $pause.hide();
+                $play.show();
             }
             break;
     }
