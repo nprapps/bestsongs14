@@ -303,6 +303,11 @@ var playNextSong = function() {
                                         'display': 'none'
                                     });
                                     $(document).on('scroll', onDocumentScroll);
+
+                                    if (playedSongs.length > 1) {
+                                        $historyButton.show();
+                                        $historyButton.removeClass('offscreen');
+                                    }
                                 }
                             });
                         }
@@ -545,10 +550,6 @@ var resetLegalLimits = function() {
  */
 var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
-
-    if (playedSongs.length > 1) {
-        $historyButton.removeClass('hide');
-    }
 
     simpleStorage.set('playedSongs', playedSongs);
 }
@@ -860,7 +861,7 @@ var showHistory = function() {
  * Check if play history is visible
  */
 var toggleHistoryButton = function(e) {
-    if (is_small_screen){
+    if (playedSongs.length < 2) {
         return;
     }
 

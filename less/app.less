@@ -503,11 +503,16 @@ h1,h2,h3,h4,h5,h6 {
 	border-radius: 4px;
 	text-decoration: none;
 	.scale(1);
+	.translate(0,0);
 
 	&:hover {
 		color: @white;
 		border-color: @white;
 		text-decoration: none;
+	}
+
+	&.offscreen {
+		.scale(0);
 	}
 
 	@media screen and (max-width: @screen-xs-max){
@@ -520,11 +525,14 @@ h1,h2,h3,h4,h5,h6 {
 		text-align: center;
 		vertical-align: middle;
 		font-size: @font-size-base;
+
+		&.offscreen {
+			.scale(1);
+			.translate(0,-100%);
+		}
 	}
 
-	&.offscreen {
-		.scale(0);
-	}
+
 }
 
 .songs {
