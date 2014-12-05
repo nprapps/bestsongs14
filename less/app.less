@@ -485,16 +485,46 @@ h1,h2,h3,h4,h5,h6 {
 // Playlist
 // --------------------------------------------------
 
-.show-history {
-	display: none;
+.show-history,
+.show-history:visited,
+.show-history:focus {
+	.transition(all 0.2s ease-in-out);
 	color: @music-hp-link-color;
-	font-family: 'Knockout 31 4r';
+	border: 1px solid @music-hp-link-color;
+	// font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
 	letter-spacing: 0.1rem;
-	font-size: @font-size-small;
+	font-size: @font-size-base * 0.712;
 	position: fixed;
-	top: 0;
+	top: 5rem;
 	right: @grid-gutter-width;
+	background: fadeout(@music-hp-dark, 10%);
+	padding: 0.5rem;
+	border-radius: 4px;
+	text-decoration: none;
+	.scale(1);
+
+	&:hover {
+		color: @white;
+		border-color: @white;
+		text-decoration: none;
+	}
+
+	@media screen and (max-width: @screen-xs-max){
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4rem;
+		line-height: 3rem;
+		border: none;
+		text-align: center;
+		vertical-align: middle;
+		font-size: @font-size-base;
+	}
+
+	&.offscreen {
+		.scale(0);
+	}
 }
 
 .songs {
@@ -519,6 +549,11 @@ h1,h2,h3,h4,h5,h6 {
 		margin: 0 auto;
 		display: table;
 		width: 100%;
+
+		@media screen and (max-width: @screen-xs-max){
+			padding-left: 0.5rem;
+			padding-right: 0.5rem;
+		}
 	}
 
 	&:first-child {
@@ -550,6 +585,8 @@ h1,h2,h3,h4,h5,h6 {
 
 		@media screen and (orientation: portrait){
 			vertical-align: top;
+			margin-left: 0.5rem;
+			margin-right: 0.5rem;
 		}
 
 		.album-cover {
@@ -561,10 +598,20 @@ h1,h2,h3,h4,h5,h6 {
 				.transition(width 0.3s ease-in-out  0.3s);
 				.make-sm-column(1);
 				margin-bottom: 0;
+
+				@media screen and (max-width: @screen-xs-max){
+					padding-left: 0.5rem;
+					padding-right: 0.5rem;
+				}
 			}
 
 			margin-bottom: @line-height-computed;
 			margin-right: 0;
+
+			@media screen and (max-width: @screen-xs-max){
+				padding-left: 0.5rem;
+				padding-right: 0.5rem;
+			}
 		}
 
 		.song-info-wrapper {
@@ -572,8 +619,9 @@ h1,h2,h3,h4,h5,h6 {
 			.make-sm-column(9);
 			padding-bottom: @font-size-base * 3;
 
-			.small& {
-				padding-bottom: 0;
+			@media screen and (max-width: @screen-xs-max){
+				padding-left: 0.5rem;
+				padding-right: 0.5rem;
 			}
 
 			@media screen and (max-width: @screen-xs-max){
@@ -594,6 +642,9 @@ h1,h2,h3,h4,h5,h6 {
 			.small& {
 				.transition(all 0.3s ease-in-out  0.3s);
 				.make-sm-column(11);
+				padding-left: 0.5rem;
+				padding-right: 0.5rem;
+				padding-bottom: 0;
 			}
 		}
 	}
@@ -637,10 +688,14 @@ h1,h2,h3,h4,h5,h6 {
 	.review {
 		background: @white;
 		color: @music-dark;
-		padding: @grid-gutter-width / 2 @grid-gutter-width;
+		padding: @grid-gutter-width;
 		font-size: @font-size-base * 1.2;
 		line-height: 1.4;
 		margin: 0;
+
+		@media screen and (max-width: @screen-xs-max){
+			padding: 1rem;
+		}
 	}
 
 	.mug {
@@ -649,6 +704,10 @@ h1,h2,h3,h4,h5,h6 {
 
 		img {
 			.square(7rem);
+
+			@media screen and (max-width: @screen-xs-max){
+				.square(5rem);
+			}
 		}
 
 		&:after {
@@ -670,23 +729,37 @@ h1,h2,h3,h4,h5,h6 {
 		background: @music-dark;
 		overflow: hidden;
 		font-size: @font-size-base * 1.2;
+		line-height: 1;
 		margin-bottom: 0;
+
+		@media screen and (max-width: @screen-xs-max){
+			font-size: @font-size-base;
+		}
 
 		.reviewer-link {
 			display: block;
-			position: absolute;
-			left: @grid-gutter-width;
-			bottom: 1rem;
+			// position: absolute;
+			// left: @grid-gutter-width;
+			// bottom: 1rem;
+			padding: 1rem 0 0 2rem;
 			background: transparent;
 			color: @music-hp-link-color;
 			text-transform: uppercase;
 			font-size: @font-size-base * 0.7125;
+
+			@media screen and (max-width: @screen-xs-max){
+				padding: 0 0 0 1rem;
+			}
 		}
 	}
 
 	.byline .name{
 		display: block;
-		padding: @grid-gutter-width;
+		padding: @grid-gutter-width 0 0 @grid-gutter-width;
+
+		@media screen and (max-width: @screen-xs-max){
+			padding: 1rem;
+		}
 	}
 
 
@@ -980,6 +1053,7 @@ h1,h2,h3,h4,h5,h6 {
 	right: 0;
 	bottom: 0;
 	left: 0;
+	padding-bottom: 3rem;
 
 	.playlist-filters-wrapper {
 		padding: @grid-gutter-width @grid-gutter-width 6rem;

@@ -32,6 +32,7 @@ var $filtersButton = null;
 var $filtersContainer = null;
 var $currentDj = null;
 var $fixedControls = null;
+var $historyButton = null;
 
 // URL params
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
@@ -92,6 +93,7 @@ var onDocumentLoad = function(e) {
     $filtersContainer = $('.stack .playlist-filters');
     $currentDj = $('.current-dj');
     $fixedControls = $('.fixed-controls');
+    $historyButton = $('.js-show-history');
     onWindowResize();
     $landing.show();
 
@@ -108,7 +110,9 @@ var onDocumentLoad = function(e) {
     $pause.on('click', onPauseClick);
     $filtersButton.on('click', onFiltersButtonClick);
     $(window).on('resize', onWindowResize);
+    $(document).on('scroll', onDocumentScroll);
     $shuffleSongs.on('click', onShuffleSongsClick);
+    $historyButton.on('click', showHistory);
     $songs.on('click', '.song:not(:last-child)', onSongCardClick);
     $songs.on('click', '.song-tools .amazon', onAmazonClick);
     $songs.on('click', '.song-tools .itunes', oniTunesClick);
@@ -256,8 +260,11 @@ var playNextSong = function() {
         $html.find('.container-fluid').css('height', songHeight);
         $html.prev().velocity("scroll", {
             duration: 350,
-            offset: is_small_screen ? 0 : -fixedHeaderHeight,
-            complete: function(){
+            offset: -fixedHeaderHeight,
+            begin: function() {
+                $(document).off('scroll');
+            },
+            complete: function() {
                 $html.prev().find('.container-fluid').css('height', '0');
                 $html.prev().find('.song-info').css('min-height', $html.prev().find('.song-info').outerHeight());
                 $html.prev().css('min-height', '0').addClass('small');
@@ -267,13 +274,14 @@ var playNextSong = function() {
                         complete: function(){
                             $(this).velocity("scroll", {
                                 duration: 500,
-                                offset: is_small_screen ? 0 : -fixedHeaderHeight,
+                                offset: fixedHeaderHeight,
                                 delay: 300,
                                 complete: function() {
                                     $('.stack .poster').css({
                                         'opacity': 0,
                                         'display': 'none'
                                     });
+                                    $(document).on('scroll', onDocumentScroll);
                                 }
                             });
                         }
@@ -294,9 +302,9 @@ var playNextSong = function() {
 var setCurrentSongHeight = function(){
     songHeight = $(window).height() - $player.height() - $fixedHeader.height() - $fixedControls.height();
 
-    if (is_small_screen){
-        songHeight += $fixedHeader.height();
-    }
+    // if (is_small_screen){
+    //     songHeight += $fixedHeader.height();
+    // }
 
     $songs.children().last().find('.container-fluid').css('height', songHeight);
     $songs.children().last().find('.song-info').css('min-height', $songs.children().last().find('.song-info').outerHeight());
@@ -516,6 +524,10 @@ var resetLegalLimits = function() {
  */
 var markSongPlayed = function(song) {
     playedSongs.push(song['id'])
+
+    if (playedSongs.length > 1) {
+        $historyButton.removeClass('hide');
+    }
 
     simpleStorage.set('playedSongs', playedSongs);
 }
@@ -817,6 +829,30 @@ var getSong = function($el) {
 }
 
 /*
+ * Scroll to the top of the history
+ */
+var showHistory = function() {
+    $songs.velocity('scroll');
+}
+
+/*
+ * Check if play history is visible
+ */
+var toggleHistoryButton = function(e) {
+    if (is_small_screen){
+        return;
+    }
+
+    var currentSongOffset = $songs.find('.song').last().offset().top - 50;
+    var windowScrollTop = $(window).scrollTop();
+    if (currentSongOffset < windowScrollTop + fixedHeaderHeight){
+        $historyButton.removeClass('offscreen');
+    } else {
+        $historyButton.addClass('offscreen');
+    }
+}
+
+/*
  * Resize the welcome page to fit perfectly.
  */
 var onWindowResize = function(e) {
@@ -828,6 +864,14 @@ var onWindowResize = function(e) {
     $landing.find('.landing-wrapper').css('height', $(window).height());
     setCurrentSongHeight();
 }
+
+/*
+ * Document scrolled
+ */
+var onDocumentScroll = _.throttle(function(e) {
+        console.log('throttled')
+        toggleHistoryButton();
+}, 100);
 
 /*
  * Share modal opened.
