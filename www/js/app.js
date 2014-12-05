@@ -252,6 +252,7 @@ var playNextSong = function() {
     currentSong = nextSong;
     markSongPlayed(currentSong);
     updateTotalSongsPlayed();
+    writeSkipsRemaining();
 }
 
 /*
@@ -408,15 +409,17 @@ var checkSkips = function() {
  */
 var writeSkipsRemaining = function() {
     if (usedSkips.length == APP_CONFIG.SKIP_LIMIT - 1) {
-        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip')
+        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip available')
         $skip.removeClass('disabled');
     }
     else if (usedSkips.length == APP_CONFIG.SKIP_LIMIT) {
-        $('.skips-remaining').text('no skips');
+        var text = 'Skipping available in ';
+            text += moment(usedSkips[usedSkips.length - 1]).add(1, 'hour').fromNow(true);
+        $('.skips-remaining').text(text);
         $skip.addClass('disabled');
     }
     else {
-        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips')
+        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips available')
         $skip.removeClass('disabled');
     }
 }
