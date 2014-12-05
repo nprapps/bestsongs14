@@ -20,7 +20,7 @@
                     <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/<%= REVIEWER_IMAGES[reviewer] %>"></span> <span class="name"><%= reviewer %></span>
                     <% for(var i = 0; i < REVIEWER_TAGS.length; i++) {
                         if (reviewer === REVIEWER_TAGS[i]) { %>
-                            <a href="#" class="reviewer-link" data-tag="<%= reviewer %>">Listen to <%= reviewer %>&rsquo;s mixtape</a>
+                            <a href="#" class="btn btn-primary reviewer-link" data-tag="<%= reviewer %>"><span class="icon-play"></span> Listen to <%= reviewer.split(' ')[0] %>&rsquo;<% if (reviewer.split(' ')[0][reviewer.split(' ')[0].length - 1] !== 's' ) { %>s<% }%> mixtape</a>
                             </p>
                         <% }
                     } %>

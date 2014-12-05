@@ -238,11 +238,11 @@ var playNextSong = function() {
                 $html.css('min-height', songHeight)
                     .velocity('fadeIn', {
                         duration: 300,
-                        begin: function(){
+                        complete: function(){
                             $(this).velocity("scroll", {
                                 duration: 500,
                                 offset: is_small_screen ? 0 : -fixedHeaderHeight,
-                                delay: 200
+                                delay: 300
                             });
                         }
                     });
