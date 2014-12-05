@@ -143,12 +143,21 @@ var onDocumentLoad = function(e) {
  */
 var setupAudio = function() {
     $audioPlayer.jPlayer({
-        ended: playNextSong,
+        ended: onAudioEnded,
         supplied: 'mp3',
         loop: false,
         timeupdate: onTimeUpdate,
         swfPath: APP_CONFIG.S3_BASE_URL + '/js/lib/jquery.jplayer.swf'
     });
+}
+
+var onAudioEnded = function(e) {
+    console.log(e.jPlayer.status.currentTime);
+    console.log(e.jPlayer.status.currentPercentAbsolute);
+    console.log(e.jPlayer.status.currentPercentRelative);
+    console.log(e.jPlayer.status.duration);
+
+    playNextSong();
 }
 
 /*
