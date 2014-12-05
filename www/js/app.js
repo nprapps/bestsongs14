@@ -196,11 +196,16 @@ var onTimeUpdate = function(e) {
  * Start playing the preroll audio.
  */
 var playIntroAudio = function() {
-    var audioFile = APP_CONFIG.WELCOME_AUDIO;
+    var audioFile = '';
+
+    if (onWelcome) {
+        audioFile = APP_CONFIG.WELCOME_AUDIO;
+    }
 
     if (selectedTag && !onWelcome) {
         audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
+
 
     if (audioFile === '') {
         playNextSong();
