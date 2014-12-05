@@ -191,6 +191,8 @@ var playIntroAudio = function() {
 
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
+    } else {
+        playNextSong();
     }
 }
 
