@@ -712,7 +712,9 @@ var onDocumentKeyDown = function(e) {
     switch (e.which) {
         //right
         case 39:
-            skipSong();
+            if (!(e.metaKey)) {
+                skipSong();
+            }
             break;
         // space
         case 32:
