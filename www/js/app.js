@@ -892,7 +892,7 @@ var onWindowResize = function(e) {
 var onDocumentScroll = _.throttle(function(e) {
         console.log('throttled')
         toggleHistoryButton();
-}, 100);
+}, 200);
 
 /*
  * Share modal opened.
