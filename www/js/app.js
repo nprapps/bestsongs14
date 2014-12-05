@@ -270,7 +270,10 @@ var playNextSong = function() {
                                 offset: is_small_screen ? 0 : -fixedHeaderHeight,
                                 delay: 300,
                                 complete: function() {
-                                    $('.stack .poster').css('opacity', 0);
+                                    $('.stack .poster').css({
+                                        'opacity': 0,
+                                        'display': 'none'
+                                    });
                                 }
                             });
                         }
