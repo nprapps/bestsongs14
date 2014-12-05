@@ -152,10 +152,18 @@ var setupAudio = function() {
 }
 
 var onAudioEnded = function(e) {
-    console.log(e.jPlayer.status.currentTime);
-    console.log(e.jPlayer.status.currentPercentAbsolute);
-    console.log(e.jPlayer.status.currentPercentRelative);
-    console.log(e.jPlayer.status.duration);
+    var time = e.jPlayer.status.currentTime;
+
+    if (time != 0 && time != e.jPlayer.status.duration) {
+        // End fired prematurely
+        console.log(e.jPlayer.status.currentTime);
+        console.log(e.jPlayer.status.currentPercentAbsolute);
+        console.log(e.jPlayer.status.currentPercentRelative);
+        console.log(e.jPlayer.status.duration);
+
+        // Try to restart
+        $audioPlayer.jPlayer('play');
+    }
 
     playNextSong();
 }
@@ -314,7 +322,6 @@ var nextPlaylist = function() {
     if (playedSongs.length == SONG_DATA.length) {
         // if all songs have been played, reset to shuffle
         resetState();
-        console.log('length reached');
     }
 
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'tag-finish', selectedTag]);
