@@ -712,7 +712,7 @@ var onDocumentKeyDown = function(e) {
     switch (e.which) {
         //right
         case 39:
-            if (!(e.metaKey)) {
+            if (!(e.altKey)) {
                 skipSong();
             }
             break;
