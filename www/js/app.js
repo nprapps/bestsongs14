@@ -159,16 +159,22 @@ var onTimeUpdate = function(e) {
 };
 
 /*
- * Start playing the preoroll audio.
+ * Start playing the preroll audio.
  */
 var playIntroAudio = function() {
-    var audioFile = APP_CONFIG.SHUFFLE_AUDIO_INTRO;
+    var audioFile = APP_CONFIG.WELCOME_AUDIO;
+
     if (selectedTag) {
         audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
 
+    if (audioFile === '') {
+        playNextSong();
+        return;
+    }
+
     $audioPlayer.jPlayer('setMedia', {
-        mp3: audioFile
+        mp3: 'http://pd.npr.org/anon.npr-mp3' + audioFile
     });
     $playerArtist.text('');
     $playerTitle.text('');

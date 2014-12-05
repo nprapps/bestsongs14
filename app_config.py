@@ -163,36 +163,38 @@ REVIEWER_IMAGES = {
     'Kevin Cole': 'kevin-cole.jpg'
 }
 
-SHUFFLE_AUDIO_INTRO = 'assets/shuffle-intro.mp3'
+WELCOME_AUDIO = '/npr/specials/2014/12/20141205_specials_welcome.mp3'
+PLAYLIST_DONE_AUDIO = '/npr/specials/2014/12/20141205_specials_playlistend.mp3'
+ALL_DONE_AUDIO = '/npr/specials/2014/12/20141205_specials_end.mp3'
 
 TAG_AUDIO_INTROS = {
-    'Classical': 'assets/genre-intro.mp3',
-    'Country/Americana': 'assets/genre-intro.mp3',
-    'Electronic': 'assets/genre-intro.mp3',
-    'Hip-hop': 'assets/genre-intro.mp3',
-    'Jazz': 'assets/genre-intro.mp3',
-    'Latin': 'assets/genre-intro.mp3',
-    'Pop': 'assets/genre-intro.mp3',
-    'R&B': 'assets/genre-intro.mp3',
-    'Rock': 'assets/genre-intro.mp3',
-    '\m/ >_< \m/': 'assets/genre-intro.mp3',
-    'World': 'assets/genre-intro.mp3',
-    'Bob Boilen': 'assets/reviewer-intro.mp3',
-    'Robin Hilton': 'assets/reviewer-intro.mp3',
-    'Ann Powers': 'assets/reviewer-intro.mp3',
-    'Stephen Thompson': 'assets/reviewer-intro.mp3',
-    'Anastasia Tsioulcas': 'assets/reviewer-intro.mp3',
-    'Tom Huizenga': 'http://pd.npr.org/anon.npr-mp3/npr/specials/2014/12/20141204_specials_huizengaid.mp3',
-    'Patrick Jarenwattananon': 'assets/reviewer-intro.mp3',
-    'Lars Gotrich': 'assets/reviewer-intro.mp3',
-    'Frannie Kelley': 'assets/reviewer-intro.mp3',
-    'Jason King': 'assets/reviewer-intro.mp3',
-    'Felix Contreras': 'assets/reviewer-intro.mp3',
-    'Jasmine Garsd': 'assets/reviewer-intro.mp3',
-    'Jason Bentley': 'assets/reviewer-intro.mp3',
-    'David Dye': 'assets/reviewer-intro.mp3',
-    'Rita Houston': 'assets/reviewer-intro.mp3',
-    'Kevin Cole': 'assets/reviewer-intro.mp3'
+    'Classical': '/npr/specials/2014/12/20141205_specials_classical.mp3',
+    'Country/Americana': '',
+    'Electronic': '',
+    'Hip-hop': '',
+    'Jazz': '/npr/specials/2014/12/20141205_specials_jazz.mp3',
+    'Latin': '',
+    'Pop': '',
+    'R&B': '',
+    'Rock': '',
+    '\m/ >_< \m/': '',
+    'World': '',
+    'Bob Boilen': '/npr/specials/2014/12/20141205_specials_bob.mp3',
+    'Robin Hilton': '/npr/specials/2014/12/20141205_specials_robin.mp3',
+    'Ann Powers': '',
+    'Stephen Thompson': '/npr/specials/2014/12/20141205_specials_stephen.mp3',
+    'Anastasia Tsioulcas': '/npr/specials/2014/12/20141205_specials_anastasia3.mp3',
+    'Tom Huizenga': '/npr/specials/2014/12/20141204_specials_huizengaid.mp3',
+    'Patrick Jarenwattananon': '/npr/specials/2014/12/20141205_specials_patrick.mp3',
+    'Lars Gotrich': '/npr/specials/2014/12/20141205_specials_lars.mp3',
+    'Frannie Kelley': '',
+    'Jason King': '',
+    'Felix Contreras': '/npr/specials/2014/12/20141205_specials_felix.mp3',
+    'Jasmine Garsd': '',
+    'Jason Bentley': '',
+    'David Dye': '',
+    'Rita Houston': '',
+    'Kevin Cole': ''
 }
 
 SKIP_LIMIT = 6
