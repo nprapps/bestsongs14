@@ -719,8 +719,12 @@ var onDocumentKeyDown = function(e) {
             e.preventDefault();
             if ($audioPlayer.data('jPlayer').status.paused) {
                 $audioPlayer.jPlayer('play');
+                $pause.show();
+                $play.hide();
             } else {
                 $audioPlayer.jPlayer('pause');
+                $pause.hide();
+                $play.show();
             }
             break;
     }
