@@ -192,7 +192,7 @@ var playIntroAudio = function() {
     }
 
     $audioPlayer.jPlayer('setMedia', {
-        mp3: 'http://pd.npr.org/anon.npr-mp3' + audioFile
+        mp3: 'http://podcastdownload.npr.org/anon.npr-mp3' + audioFile
     });
     $playerArtist.text('');
     $playerTitle.text('');
@@ -230,7 +230,7 @@ var playNextSong = function() {
     $playerTitle.text(nextSong['title']);
     document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | ' + COPY.content['project_name'];
 
-    var nextsongURL = 'http://pd.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
+    var nextsongURL = 'http://podcastdownload.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 
     if (!NO_AUDIO) {
         $audioPlayer.jPlayer('setMedia', {
