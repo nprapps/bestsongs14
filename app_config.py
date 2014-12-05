@@ -184,21 +184,8 @@ REVIEWER_BIOS = {
 }
 
 WELCOME_AUDIO = '/npr/specials/2014/12/20141205_specials_welcome.mp3'
-PLAYLIST_DONE_AUDIO = '/npr/specials/2014/12/20141205_specials_playlistend.mp3'
-ALL_DONE_AUDIO = '/npr/specials/2014/12/20141205_specials_end.mp3'
 
 TAG_AUDIO_INTROS = {
-    'Classical': '/npr/specials/2014/12/20141205_specials_classical.mp3',
-    'Country/Americana': '',
-    'Electronic': '',
-    'Hip-hop': '',
-    'Jazz': '/npr/specials/2014/12/20141205_specials_jazz.mp3',
-    'Latin': '',
-    'Pop': '',
-    'R&B': '',
-    'Rock': '',
-    '\m/ >_< \m/': '',
-    'World': '',
     'Bob Boilen': '/npr/specials/2014/12/20141205_specials_bob.mp3',
     'Robin Hilton': '/npr/specials/2014/12/20141205_specials_robin.mp3',
     'Ann Powers': '',
