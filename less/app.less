@@ -120,12 +120,11 @@ h1,h2,h3,h4,h5,h6 {
 	bottom: 0;
 	left: 0;
 	z-index: 600;
-	overflow: hidden;
+	overflow: scroll;
 
-	.landing-content,
 	.poster,
 	.poster-static {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		bottom: 0;
 	}
@@ -139,6 +138,10 @@ h1,h2,h3,h4,h5,h6 {
 		// display: table-cell;
 		overflow: hidden;
 		.transition(width 0.5s ease-in-out);
+
+		@media screen and (min-aspect-ratio: 2/1) {
+			width: 60%;
+		}
 
 		&:after {
 			content: ' ';
@@ -194,6 +197,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	.poster-static {
 		background-image: url('../assets/img/tape.jpg');
+		background-size: cover;
 	}
 
 	.landing-firstload-deck,
@@ -206,6 +210,11 @@ h1,h2,h3,h4,h5,h6 {
 		width: 100% / 3;
 		left: 0;
 		background-color: white;
+		display: table;
+
+		@media screen and (min-aspect-ratio: 2/1) {
+			width: 40%;
+		}
 
 		@media screen and (max-width: @screen-xs-max){
 			width: 100%;
@@ -214,7 +223,13 @@ h1,h2,h3,h4,h5,h6 {
 
 	.landing-content {
 		background: @white;
-		.vertical-center;
+		// .vertical-center;
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	.tags li a:hover {
+		opacity: 0.5;
 	}
 
 	.logo.img-responsive {
@@ -994,6 +1009,7 @@ h1,h2,h3,h4,h5,h6 {
 		display: inline-block;
 		margin-bottom: 3px;
 		-webkit-transform: translate3d(0,0,0); // fix safari flickering on hover
+		-webkit-font-smoothing: subpixel-antialiased;
 	}
 
 	li a {
