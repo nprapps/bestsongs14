@@ -135,7 +135,6 @@ h1,h2,h3,h4,h5,h6 {
 		width: 100% * 2/3;
 		background-repeat: no-repeat;
 		background-position: left center;
-		// display: table-cell;
 		overflow: hidden;
 		.transition(width 0.5s ease-in-out);
 
@@ -155,7 +154,7 @@ h1,h2,h3,h4,h5,h6 {
 		}
 
 		@media screen and (max-width: @screen-xs-max){
-			background-position: center center;
+			background-position: 37% center;
 		}
 	}
 
@@ -254,6 +253,7 @@ h1,h2,h3,h4,h5,h6 {
 		text-transform: uppercase;
 		margin: 0 0 @line-height-computed / 2;
 		color: @music-red-light;
+		letter-spacing: 0.1rem;
 		color: #333;
 
 		@media screen and (max-width: @screen-xs-max){
@@ -262,8 +262,8 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	h2 {
-		color: #999;
-		font-size: @font-size-small;
+		color: #aaa;
+		font-size: @font-size-base * 0.715;
 		margin-bottom: 2rem;
 		font-family: 'Gotham SSm';
 		text-transform: lowercase;
@@ -278,6 +278,7 @@ h1,h2,h3,h4,h5,h6 {
 		font-size: .875rem;
 		text-transform: uppercase;
 		font-family: 'Knockout 31 4r';
+		letter-spacing: 0.1rem;
 	}
 
 
@@ -385,6 +386,7 @@ h1,h2,h3,h4,h5,h6 {
 		font-size: @font-size-base * 1.1;
 		font-family: 'Gotham SSm';
 		text-transform: uppercase;
+		letter-spacing: 0.1rem;
 		color: @white;
 		-webkit-font-smoothing: antialiased;
 
@@ -432,7 +434,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	@media screen and (max-width: @screen-xs-max){
 		.full-list,
-		.share span {
+		.share {
 			display: none;
 		}
 	}
@@ -556,7 +558,7 @@ h1,h2,h3,h4,h5,h6 {
 .artist {
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 0.1rem;
 	font-size: @font-size-base * 1.125;
 	color: @music-red-light;
 	margin-bottom: 0.5rem;
@@ -667,6 +669,7 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: @font-size-small;
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
+	letter-spacing: 0.1rem;
 	color: rgba(255,255,255,0.5);
 	display: inline-block;
 }
@@ -778,6 +781,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	.artist {
 		font-size: @font-size-base * 1.2;
+		letter-spacing: 0.1rem;
 		margin-top: 10px;
 		margin-bottom: 5px;
 	}
@@ -995,6 +999,11 @@ h1,h2,h3,h4,h5,h6 {
 			opacity: 0.7;
 		}
 	}
+
+	.tools > div {
+		float: left;
+		margin-right: 2rem;
+	}
 }
 
 .played-songs {
@@ -1018,7 +1027,7 @@ h1,h2,h3,h4,h5,h6 {
 		color: @white;
 		text-transform: uppercase;
 		font-size: @font-size-base * 0.785;
-		letter-spacing: 1px;
+		letter-spacing: 0.1rem;
 		// border-width: 2px;
 		// border-style: solid;
 		// background: fadeout(@music-medium, 80%);
