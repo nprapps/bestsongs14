@@ -176,7 +176,7 @@ REVIEWER_BIOS = {
     'Bob Boilen': 'Creator/host All Songs Considered and Tiny Desk Concerts',
     'Jason Bentley': 'Music director at KCRW and host of Morning Becomes Eclectic',
     'Rita Houston': 'Program director at WFUV in New York City',
-    'David Dye': u'Host of WXPN\'s World Café',
+    'David Dye': 'Host of WXPN\'s World Cafe',
     'Kevin Cole': 'Program director and host at KEXP in Seattle',
     'Frannie Kelley': 'Editor and Co-host of Microphone Check',
     'Patrick Jarenwattananon': 'Jazz producer with an Internet connection',
