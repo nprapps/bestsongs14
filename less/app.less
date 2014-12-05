@@ -126,84 +126,6 @@ h1,h2,h3,h4,h5,h6 {
 		text-align: left;
 	}
 
-
-	.poster,
-	.poster-static {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-	}
-
-	.poster,
-	.poster-static {
-		right: 0;
-		width: 100% * 2/3;
-		background-repeat: no-repeat;
-		background-position: left center;
-		overflow: hidden;
-		.transition(width 0.5s ease-in-out);
-
-		@media screen and (min-aspect-ratio: 2/1) {
-			width: 60%;
-		}
-
-		&:after {
-			content: ' ';
-			background: @tag-3;
-			opacity: 0.6;
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-		}
-
-		@media screen and (max-width: @screen-xs-max){
-			background-position: 37% center;
-		}
-	}
-
-	.poster-static {
-		@media screen and (max-width: @screen-xs-max){
-			display: none !important;
-		}
-	}
-
-	.poster {
-		background-image: url('../assets/img/tape.gif');
-		opacity: 0;
-		background-size: cover;
-
-		@media screen and (max-width: @screen-xs-max){
-			width: 0;
-		}
-
-		.start& {
-			width: 100%;
-
-			&:after {
-				.animation(cycle-colors 8s infinite linear);
-			}
-		}
-	}
-
-	.poster p {
-		.vertical-center;
-		position: absolute;
-		width: 100%;
-		z-index: 100;
-		color: #fff;
-		font-family: 'Knockout 31 4r';
-		text-transform: uppercase;
-		text-align: center;
-		font-size: 7vw;
-	}
-
-	.poster-static {
-		background-image: url('../assets/img/tape.jpg');
-		background-size: cover;
-	}
-
 	.landing-firstload-deck,
 	.landing-return-deck {
 		display:none;
@@ -222,6 +144,17 @@ h1,h2,h3,h4,h5,h6 {
 
 		@media screen and (max-width: @screen-xs-max){
 			width: 100%;
+		}
+	}
+
+	.poster {
+		.transition(width 0.5s ease-in-out);
+		.start& {
+			width: 100%;
+
+			&:after {
+				.animation(cycle-colors 8s infinite linear);
+			}
 		}
 	}
 
@@ -306,7 +239,97 @@ h1,h2,h3,h4,h5,h6 {
 
 .stack {
 	display: block;
+
+	.poster {
+		display: none;
+		.transition(opacity 0.5s ease-in-out);
+	}
 }
+
+.poster,
+.poster-static {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+}
+
+.poster,
+.poster-static {
+	right: 0;
+	width: 100% * 2/3;
+	background-repeat: no-repeat;
+	background-position: left center;
+	overflow: hidden;
+
+	.landing& {
+		.transition(width 0.5s ease-in-out);
+	}
+
+	.stack& {
+
+	}
+
+	@media screen and (min-aspect-ratio: 2/1) {
+		width: 60%;
+	}
+
+	&:after {
+		content: ' ';
+		background: @tag-3;
+		opacity: 0.6;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	@media screen and (max-width: @screen-xs-max){
+		background-position: 37% center;
+	}
+}
+
+.poster-static {
+	@media screen and (max-width: @screen-xs-max){
+		display: none !important;
+	}
+}
+
+.poster {
+	background-image: url('../assets/img/tape.gif');
+	opacity: 0;
+	background-size: cover;
+
+	@media screen and (max-width: @screen-xs-max){
+		width: 0;
+	}
+
+	.start& {
+		width: 100%;
+
+		&:after {
+			.animation(cycle-colors 8s infinite linear);
+		}
+	}
+}
+
+.poster p {
+	.vertical-center;
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+	color: #fff;
+	font-family: 'Knockout 31 4r';
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 7vw;
+}
+
+.poster-static {
+	background-image: url('../assets/img/tape.jpg');
+	background-size: cover;
+}
+
 
 .go,
 .go:active,

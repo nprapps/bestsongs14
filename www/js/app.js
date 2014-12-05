@@ -197,6 +197,13 @@ var playIntroAudio = function() {
     $playerArtist.text('');
     $playerTitle.text('');
 
+    if (!onWelcome) {
+        $('.stack .poster').css({
+            'opacity': 1,
+            'display': 'block'
+        });
+    }
+
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
     } else {
@@ -261,7 +268,10 @@ var playNextSong = function() {
                             $(this).velocity("scroll", {
                                 duration: 500,
                                 offset: is_small_screen ? 0 : -fixedHeaderHeight,
-                                delay: 300
+                                delay: 300,
+                                complete: function() {
+                                    $('.stack .poster').css('opacity', 0);
+                                }
                             });
                         }
                     });
@@ -665,6 +675,9 @@ var hideWelcome  = function() {
         begin: function() {
             $fixedHeader.show();
             $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
+            var stateObj = {
+                foo: 'bar'
+            }
         }
     })
 
