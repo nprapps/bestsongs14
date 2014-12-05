@@ -111,7 +111,7 @@ h1,h2,h3,h4,h5,h6 {
 // --------------------------------------------------
 
 .landing {
-	text-align: center;
+	text-align: right;
 	clear: both;
 	display: none;
 	position: absolute;
@@ -121,6 +121,11 @@ h1,h2,h3,h4,h5,h6 {
 	left: 0;
 	z-index: 600;
 	overflow: scroll;
+
+	@media screen and (max-width: @screen-xs-max){
+		text-align: left;
+	}
+
 
 	.poster,
 	.poster-static {
@@ -227,6 +232,10 @@ h1,h2,h3,h4,h5,h6 {
 		vertical-align: middle;
 	}
 
+	.tags li a {
+		font-size: @font-size-base * 0.715;
+	}
+
 	.tags li a:hover {
 		opacity: 0.5;
 	}
@@ -259,6 +268,12 @@ h1,h2,h3,h4,h5,h6 {
 		@media screen and (max-width: @screen-xs-max){
 			font-size: @font-size-base * 3.2;
 		}
+	}
+
+	.project-logo {
+		display: block;
+		width: 100%;
+		margin-bottom: 2rem;
 	}
 
 	h2 {
@@ -399,6 +414,10 @@ h1,h2,h3,h4,h5,h6 {
 		}
 	}
 
+	.project-logo {
+		height: 2.5rem;
+	}
+
 	.fixed-header-controls {
 		.pull-right;
 	}
@@ -443,6 +462,18 @@ h1,h2,h3,h4,h5,h6 {
 // Playlist
 // --------------------------------------------------
 
+.show-history {
+	display: none;
+	color: @music-hp-link-color;
+	font-family: 'Knockout 31 4r';
+	text-transform: uppercase;
+	letter-spacing: 0.1rem;
+	font-size: @font-size-small;
+	position: fixed;
+	top: 0;
+	right: @grid-gutter-width;
+}
+
 .songs {
 	display: none;
 	color: @white;
@@ -485,10 +516,11 @@ h1,h2,h3,h4,h5,h6 {
 		display: table-cell;
 		vertical-align: middle;
 		height: 100%;
-		padding: @line-height-computed / 2 0;
-		.transition(min-height 0.3s ease-in-out);
+		padding: @grid-gutter-width 0;
+		.transition(all 0.3s ease-in-out);
 
 		.small& {
+			padding: @line-height-computed / 2 0;
 			min-height: 0;
 		}
 
