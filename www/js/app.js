@@ -649,7 +649,14 @@ var updateTagDisplay = function() {
         $currentDj.text('All our favorite songs');
         $shuffleSongs.removeClass('disabled');
     } else {
-        $currentDj.text(selectedTag);
+        console.log(selectedTag);
+        if (selectedTag == '\\m/ >_< \\m/') {
+            var tag = selectedTag;
+        } else {
+            var tag = selectedTag.toUpperCase();
+        }
+
+        $currentDj.text(tag);
     }
 }
 
