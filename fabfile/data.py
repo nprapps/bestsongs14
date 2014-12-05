@@ -28,6 +28,13 @@ def update():
 def update_songs():
     local('curl -s -o data/songs.csv https://docs.google.com/spreadsheets/d/19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU/export?format=csv&id=19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU&gid=0')
 
+    output = clean_data()
+
+    with open('data/songs.json', 'w') as f:
+        json.dump(output, f)
+
+@task
+def clean_songs():
     output = []
 
     with open('data/songs.csv') as f:
@@ -40,7 +47,7 @@ def update_songs():
                 stripped_row[name] = value.strip()
 
             row = stripped_row
-            _check_song_links(row)
+            _verify_links(row)
 
             row['genre_tags'] = []
             for i in range(1,4):
@@ -48,6 +55,8 @@ def update_songs():
 
                 if row[key]:
                     row['genre_tags'].append(row[key])
+
+                del row[key]
 
             row['curator_tags'] = []
             for i in range(1,4):
@@ -58,13 +67,13 @@ def update_songs():
 
                 del row[key]
 
+            _verify_tags(row)
             output.append(row)
 
+    return output
 
-    with open('data/songs.json', 'w') as f:
-        json.dump(output, f)
 
-def _check_song_links(row):
+def _verify_links(row):
     """
     Verify all links in the song data are working
     """
@@ -78,6 +87,19 @@ def _check_song_links(row):
     song_art_request = requests.get(song_art_link)
     if song_art_request.status_code != 200:
         print '%s - The song art URL for %s - %s is invalid: %s' % (song_art_request, row['artist'], row['title'], song_art_link)
+
+def _verify_tags(row):
+    for song_genre in row['genre_tags']:
+        if song_genre in app_config.GENRE_TAGS:
+            continue
+        else:
+            print "%s - %s has the genre %s, which is not a valid genre" %(row['artist'], row['title'], song_genre)
+
+    for song_curator in row['curator_tags']:
+        if song_curator in app_config.REVIEWER_TAGS:
+            continue
+        else:
+            print "%s - %s has the genre %s, which is not a valid genre" %(row['artist'], row['title'], song_curator)
 
 @task
 def update_featured_social():

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import json
+import os
 
 import argparse
 from flask import Flask, make_response, render_template
@@ -40,6 +41,12 @@ def seamus():
     # Read the books JSON into the page.
     with open('data/songs.json', 'rb') as readfile:
         songs_data = json.load(readfile)
+
+        for song in songs_data:
+            name, ext = os.path.splitext(song['song_art'])
+
+            song['song_art'] = '%s-s165%s' % (name, ext)
+
         songs = sorted(songs_data, key=lambda k: k['artist'])
 
     context['songs'] = songs
