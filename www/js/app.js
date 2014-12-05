@@ -114,6 +114,7 @@ var onDocumentLoad = function(e) {
     $songs.on('click', '.song-tools .itunes', oniTunesClick);
     $songs.on('click', '.song-tools .rdio', onRdioClick);
     $songs.on('click', '.song-tools .spotify', onSpotifyClick);
+    $songs.on('click', '.byline .reviewer-link', onReviewerLinkClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -566,9 +567,16 @@ var getNextReviewer = function() {
 var onReviewerClick = function(e) {
     e.preventDefault();
 
-    var reviewer = $(this).data('tag')
+    var reviewer = $(this).data('tag');
     switchTag(reviewer);
     toggleFilterPanel();
+}
+
+var onReviewerLinkClick = function(e) {
+    e.preventDefault();
+
+    var reviewer = $(this).data('tag');
+    switchTag(reviewer);
 }
 
 /*
