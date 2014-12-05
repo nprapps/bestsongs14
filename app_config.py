@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Project-wide application configuration.
@@ -161,6 +162,25 @@ REVIEWER_IMAGES = {
     'Rita Houston': 'rita-houst.jpg',
     'David Dye': 'david-dye.jpg',
     'Kevin Cole': 'kevin-cole.jpg'
+}
+
+REVIEWER_BIOS = {
+    'Lars Gotrich': 'Beer drinker, BBQ eater',
+    'Ann Powers': 'Critic, meaning-monger, melody freak',
+    'Otis Hart': '',
+    'Jacob Ganz': '',
+    'Sami Yenigun': '',
+    'Stephen Thompson': '',
+    'Robin Hilton': 'Co-host, All Songs Considered. Crying on the outside; laughing on the inside',
+    'Jason King': 'Host and curator of NPR&B',
+    'Bob Boilen': 'Creator/host All Songs Considered and Tiny Desk Concerts',
+    'Jason Bentley': 'Music director at KCRW and host of Morning Becomes Eclectic',
+    'Rita Houston': 'Program director at WFUV in New York City',
+    'David Dye': u'Host of WXPN\'s World Café',
+    'Kevin Cole': 'Program director and host at KEXP in Seattle',
+    'Frannie Kelley': 'Editor and Co-host of Microphone Check',
+    'Patrick Jarenwattananon': 'Jazz producer with an Internet connection',
+    'Felix Contreras': 'Dad, drummer, Deadhead'
 }
 
 WELCOME_AUDIO = '/npr/specials/2014/12/20141205_specials_welcome.mp3'

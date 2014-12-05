@@ -22,12 +22,11 @@
             <h3>Select a reviewer mixtape</h3>
 
             <ul class="reviewers tags list-unstyled">
-                {% set dj_bio = cycler('metal and polka', 'ska and screamo') %}
                 {% for reviewer in REVIEWER_TAGS %}
                 <li>
                     <a class="disabled" data-tag="{{ reviewer }}" href="#">
                         <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ REVIEWER_IMAGES[reviewer] }}">
-                        <span class="bio"><span class="name">{{ reviewer }}</span>  likes {{ dj_bio.next() }}.</span>
+                        <span class="bio"><span class="name">{{ reviewer }}</span>: {{ REVIEWER_BIOS[reviewer] }}</span>
                     </a>
                 </li>
                 {% endfor %}
