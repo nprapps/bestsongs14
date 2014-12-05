@@ -6,6 +6,7 @@ Commands that update or process the application data.
 import csv
 from datetime import datetime
 import json
+import os
 
 from fabric.api import task, local
 from facebook import GraphAPI
@@ -25,16 +26,16 @@ def update():
     update_songs()
 
 @task
-def update_songs():
+def update_songs(verify='true'):
     local('curl -s -o data/songs.csv https://docs.google.com/spreadsheets/d/19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU/export?format=csv&id=19J4Fi2bpeEicoM5475lu1L345fF8hiBn4owbiCKdqIU&gid=0')
 
-    output = clean_data()
+    output = clean_songs(verify == 'true')
 
     with open('data/songs.json', 'w') as f:
         json.dump(output, f)
 
 @task
-def clean_songs():
+def clean_songs(verify):
     output = []
 
     with open('data/songs.csv') as f:
@@ -44,10 +45,22 @@ def clean_songs():
             stripped_row = {}
 
             for name, value in row.items():
-                stripped_row[name] = value.strip()
+                try:
+                    stripped_row[name] = value.strip()
+                except AttributeError:
+                    print value
+                    raise
 
             row = stripped_row
-            _verify_links(row)
+
+            print '%s - %s' % (row['artist'], row['title'])
+
+            if row['song_art']:
+                name, ext = os.path.splitext(row['song_art'])
+                row['song_art'] = '%s-s500%s' % (name, ext)
+                
+            if verify:
+                _verify_links(row)
 
             row['genre_tags'] = []
             for i in range(1,4):
@@ -56,7 +69,8 @@ def clean_songs():
                 if row[key]:
                     row['genre_tags'].append(row[key])
 
-                del row[key]
+                if key != 'genre1':
+                    del row[key]
 
             row['curator_tags'] = []
             for i in range(1,4):
@@ -67,7 +81,9 @@ def clean_songs():
 
                 del row[key]
 
-            _verify_tags(row)
+            if verify:
+                _verify_tags(row)
+
             output.append(row)
 
     return output
@@ -78,28 +94,28 @@ def _verify_links(row):
     Verify all links in the song data are working
     """
     audio_link = 'http://pd.npr.org/anon.npr-mp3%s.mp3' % row['media_url']
-    song_art_link = 'http://npr.org%s' % row['song_art']
+    song_art_link = 'http://www.npr.org%s' % row['song_art']
 
-    audio_request = requests.get(audio_link)
+    audio_request = requests.head(audio_link)
     if audio_request.status_code != 200:
-        print '%s - The audio URL for %s - %s is invalid: %s' % (audio_request.status_code, row['artist'], row['title'], audio_link)
+        print '--> %s The audio URL is invalid: %s' % (audio_request.status_code, audio_link)
 
-    song_art_request = requests.get(song_art_link)
+    song_art_request = requests.head(song_art_link)
     if song_art_request.status_code != 200:
-        print '%s - The song art URL for %s - %s is invalid: %s' % (song_art_request, row['artist'], row['title'], song_art_link)
+        print '--> %s The song art URL is invalid: %s' % (song_art_request, song_art_link)
 
 def _verify_tags(row):
     for song_genre in row['genre_tags']:
         if song_genre in app_config.GENRE_TAGS:
             continue
         else:
-            print "%s - %s has the genre %s, which is not a valid genre" %(row['artist'], row['title'], song_genre)
+            print "--> The genre %s, which is not a valid genre" % (song_genre)
 
     for song_curator in row['curator_tags']:
         if song_curator in app_config.REVIEWER_TAGS:
             continue
         else:
-            print "%s - %s has the genre %s, which is not a valid genre" %(row['artist'], row['title'], song_curator)
+            print "--> The genre %s, which is not a valid genre" % (song_curator)
 
 @task
 def update_featured_social():

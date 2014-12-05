@@ -43,16 +43,13 @@ def seamus():
         songs_data = json.load(readfile)
 
         for song in songs_data:
-            name, ext = os.path.splitext(song['song_art'])
-
-            song['song_art'] = '%s-s165%s' % (name, ext)
+            song['song_art'] = song['song_art'].replace('-s500', '-s200')
 
         songs = sorted(songs_data, key=lambda k: k['artist'])
 
     context['songs'] = songs
 
     return render_template('seamus-preview.html', **context)
-
 
 app.register_blueprint(static.static)
 
