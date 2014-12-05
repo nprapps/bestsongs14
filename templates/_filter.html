@@ -4,38 +4,46 @@
 <div class="playlist-filters">
 
     <div class="playlist-filters-wrapper">
-<!--         <div class="shuffle">
-            <h3>Shuffle</h3>
-            <ul class="tags list-unstyled">
-
-            </ul>
-        </div> -->
+        <h3>Shuffle</h3>
+        <ul class="tags list-unstyled">
+            <li><a href="#" class="shuffle-songs">All Our Favorite Songs</a></li>
+        </ul>
 
         <div class="genre">
-            <h3>Select a mix</h3>
+            <h3>Select a genre</h3>
             <ul class="tags list-unstyled">
                 {% for tag in GENRE_TAGS %}
                 <li><a class="disabled genre-btn" data-tag="{{ tag }}" href="#">{{ tag }}</a></li>
                 {% endfor %}
-                <li><a href="#" class="shuffle-songs">All Our Favorite Songs</a></li>
             </ul>
         </div>
 
         <div class="reviewer">
-                <ul class="reviewers tags list-unstyled">
-                    {% set dj_bio = cycler('metal and polka', 'ska and screamo') %}
-                    {% for reviewer in REVIEWER_TAGS %}
-                    <li>
-                        <a class="disabled" data-tag="{{ reviewer }}" href="#">
-                            <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ REVIEWER_IMAGES[reviewer] }}">
-                            <span class="bio"><span class="name">{{ reviewer }}</span>  likes {{ dj_bio.next() }}.</span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
+            <h3>Select a reviewer mixtape</h3>
+
+            <ul class="reviewers tags list-unstyled">
+                {% set dj_bio = cycler('metal and polka', 'ska and screamo') %}
+                {% for reviewer in REVIEWER_TAGS %}
+                <li>
+                    <a class="disabled" data-tag="{{ reviewer }}" href="#">
+                        <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ REVIEWER_IMAGES[reviewer] }}">
+                        <span class="bio"><span class="name">{{ reviewer }}</span>  likes {{ dj_bio.next() }}.</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
 
         <p class="instructions">Currently playing <span class="song-count"><span class="playlist-length"></span> songs out of <span class="total-songs"></span>.</span>
 
+        <div class="tools visible-xs">
+            <div class="full-list">
+                <a href="http://www-s1.npr.org/2014/12/02/365443181/our-favorite-songs-of-2014" target="_blank"><i class="fa fa-list-ul"></i> Read the full list</a>
+            </div>
+
+            <div class="visible-xs share">
+                <a class="" data-toggle="modal" data-backdrop="static" data-target="#share-modal"><i class="fa fa-share"></i> <span>Share</span></a>
+            </div>
+        </div>
     </div>
 </div>
