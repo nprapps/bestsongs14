@@ -73,7 +73,7 @@ def clean_songs(verify):
                     del row[key]
 
             row['curator_tags'] = []
-            for i in range(1,4):
+            for i in range(1,7):
                 key = 'curator%i' % i
 
                 if row[key]:
