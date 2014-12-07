@@ -119,7 +119,7 @@ GENRE_TAGS = [
     'Classical',
     'Country/Americana',
     'Electronic',
-    'Hip-hop',
+    'Hip-Hop',
     'Jazz',
     'Latin',
     'Pop',

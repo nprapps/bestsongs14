@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import json
-import os
 
 import argparse
 from flask import Flask, make_response, render_template
