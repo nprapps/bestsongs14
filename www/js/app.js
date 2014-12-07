@@ -128,6 +128,8 @@ var onDocumentLoad = function(e) {
         clippy.on('aftercopy', onClippyCopy);
     });
 
+    shortenBob();
+
     // set up the app
     shuffleSongs();
 
@@ -140,6 +142,20 @@ var onDocumentLoad = function(e) {
     loadState();
 
     setInterval(checkSkips, 60000);
+}
+
+var shortenBob = function() {
+    var bobSongs = _.filter(SONG_DATA, function(song) {
+        var tags = song['genre_tags'].concat(song['curator_tags']);
+        for (var i = 0; i < song['curator_tags'].length; i++) {
+            if (song['curator_tags'][i] === 'Bob Boilen') {
+                return true;
+            }
+        }
+    });
+
+    bobSongs = bobSongs.splice(0, bobSongs.length - 3);
+    SONG_DATA = _.difference(SONG_DATA, bobSongs);
 }
 
 /*
