@@ -128,8 +128,6 @@ var onDocumentLoad = function(e) {
         clippy.on('aftercopy', onClippyCopy);
     });
 
-    shortenBob();
-
     // set up the app
     shuffleSongs();
 
@@ -144,6 +142,10 @@ var onDocumentLoad = function(e) {
     setInterval(checkSkips, 60000);
 }
 
+/* 
+ * Shorten Bob's playlist to 3 songs for testing
+ * how the end of a playlist works easier.
+ */
 var shortenBob = function() {
     var bobSongs = _.filter(SONG_DATA, function(song) {
         var tags = song['genre_tags'].concat(song['curator_tags']);
