@@ -908,6 +908,7 @@ var getSong = function($el) {
  * Scroll to the top of the history
  */
 var showHistory = function() {
+    $songs.find('.song:not(:last)').addClass('small');
     $songs.velocity('scroll');
 }
 
