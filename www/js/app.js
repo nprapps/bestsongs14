@@ -33,6 +33,7 @@ var $filtersContainer = null;
 var $currentDj = null;
 var $fixedControls = null;
 var $historyButton = null;
+var $skipsRemaining = null;
 
 // URL params
 var NO_AUDIO = (window.location.search.indexOf('noaudio') >= 0);
@@ -95,6 +96,7 @@ var onDocumentLoad = function(e) {
     $currentDj = $('.current-dj');
     $fixedControls = $('.fixed-controls');
     $historyButton = $('.js-show-history');
+    $skipsRemaining = $('.skips-remaining');
     onWindowResize();
     $landing.show();
 
@@ -231,6 +233,7 @@ var playIntroAudio = function() {
             'opacity': 1,
             'display': 'block'
         });
+        $skipsRemaining.hide();
     }
 
     if (!NO_AUDIO){
@@ -288,6 +291,7 @@ var playNextSong = function() {
     $playerArtist.text(nextSong['artist']);
     $playerTitle.text(nextSong['title']);
     document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | ' + COPY.content['project_name'];
+    $skipsRemaining.show();
 
     var nextsongURL = 'http://podcastdownload.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
 
@@ -527,17 +531,17 @@ var checkSkips = function() {
  */
 var writeSkipsRemaining = function() {
     if (usedSkips.length == APP_CONFIG.SKIP_LIMIT - 1) {
-        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip available')
+        $skipsRemaining.text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skip available')
         $skip.removeClass('disabled');
     }
     else if (usedSkips.length == APP_CONFIG.SKIP_LIMIT) {
         var text = 'Skipping available in ';
             text += moment(usedSkips[usedSkips.length - 1]).add(1, 'hour').fromNow(true);
-        $('.skips-remaining').text(text);
+        $skipsRemaining.text(text);
         $skip.addClass('disabled');
     }
     else {
-        $('.skips-remaining').text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips available')
+        $skipsRemaining.text(APP_CONFIG.SKIP_LIMIT - usedSkips.length + ' skips available')
         $skip.removeClass('disabled');
     }
 }
@@ -738,10 +742,19 @@ var updateTagDisplay = function() {
         $currentDj.text('All our favorite songs');
         $shuffleSongs.removeClass('disabled');
     } else {
+        var tag = null;
         if (selectedTag == '\\m/ >_< \\m/') {
-            var tag = selectedTag;
+            tag = selectedTag;
         } else {
-            var tag = selectedTag.toUpperCase();
+            tag = selectedTag.toUpperCase();
+
+            if (_.contains(APP_CONFIG.REVIEWER_TAGS, selectedTag)) {
+                if (selectedTag[selectedTag.length - 1] == 's') {
+                    tag += '\u2019 Mixtape'
+                } else {
+                    tag += '\u2019' + 's Mixtape';
+                }
+            }
         }
 
         $currentDj.text(tag);
@@ -908,6 +921,7 @@ var getSong = function($el) {
  * Scroll to the top of the history
  */
 var showHistory = function() {
+    $songs.find('.song:not(:last)').addClass('small');
     $songs.velocity('scroll');
 }
 
