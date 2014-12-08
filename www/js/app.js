@@ -326,9 +326,8 @@ var playNextSong = function() {
                                 offset: fixedHeaderHeight,
                                 delay: 300,
                                 complete: function() {
-                                    $('.stack .poster').css({
-                                        'opacity': 0,
-                                        'display': 'none'
+                                    $('.stack .poster').velocity('fadeOut', {
+                                        duration: 1000
                                     });
                                     $(document).on('scroll', onDocumentScroll);
 
