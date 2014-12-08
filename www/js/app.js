@@ -246,13 +246,15 @@ var playIntroAudio = function() {
 var makeMixtapeName = function(song) {
     var mixtapeName = null;
 
-    if (_.contains(APP_CONFIG.REVIEWER_TAGS, song['reviewer'])) {
-        mixtapeName = song['reviewer'].split(' ')[0];
+    if (selectedTag !== song['reviewer']) {
+        if (_.contains(APP_CONFIG.REVIEWER_TAGS, song['reviewer'])) {
+            mixtapeName = song['reviewer'].split(' ')[0];
 
-        if (mixtapeName[mixtapeName.length - 11] == 's') {
-            mixtapeName += '&rsquo;'
-        } else {
-            mixtapeName += '&rsquo;' + 's';
+            if (mixtapeName[mixtapeName.length - 11] == 's') {
+                mixtapeName += '&rsquo;'
+            } else {
+                mixtapeName += '&rsquo;' + 's';
+            }
         }
     }
 
