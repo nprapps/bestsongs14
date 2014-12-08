@@ -199,7 +199,7 @@ TAG_AUDIO_INTROS = {
     'Robin Hilton': '/npr/specials/2014/12/20141205_specials_robin.mp3',
     'Ann Powers': '',
     'Stephen Thompson': '/npr/specials/2014/12/20141205_specials_stephen.mp3',
-    'Anastasia Tsioulcas': '/npr/specials/2014/12/20141205_specials_anastasia3.mp3',
+    'Anastasia Tsioulcas': '/npr/specials/2014/12/20141205_specials_anastasia.mp3',
     'Tom Huizenga': '/npr/specials/2014/12/20141204_specials_huizengaid.mp3',
     'Patrick Jarenwattananon': '/npr/specials/2014/12/20141205_specials_patrick.mp3',
     'Lars Gotrich': '/npr/specials/2014/12/20141205_specials_lars.mp3',

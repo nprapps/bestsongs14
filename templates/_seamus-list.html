@@ -1,27 +1,27 @@
-<div class="app-promo" style="background: #e7e4dd; padding: 15px; margin-bottom: 2em;">
-	<h2 style="color: #f05b4e; font-family: 'Knockout 31 4r'; text-transform: uppercase; font-size: 1.7em; margin-bottom: 0.5em;">The Perfect Mixtape</h2>
+<div class="app-promo">
+	<h2>The Perfect Mixtape</h2>
 	<p>Listen to the full list or filter the playlist by genre or reviewer in our app.</p>
-	<p style="margin-bottom: 0;"><a href="http://stage-apps.npr.org/bestsongs14" style="display: inline-block; color: #777; background: rgba(0,0,0,0.07); border-radius: 4pt; padding: 7px 15px 10px; line-height: 1.4; text-align: center; font-family: 'Gotham SSm'; text-transform: uppercase; font-size: 0.7em;">Listen now</a></p>
+	<p><a href="http://apps.npr.org/best-songs-2014/"><strong>Launch the app!</strong></a></p>
 </div>
 
+<hr />
+
 <p>Jump directly to a genre:</p>
+
 <p>
 {% for genre, songs in songs|groupby('genre1') %}
-	<h4 class="edTag"><a href="#genre-{{ genre|lower|replace(' ', '')|replace('/','') }}"><strong>{{ genre }}</strong></a></h4>
+	<a href="#genre-{{ genre|lower|replace(' ', '')|replace('/','') }}"><strong>{{ genre }}</strong></a><br>
 {% endfor %}
 </p>
 
-
-
 {% for genre, songs in songs|groupby('genre1') %}
+	<hr />
+	<a name="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}"></a>
 	<h3 class="edTag" id="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}">{{ genre }}</h3>
 	{% for song in songs %}
-	<div class="song clearfix" style="margin-bottom: 1.3em;">
-		<img style="float: right; margin: 0 0 15px 15px; max-width: 25%" src="http://npr.org{{ song.song_art }}">
 		<p><strong>{{ song.artist }}, "{{ song.title }}"</strong></p>
 		<p>{{ song.review }}</p>
 		<p><em>– {{ song.reviewer }}</em></p>
-	</div>
 	{% endfor %}
 {% endfor %}
 
