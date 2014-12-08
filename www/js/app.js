@@ -277,7 +277,6 @@ var playNextSong = function() {
         return;
     }
 
-
     var context = $.extend(APP_CONFIG, nextSong, {
         'mixtapeName': makeMixtapeName(nextSong)
     });
@@ -347,6 +346,19 @@ var playNextSong = function() {
     markSongPlayed(currentSong);
     updateTotalSongsPlayed();
     writeSkipsRemaining();
+    preloadSongImages();
+}
+
+var preloadSongImages = function() {
+    var nextSong = _.find(playlist, function(song) {
+        return !(_.contains(playedSongs, song['id']));
+    });
+
+    var songArt = new Image();
+    songArt.src = 'http://npr.org' + nextSong['song_art'];
+
+    var reviewerImage = new Image();
+    reviewerImage.src = APP_CONFIG.S3_BASE_URL + '/assets/img/' + APP_CONFIG.REVIEWER_IMAGES[nextSong['reviewer']];
 }
 
 /*
@@ -706,6 +718,7 @@ var switchTag = function(tag, noAutoplay) {
     updateTagDisplay();
     shuffleSongs();
     buildPlaylist();
+    preloadSongImages();
 
     if (noAutoplay !== true) {
         playIntroAudio();
