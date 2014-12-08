@@ -57,6 +57,7 @@ var songHeight = null;
 var fixedHeaderHeight = null;
 var is_small_screen = false
 var inPreroll = false;
+var firstReviewerSong = false;
 
 /*
  * Run on page load.
@@ -269,8 +270,14 @@ var makeMixtapeName = function(song) {
  */
 var playNextSong = function() {
     var nextSong = _.find(playlist, function(song) {
-        return !(_.contains(playedSongs, song['id']));
+        if (!firstReviewerSong) {
+            return !(_.contains(playedSongs, song['id']));
+        } else {
+            return !(_.contains(playedSongs, song['id'])) && song['reviewer'] === selectedTag;
+        }
     });
+
+    firstReviewerSong = false;
 
     if (nextSong) {
         var canPlaySong = checkSongHistory(nextSong);
@@ -360,6 +367,10 @@ var preloadSongImages = function() {
         return !(_.contains(playedSongs, song['id']));
     });
 
+    if (!nextSong) {
+        return;
+    }
+
     var songArt = new Image();
     songArt.src = 'http://npr.org' + nextSong['song_art'];
 
@@ -425,6 +436,7 @@ var nextPlaylist = function() {
         // go to shuffle
     } else {
         tag = getNextReviewer();
+        firstReviewerSong = true;
     }
     switchTag(tag);
 }
@@ -691,6 +703,7 @@ var onReviewerClick = function(e) {
     e.preventDefault();
 
     var reviewer = $(this).data('tag');
+    firstReviewerSong = true;
     switchTag(reviewer);
     toggleFilterPanel();
 }
