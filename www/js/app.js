@@ -213,8 +213,6 @@ var playIntroAudio = function() {
         audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
 
-    console.log(audioFile);
-
     if (!audioFile) {
         playNextSong();
         return;
