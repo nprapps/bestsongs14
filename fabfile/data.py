@@ -37,6 +37,9 @@ def update_songs(verify='true'):
 @task
 def clean_songs(verify):
     output = []
+    unique_audio = []
+    unique_song_art = []
+    unique_song_title = []
 
     with open('data/songs.csv') as f:
         rows = csv.DictReader(f)
@@ -59,10 +62,25 @@ def clean_songs(verify):
                 name, ext = os.path.splitext(row['song_art'])
                 row['song_art'] = '%s-s500%s' % (name, ext)
                 
+            # Verify links
             if verify:
-                _verify_links(row)
+                try:
+                    audio_link = 'http://pd.npr.org/anon.npr-mp3%s.mp3' % row['media_url']
+                    audio_request = requests.head(audio_link)
+
+                    if audio_request.status_code != 200:
+                        print '--> %s The audio URL is invalid: %s' % (audio_request.status_code, audio_link)
+
+                    song_art_link = 'http://www.npr.org%s' % row['song_art']
+                    song_art_request = requests.head(song_art_link)
+
+                    if song_art_request.status_code != 200:
+                        print '--> %s The song art URL is invalid: %s' % (song_art_request, song_art_link)
+                except:
+                    print '--> request.head failed'
 
             row['genre_tags'] = []
+
             for i in range(1,4):
                 key = 'genre%i' % i
 
@@ -73,6 +91,7 @@ def clean_songs(verify):
                     del row[key]
 
             row['curator_tags'] = []
+
             for i in range(1,7):
                 key = 'curator%i' % i
 
@@ -81,40 +100,37 @@ def clean_songs(verify):
 
                 del row[key]
 
+            # Verify tags
             if verify:
-                _verify_tags(row)
+                for song_genre in row['genre_tags']:
+                    if song_genre not in app_config.GENRE_TAGS:
+                        print "--> Genre %s is not a valid genre" % (song_genre)
+
+                for song_curator in row['curator_tags']:
+                    if song_curator not in app_config.REVIEWER_TAGS:
+                        print "--> Genre %s is not a valid genre" % (song_curator)
+
+                if row['reviewer'] not in app_config.REVIEWER_IMAGES:
+                    print '--> Reviewer %s does not have a headshot' % row['reviewer']
+
+                if row['media_url'] in unique_audio:
+                    print '--> Duplicate audio url: %s' % row['media_url']
+                else:
+                    unique_audio.append(row['media_url'])
+
+                if row['song_art'] in unique_song_art:
+                    print '--> Duplicate song_art url: %s' % row['song_art']
+                else:
+                    unique_song_art.append(row['song_art'])
+
+                if row['title'] in unique_song_title:
+                    print '--> Duplicate title: %s' % row['title']
+                else:
+                    unique_song_title.append(row['title'])
 
             output.append(row)
 
     return output
-
-
-def _verify_links(row):
-    """
-    Verify all links in the song data are working
-    """
-    audio_link = 'http://pd.npr.org/anon.npr-mp3%s.mp3' % row['media_url']
-    song_art_link = 'http://www.npr.org%s' % row['song_art']
-
-    audio_request = requests.head(audio_link)
-    if audio_request.status_code != 200:
-        print '--> %s The audio URL is invalid: %s' % (audio_request.status_code, audio_link)
-
-    song_art_request = requests.head(song_art_link)
-    if song_art_request.status_code != 200:
-        print '--> %s The song art URL is invalid: %s' % (song_art_request, song_art_link)
-
-def _verify_tags(row):
-    for song_genre in row['genre_tags']:
-        if song_genre not in app_config.GENRE_TAGS:
-            print "--> Genre %s is not a valid genre" % (song_genre)
-
-    for song_curator in row['curator_tags']:
-        if song_curator not in app_config.REVIEWER_TAGS:
-            print "--> Genre %s is not a valid genre" % (song_curator)
-
-    if row['reviewer'] not in app_config.REVIEWER_IMAGES:
-        print '--> Reviewer %s does not have a headshot' % row['reviewer']
 
 @task
 def update_featured_social():
