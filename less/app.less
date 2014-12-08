@@ -373,13 +373,14 @@ h1,h2,h3,h4,h5,h6 {
 	padding-right: 20px;
 	// .border-radius(10px);
 
-	.transition(all 0.2s ease-in-out);
-
-	&:hover {
-		text-decoration: none;
-		background-color: lighten(@music-red-light, 10%);
-		color: @white;
+	.no-touch & {
+		&:hover {
+			text-decoration: none;
+			background-color: lighten(@music-red-light, 10%);
+			color: @white;
+		}
 	}
+
 
 	@media screen and (max-width: @screen-xs-max){
 		padding-top: 6px;
@@ -1240,8 +1241,8 @@ h1,h2,h3,h4,h5,h6 {
 	li {
 		display: inline-block;
 		margin-bottom: 3px;
-		-webkit-transform: translate3d(0,0,0); // fix safari flickering on hover
-		-webkit-font-smoothing: subpixel-antialiased;
+		// -webkit-transform: translate3d(0,0,0); // fix safari flickering on hover
+		// -webkit-font-smoothing: subpixel-antialiased;
 	}
 
 	li a {
@@ -1251,10 +1252,7 @@ h1,h2,h3,h4,h5,h6 {
 		text-transform: uppercase;
 		font-size: @font-size-base * 0.785;
 		letter-spacing: 0.1rem;
-		// border-width: 2px;
-		// border-style: solid;
-		// background: fadeout(@music-medium, 80%);
-		.transition(opacity 0.2s ease-in-out);
+		// .transition(opacity 0.2s ease-in-out);
 	}
 
     li a[data-tag^="\\m/"] {
@@ -1273,27 +1271,10 @@ h1,h2,h3,h4,h5,h6 {
 	li:nth-child(10n) a { background: @tag-10; border-color: @tag-10; }
 	li:nth-child(11n) a { background: @tag-11; border-color: @tag-11; }
 
-	// li.disabled a {
-	// 	border-width: 2px;
-	// 	border-style: solid;
-	// }
-
-	// li:nth-child(1n) a.disabled { background: transparent; border-color: @tag-1; color: @tag-1; }
-	// li:nth-child(2n) a.disabled { background: transparent; border-color: @tag-2; color: @tag-2; }
-	// li:nth-child(3n) a.disabled { background: transparent; border-color: @tag-3; color: @tag-3; }
-	// li:nth-child(4n) a.disabled { background: transparent; border-color: @tag-4; color: @tag-4; }
-	// li:nth-child(5n) a.disabled { background: transparent; border-color: @tag-5; color: @tag-5; }
-	// li:nth-child(6n) a.disabled { background: transparent; border-color: @tag-6; color: @tag-6; }
-	// li:nth-child(7n) a.disabled { background: transparent; border-color: @tag-7; color: @tag-7; }
-	// li:nth-child(8n) a.disabled { background: transparent; border-color: @tag-8; color: @tag-8; }
-	// li:nth-child(9n) a.disabled { background: transparent; border-color: @tag-9; color: @tag-9; }
-	// li:nth-child(10n) a.disabled { background: transparent; border-color: @tag-10; color: @tag-10; }
-
-
 	.no-touch & {
 		li a:hover {
 			text-decoration: none;
-			opacity: 1;
+			opacity: 0.5;
 		}
 	}
 
