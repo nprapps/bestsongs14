@@ -26,7 +26,7 @@
                 <li>
                     <a class="disabled" data-tag="{{ reviewer }}" href="#">
                         <img class="mug" src="{{ S3_BASE_URL }}/assets/img/{{ REVIEWER_IMAGES[reviewer] }}">
-                        <span class="bio"><span class="name">{{ reviewer }}</span>: {{ REVIEWER_BIOS[reviewer] }}</span>
+                        <span class="bio"><span class="name">{{ reviewer }}</span>: {{ REVIEWER_BIOS[reviewer]|safe }}</span>
                     </a>
                 </li>
                 {% endfor %}
