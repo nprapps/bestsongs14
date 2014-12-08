@@ -143,7 +143,7 @@ var onDocumentLoad = function(e) {
     setInterval(checkSkips, 60000);
 }
 
-/* 
+/*
  * Shorten Bob's playlist to 3 songs for testing
  * how the end of a playlist works easier.
  */
@@ -203,7 +203,7 @@ var onTimeUpdate = function(e) {
  * Start playing the preroll audio.
  */
 var playIntroAudio = function() {
-    var audioFile = '';
+    var audioFile = null;
 
     if (onWelcome) {
         audioFile = APP_CONFIG.WELCOME_AUDIO;
@@ -213,12 +213,13 @@ var playIntroAudio = function() {
         audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
 
+    console.log(audioFile);
 
-    if (audioFile === '') {
+    if (!audioFile) {
         playNextSong();
         return;
     }
-    
+
     inPreroll = true;
 
     $audioPlayer.jPlayer('setMedia', {
