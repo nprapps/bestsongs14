@@ -170,7 +170,9 @@ REVIEWER_IMAGES = {
     # Without playlists
     'Otis Hart': 'otis-hart.jpg',
     'Jacob Ganz': 'jacob.jpg',
-    'Kiana Fitzgerald': 'kiana.jpg'
+    'Kiana Fitzgerald': 'kiana.jpg',
+    'Bobby Carter': 'bobby-carter.jpg',
+    'Cedric Shine': 'cedric-shine.jpg',
 }
 
 REVIEWER_BIOS = {
