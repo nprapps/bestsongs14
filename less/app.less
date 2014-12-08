@@ -1028,6 +1028,10 @@ h1,h2,h3,h4,h5,h6 {
 	text-transform: uppercase;
 	font-size: @font-size-small;
 	padding: 5px 0 0;
+
+	@media screen and (max-width: @screen-xs-max){
+		font-size: @font-size-base * 0.715;
+	}
 }
 
 // Playlist filters
