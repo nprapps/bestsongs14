@@ -106,16 +106,15 @@ def _verify_links(row):
 
 def _verify_tags(row):
     for song_genre in row['genre_tags']:
-        if song_genre in app_config.GENRE_TAGS:
-            continue
-        else:
-            print "--> The genre %s, which is not a valid genre" % (song_genre)
+        if song_genre not in app_config.GENRE_TAGS:
+            print "--> Genre %s is not a valid genre" % (song_genre)
 
     for song_curator in row['curator_tags']:
-        if song_curator in app_config.REVIEWER_TAGS:
-            continue
-        else:
-            print "--> The genre %s, which is not a valid genre" % (song_curator)
+        if song_curator not in app_config.REVIEWER_TAGS:
+            print "--> Genre %s is not a valid genre" % (song_curator)
+
+    if row['reviewer'] not in app_config.REVIEWER_IMAGES:
+        print '--> Reviewer %s does not have a headshot' % row['reviewer']
 
 @task
 def update_featured_social():
