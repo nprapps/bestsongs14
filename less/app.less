@@ -503,8 +503,7 @@ h1,h2,h3,h4,h5,h6 {
 // --------------------------------------------------
 
 .show-history,
-.show-history:visited,
-.show-history:focus {
+.show-history:visited {
 	.transition(all 0.2s ease-in-out);
 	color: @music-hp-link-color;
 	border: 1px solid @music-hp-link-color;
@@ -522,10 +521,12 @@ h1,h2,h3,h4,h5,h6 {
 	.scale(1);
 	.translate(0,0);
 
-	&:hover {
-		color: @white;
-		border-color: @white;
-		text-decoration: none;
+	.no-touch & {
+		&:hover {
+			color: @white;
+			border-color: @white;
+			text-decoration: none;
+		}
 	}
 
 	&.offscreen {
@@ -990,8 +991,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .player-button,
-.player-button:focus,
-.player-button:active {
+.player-button:visited {
 	display: block;
 	.square(5rem);
 	background: @music-red-light;
@@ -1000,10 +1000,20 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 	font-size: @font-size-base * 3;
 
-	&:hover {
-		color: #fff;
-		background: lighten(@music-red-light, 10%);
-		text-decoration: none;
+	.no-touch & {
+		&:hover {
+			color: #fff;
+			background: lighten(@music-red-light, 10%);
+			text-decoration: none;
+		}
+	}
+
+	.touch & {
+		&:active {
+			color: #fff;
+			background: lighten(@music-red-light, 10%);
+			text-decoration: none;
+		}
 	}
 }
 
@@ -1018,7 +1028,8 @@ h1,h2,h3,h4,h5,h6 {
 // Playlist filters
 // --------------------------------------------------
 
-.filter-title {
+.filter-title,
+.filter-title:visited {
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
 	background: @music-hp-light;
@@ -1033,14 +1044,17 @@ h1,h2,h3,h4,h5,h6 {
 	cursor: pointer;
 	padding-left: 6rem;
 
-	&:hover {
-		background: @white;
+	.no-touch & {
+		&:hover {
+			background: @white;
 
-		&:after {
-		// 	background: @primary-control;
-			color: @music-red-light;
+			&:after {
+			// 	background: @primary-control;
+				color: @music-red-light;
+			}
 		}
 	}
+
 
 	.carot {
 		font-family: FontAwesome;
@@ -1271,9 +1285,12 @@ h1,h2,h3,h4,h5,h6 {
 	// li:nth-child(9n) a.disabled { background: transparent; border-color: @tag-9; color: @tag-9; }
 	// li:nth-child(10n) a.disabled { background: transparent; border-color: @tag-10; color: @tag-10; }
 
-	li a:hover {
-		text-decoration: none;
-		opacity: 1;
+
+	.no-touch & {
+		li a:hover {
+			text-decoration: none;
+			opacity: 1;
+		}
 	}
 
 	.disabled {
