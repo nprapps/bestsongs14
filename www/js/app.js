@@ -491,11 +491,20 @@ var skipSong = function() {
  */
 var checkSkips = function() {
     var now = moment.utc();
-    for (i = 0; i < usedSkips.length; i++) {
-        if (now.subtract(1, 'hour').isAfter(usedSkips[i])) {
-            usedSkips.splice(i, 1);
+    var skipped = true;
+
+    while (skipped) {
+        skipped = false;
+
+        for (i = 0; i < usedSkips.length; i++) {
+            if (now.subtract(1, 'hour').isAfter(usedSkips[i])) {
+                usedSkips.splice(i, 1);
+                skipped = true;
+                break;
+            }
         }
     }
+
     simpleStorage.set('usedSkips', usedSkips);
     writeSkipsRemaining();
 }
@@ -550,7 +559,7 @@ var loadState = function() {
         $landingFirstDeck.show();
     }
 
-    writeSkipsRemaining();
+    checkSkips();
 }
 
 /*
