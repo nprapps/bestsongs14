@@ -173,6 +173,7 @@ REVIEWER_IMAGES = {
     'Kiana Fitzgerald': 'kiana.jpg',
     'Bobby Carter': 'bobby-carter.jpg',
     'Cedric Shine': 'cedric-shine.jpg',
+    'Mike Katzif': 'mike-katzif.jpg'
 }
 
 REVIEWER_BIOS = {
