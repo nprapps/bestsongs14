@@ -322,7 +322,7 @@ var playNextSong = function() {
                         complete: function(){
                             $(this).velocity("scroll", {
                                 duration: 500,
-                                offset: fixedHeaderHeight,
+                                offset: -fixedHeaderHeight,
                                 delay: 300,
                                 complete: function() {
                                     $('.stack .poster').velocity('fadeOut', {
