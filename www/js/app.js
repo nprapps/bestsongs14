@@ -738,10 +738,19 @@ var updateTagDisplay = function() {
         $currentDj.text('All our favorite songs');
         $shuffleSongs.removeClass('disabled');
     } else {
+        var tag = null;
         if (selectedTag == '\\m/ >_< \\m/') {
-            var tag = selectedTag;
+            tag = selectedTag;
         } else {
-            var tag = selectedTag.toUpperCase();
+            tag = selectedTag.toUpperCase();
+
+            if (_.contains(APP_CONFIG.REVIEWER_TAGS, selectedTag)) {
+                if (selectedTag[selectedTag.length - 1] == 's') {
+                    tag += '\u2019 Mixtape'
+                } else {
+                    tag += '\u2019' + 's Mixtape';
+                }
+            }
         }
 
         $currentDj.text(tag);
