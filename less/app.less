@@ -991,7 +991,9 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .player-button,
-.player-button:visited {
+.player-button:focus,
+.player-button:visited,
+.player-button:hover {
 	display: block;
 	.square(5rem);
 	background: @music-red-light;
@@ -999,6 +1001,7 @@ h1,h2,h3,h4,h5,h6 {
 	line-height: 5rem;
 	text-align: center;
 	font-size: @font-size-base * 3;
+
 
 	.no-touch & {
 		&:hover {
