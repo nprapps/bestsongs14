@@ -1049,6 +1049,11 @@ h1,h2,h3,h4,h5,h6 {
 	cursor: pointer;
 	padding-left: 6rem;
 
+    @media screen and (max-width: @screen-xs-max){
+		letter-spacing: 0.15rem;
+    	padding-left: 5rem;
+    }
+
 	.no-touch & {
 		&:hover {
 			background: @white;
@@ -1081,6 +1086,12 @@ h1,h2,h3,h4,h5,h6 {
 				content: '\f107';
 			}
 		}
+
+	    // @media screen and (max-width: @screen-xs-max){
+	    // 	left: auto;
+	    // 	right: 0;
+	    // 	width: 4rem;
+	    // }
 	}
 
 	.song-count,
@@ -1092,7 +1103,7 @@ h1,h2,h3,h4,h5,h6 {
 		font-family: 'Gotham SSm',Helvetica,Arial,sans-serif;
         // text-transform: uppercase;
         @media screen and (max-width: @screen-xs-max){
-        	font-size: 0.6rem;
+			font-family: 'Knockout 31 4r';
         }
 	}
 }
