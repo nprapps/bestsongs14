@@ -49,7 +49,7 @@
 @tag-8: #524189;
 @tag-9: #5756a5;
 @tag-10: #416ab8;
-@tag-11: saturate(darken(#416ab8, 10%), 10%);
+@tag-11: darken(#416ab8, 10%);
 
 // Z-indexes
 @z-player-controls: 100;
@@ -166,6 +166,21 @@ h1,h2,h3,h4,h5,h6 {
 		vertical-align: middle;
 	}
 
+	.tags-wrapper,
+	.language-advisory {
+		@media screen and (min-height: 800px){
+			margin-top: 4rem;
+		}
+
+		@media screen and (min-height: 1000px){
+			margin-top: 6rem;
+		}
+
+		@media screen and (orientation: portrait) and (min-height: 568px){
+			margin-top: 3rem;
+		}
+	}
+
 	.tags li a {
 		font-size: @font-size-base * 0.715;
 	}
@@ -231,10 +246,11 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 
-	.headphone-prompt {
+	.language-advisory {
 		font-size: 0.7rem;
-		margin-top: -10px;
 		color: lighten(#666, 20%);
+		padding-left: 1rem;
+		text-indent: -0.5rem;
 	}
 }
 
@@ -387,6 +403,7 @@ h1,h2,h3,h4,h5,h6 {
 	border-bottom: 1px solid #253645;
 	z-index: @z-fixed-header;
 	-webkit-backface-visibility: hidden; // prevent flickering of bar on scroll in Chrome/Safari
+	-webkit-transform: translate3d(0,0,0);
 
 	@media screen and (max-width: @screen-xs-max){
 		position: absolute;
