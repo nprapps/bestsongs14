@@ -1100,7 +1100,7 @@ h1,h2,h3,h4,h5,h6 {
 		font-size: @font-size-base * 0.785;
 	}
 
-	.instructions {
+	p {
 		color: #999;
 		font-size: @font-size-small;
 		margin-bottom: 2rem;
@@ -1108,6 +1108,20 @@ h1,h2,h3,h4,h5,h6 {
 		.warning {
 			display: none;
 			font-weight: bold;
+		}
+	}
+
+	.tools {
+		overflow: hidden;
+		padding-bottom: 2rem;
+	}
+
+	.credits {
+		.clearfix;
+		clear: both;
+
+		p {
+			margin-bottom: 0.5rem;
 		}
 	}
 
