@@ -151,9 +151,6 @@ REVIEWER_TAGS = [
 REVIEWER_IMAGES = {
     'Lars Gotrich': 'lars.jpg',
     'Ann Powers': 'ann.jpg',
-    'Otis Hart': 'otis.jpg',
-    'Jacob Ganz': 'jacob.jpg',
-    'Sami Yenigun': 'sami.jpg',
     'Stephen Thompson': 'sthompson.jpg',
     'Robin Hilton': 'robin.jpg',
     'Jason King': 'jason.jpg',
@@ -167,10 +164,6 @@ REVIEWER_IMAGES = {
 REVIEWER_BIOS = {
     'Lars Gotrich': 'Beer drinker, BBQ eater',
     'Ann Powers': 'Critic, meaning-monger, melody freak',
-    'Otis Hart': '',
-    'Jacob Ganz': '',
-    'Sami Yenigun': '',
-    'Stephen Thompson': '',
     'Robin Hilton': 'Co-host, All Songs Considered. Crying on the outside; laughing on the inside',
     'Jason King': 'Host and curator of NPR&B',
     'Bob Boilen': 'Creator/host All Songs Considered and Tiny Desk Concerts',

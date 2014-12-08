@@ -55,6 +55,7 @@ var songHistory = {};
 var songHeight = null;
 var fixedHeaderHeight = null;
 var is_small_screen = false
+var inPreroll = false;
 
 /*
  * Run on page load.
@@ -217,6 +218,8 @@ var playIntroAudio = function() {
         playNextSong();
         return;
     }
+    
+    inPreroll = true;
 
     $audioPlayer.jPlayer('setMedia', {
         mp3: 'http://podcastdownload.npr.org/anon.npr-mp3' + audioFile
@@ -265,6 +268,8 @@ var playNextSong = function() {
     document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | ' + COPY.content['project_name'];
 
     var nextsongURL = 'http://podcastdownload.npr.org/anon.npr-mp3' + nextSong['media_url'] + '.mp3';
+
+    inPreroll = false;
 
     if (!NO_AUDIO) {
         $audioPlayer.jPlayer('setMedia', {
@@ -448,13 +453,15 @@ var onSkipClick = function(e) {
  * Skip to the next song
  */
 var skipSong = function() {
-    if (usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
-        usedSkips.push(moment.utc());
-        _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerArtist.text() + ' - ' + $playerTitle.text(), usedSkips.length]);
+    if (inPreroll || usedSkips.length < APP_CONFIG.SKIP_LIMIT) {
+        if (!inPreroll) {
+            usedSkips.push(moment.utc());
+            _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'song-skip', $playerArtist.text() + ' - ' + $playerTitle.text(), usedSkips.length]);
+        }
+
         playNextSong();
         simpleStorage.set('usedSkips', usedSkips);
         writeSkipsRemaining();
-
     }
 }
 
