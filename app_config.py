@@ -149,6 +149,7 @@ REVIEWER_TAGS = [
 ]
 
 REVIEWER_IMAGES = {
+    # With playlists
     'Bob Boilen': 'bob.jpg',
     'Robin Hilton': 'robin.jpg',
     'Ann Powers': 'ann.jpg',
@@ -158,13 +159,18 @@ REVIEWER_IMAGES = {
     'Patrick Jarenwattananon': 'jarenwattananon.jpg',
     'Lars Gotrich': 'lars.jpg',
     'Frannie Kelley': 'kelley.jpg',
-    'Jason King': 'jason.jpg',
+    'Jason King': 'jason-king.jpg',
     'Felix Contreras': 'contreras.jpg',
     'Jasmine Garsd': 'jasmine-garsd.jpg',
     'Jason Bentley': 'jason-bentley.jpg',
     'David Dye': 'david-dye.jpg',
     'Rita Houston': 'rita-houst.jpg',
-    'Kevin Cole': 'kevin-cole.jpg'
+    'Kevin Cole': 'kevin-cole.jpg',
+
+    # Without playlists
+    'Otis Hart': 'otis-hart.jpg',
+    'Jacob Ganz': 'jacob.jpg',
+    'Kiana Fitzgerald': 'kiana.jpg'
 }
 
 REVIEWER_BIOS = {
