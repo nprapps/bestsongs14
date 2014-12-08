@@ -378,7 +378,7 @@ var setCurrentSongHeight = function(){
     // }
 
     $songs.children().last().find('.container-fluid').css('height', songHeight);
-    $songs.children().last().find('.song-info').css('min-height', $songs.children().last().find('.song-info').outerHeight());
+    $songs.children().last().css('min-height', songHeight);
 }
 
 /*
