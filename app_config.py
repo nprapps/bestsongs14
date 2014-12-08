@@ -174,18 +174,22 @@ REVIEWER_IMAGES = {
 }
 
 REVIEWER_BIOS = {
-    'Lars Gotrich': 'Beer drinker, BBQ eater',
-    'Ann Powers': 'Critic, meaning-monger, melody freak',
-    'Robin Hilton': 'Co-host, All Songs Considered. Crying on the outside; laughing on the inside',
-    'Jason King': 'Host and curator of NPR&B',
     'Bob Boilen': 'Creator/host All Songs Considered and Tiny Desk Concerts',
-    'Jason Bentley': 'Music director at KCRW and host of Morning Becomes Eclectic',
-    'Rita Houston': 'Program director at WFUV in New York City',
-    'David Dye': 'Host of WXPN\'s World Cafe',
-    'Kevin Cole': 'Program director and host at KEXP in Seattle',
-    'Frannie Kelley': 'Editor and Co-host of Microphone Check',
+    'Robin Hilton': 'Co-host, All Songs Considered. Crying on the outside; laughing on the inside',
+    'Ann Powers': 'Critic, meaning-monger, melody freak',
+    'Stephen Thompson': 'Likes writing, talking, melancholy, misanthropy, these songs, you',
+    'Anastasia Tsioulcas': 'Co-host of the blog Deceptive Cadence',
+    'Tom Huizenga': 'Co-host of the blog Deceptive Cadence, ears wide open',
     'Patrick Jarenwattananon': 'Jazz producer with an Internet connection',
-    'Felix Contreras': 'Dad, drummer, Deadhead'
+    'Lars Gotrich': 'Beer drinker, BBQ eater',
+    'Frannie Kelley': 'Editor and Co-host of Microphone Check',
+    'Jason King': 'Host and curator of NPR&B',
+    'Felix Contreras': 'Dad, drummer, Deadhead',
+    'Jasmine Garsd': 'Co-host of NPR’s Alt.Latino',
+    'Jason Bentley': 'Music director at KCRW and host of Morning Becomes Eclectic',
+    'David Dye': 'Host of WXPN\'s World Cafe',
+    'Rita Houston': 'Program director at WFUV in New York City',
+    'Kevin Cole': 'Program director and host at KEXP in Seattle',
 }
 
 WELCOME_AUDIO = '/npr/specials/2014/12/20141205_specials_welcome.mp3'
