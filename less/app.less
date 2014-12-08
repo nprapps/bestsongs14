@@ -177,7 +177,7 @@ h1,h2,h3,h4,h5,h6 {
 		}
 
 		@media screen and (orientation: portrait) and (min-height: 568px){
-			margin-top: 3rem;
+			margin-top: 1rem;
 		}
 	}
 
@@ -373,13 +373,14 @@ h1,h2,h3,h4,h5,h6 {
 	padding-right: 20px;
 	// .border-radius(10px);
 
-	.transition(all 0.2s ease-in-out);
-
-	&:hover {
-		text-decoration: none;
-		background-color: lighten(@music-red-light, 10%);
-		color: @white;
+	.no-touch & {
+		&:hover {
+			text-decoration: none;
+			background-color: lighten(@music-red-light, 10%);
+			color: @white;
+		}
 	}
+
 
 	@media screen and (max-width: @screen-xs-max){
 		padding-top: 6px;
@@ -503,8 +504,8 @@ h1,h2,h3,h4,h5,h6 {
 // --------------------------------------------------
 
 .show-history,
-.show-history:visited,
-.show-history:focus {
+.show-history:focus,
+.show-history:visited {
 	.transition(all 0.2s ease-in-out);
 	color: @music-hp-link-color;
 	border: 1px solid @music-hp-link-color;
@@ -522,10 +523,12 @@ h1,h2,h3,h4,h5,h6 {
 	.scale(1);
 	.translate(0,0);
 
-	&:hover {
-		color: @white;
-		border-color: @white;
-		text-decoration: none;
+	.no-touch & {
+		&:hover {
+			color: @white;
+			border-color: @white;
+			text-decoration: none;
+		}
 	}
 
 	&.offscreen {
@@ -991,7 +994,8 @@ h1,h2,h3,h4,h5,h6 {
 
 .player-button,
 .player-button:focus,
-.player-button:active {
+.player-button:visited,
+.player-button:hover {
 	display: block;
 	.square(5rem);
 	background: @music-red-light;
@@ -1000,10 +1004,21 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 	font-size: @font-size-base * 3;
 
-	&:hover {
-		color: #fff;
-		background: lighten(@music-red-light, 10%);
-		text-decoration: none;
+
+	.no-touch & {
+		&:hover {
+			color: #fff;
+			background: lighten(@music-red-light, 10%);
+			text-decoration: none;
+		}
+	}
+
+	.touch & {
+		&:active {
+			color: #fff;
+			background: lighten(@music-red-light, 10%);
+			text-decoration: none;
+		}
 	}
 }
 
@@ -1018,7 +1033,8 @@ h1,h2,h3,h4,h5,h6 {
 // Playlist filters
 // --------------------------------------------------
 
-.filter-title {
+.filter-title,
+.filter-title:visited {
 	font-family: 'Knockout 31 4r';
 	text-transform: uppercase;
 	background: @music-hp-light;
@@ -1033,14 +1049,17 @@ h1,h2,h3,h4,h5,h6 {
 	cursor: pointer;
 	padding-left: 6rem;
 
-	&:hover {
-		background: @white;
+	.no-touch & {
+		&:hover {
+			background: @white;
 
-		&:after {
-		// 	background: @primary-control;
-			color: @music-red-light;
+			&:after {
+			// 	background: @primary-control;
+				color: @music-red-light;
+			}
 		}
 	}
+
 
 	.carot {
 		font-family: FontAwesome;
@@ -1222,8 +1241,8 @@ h1,h2,h3,h4,h5,h6 {
 	li {
 		display: inline-block;
 		margin-bottom: 3px;
-		-webkit-transform: translate3d(0,0,0); // fix safari flickering on hover
-		-webkit-font-smoothing: subpixel-antialiased;
+		// -webkit-transform: translate3d(0,0,0); // fix safari flickering on hover
+		// -webkit-font-smoothing: subpixel-antialiased;
 	}
 
 	li a {
@@ -1233,10 +1252,7 @@ h1,h2,h3,h4,h5,h6 {
 		text-transform: uppercase;
 		font-size: @font-size-base * 0.785;
 		letter-spacing: 0.1rem;
-		// border-width: 2px;
-		// border-style: solid;
-		// background: fadeout(@music-medium, 80%);
-		.transition(opacity 0.2s ease-in-out);
+		// .transition(opacity 0.2s ease-in-out);
 	}
 
     li a[data-tag^="\\m/"] {
@@ -1255,25 +1271,11 @@ h1,h2,h3,h4,h5,h6 {
 	li:nth-child(10n) a { background: @tag-10; border-color: @tag-10; }
 	li:nth-child(11n) a { background: @tag-11; border-color: @tag-11; }
 
-	// li.disabled a {
-	// 	border-width: 2px;
-	// 	border-style: solid;
-	// }
-
-	// li:nth-child(1n) a.disabled { background: transparent; border-color: @tag-1; color: @tag-1; }
-	// li:nth-child(2n) a.disabled { background: transparent; border-color: @tag-2; color: @tag-2; }
-	// li:nth-child(3n) a.disabled { background: transparent; border-color: @tag-3; color: @tag-3; }
-	// li:nth-child(4n) a.disabled { background: transparent; border-color: @tag-4; color: @tag-4; }
-	// li:nth-child(5n) a.disabled { background: transparent; border-color: @tag-5; color: @tag-5; }
-	// li:nth-child(6n) a.disabled { background: transparent; border-color: @tag-6; color: @tag-6; }
-	// li:nth-child(7n) a.disabled { background: transparent; border-color: @tag-7; color: @tag-7; }
-	// li:nth-child(8n) a.disabled { background: transparent; border-color: @tag-8; color: @tag-8; }
-	// li:nth-child(9n) a.disabled { background: transparent; border-color: @tag-9; color: @tag-9; }
-	// li:nth-child(10n) a.disabled { background: transparent; border-color: @tag-10; color: @tag-10; }
-
-	li a:hover {
-		text-decoration: none;
-		opacity: 1;
+	.no-touch & {
+		li a:hover {
+			text-decoration: none;
+			opacity: 0.5;
+		}
 	}
 
 	.disabled {
