@@ -49,6 +49,7 @@
 @tag-8: #524189;
 @tag-9: #5756a5;
 @tag-10: #416ab8;
+@tag-11: saturate(darken(#416ab8, 10%), 10%);
 
 // Z-indexes
 @z-player-controls: 100;
@@ -1106,23 +1107,35 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	.reviewers.tags {
-		@media screen and (min-width: @screen-sm){
-			.columns(3);
-			.column-gap(0.5rem);
-		}
+		.clearfix;
+		margin: 0 -0.25rem;
+
 
 		li {
 			display: block;
 			color: #222;
 			font-size: @font-size-base * 0.785;
-			line-height: 1.2;
+			line-height: 1.3;
 			vertical-align: top;
 			margin-bottom: 0.5rem;
 			overflow: hidden;
+			-webkit-font-smoothing: antialiased;
+			padding: 0 0.25rem;
+			position: relative;
+
+			@media screen and (min-width: @screen-sm){
+				width: 100% / 2;
+				float: left;
+			}
+
+			@media screen and (min-width: @screen-md){
+				width: 100% / 3;
+				float: left;
+			}
 		}
 
 		.mug {
-			.square(3rem);
+			.square(4rem);
 			margin-bottom: 0;
 			margin-right: 0.5rem;
 			float: left;
@@ -1132,9 +1145,10 @@ h1,h2,h3,h4,h5,h6 {
 
 		.bio {
 			display: block;
-			margin-top: 0.5rem;
+			padding: 0.5rem;
 			text-transform: none;
 			letter-spacing: 0;
+			margin-left: 4rem;
 		}
 
 		a {
@@ -1204,6 +1218,7 @@ h1,h2,h3,h4,h5,h6 {
 	li:nth-child(8n) a { background: @tag-8; border-color: @tag-8; }
 	li:nth-child(9n) a { background: @tag-9; border-color: @tag-9; }
 	li:nth-child(10n) a { background: @tag-10; border-color: @tag-10; }
+	li:nth-child(11n) a { background: @tag-11; border-color: @tag-11; }
 
 	// li.disabled a {
 	// 	border-width: 2px;
