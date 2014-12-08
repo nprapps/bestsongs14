@@ -242,6 +242,25 @@ var playIntroAudio = function() {
 }
 
 /*
+ * Generate a reader-friendly mixtape name.
+ */
+var makeMixtapeName = function(song) {
+    var mixtapeName = null;
+
+    if (_.contains(APP_CONFIG.REVIEWER_TAGS, song['reviewer'])) {
+        mixtapeName = song['reviewer'].split(' ')[0];
+
+        if (mixtapeName[mixtapeName.length - 11] == 's') {
+            mixtapeName += '&rsquo;'
+        } else {
+            mixtapeName += '&rsquo;' + 's';
+        }
+    }
+
+    return mixtapeName;
+}
+
+/*
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
@@ -259,7 +278,10 @@ var playNextSong = function() {
         return;
     }
 
-    var context = $.extend(APP_CONFIG, COPY, nextSong);
+
+    var context = $.extend(APP_CONFIG, nextSong, {
+        'mixtapeName': makeMixtapeName(nextSong)
+    });
     var $html = $(JST.song(context));
     $songs.append($html);
 
@@ -575,7 +597,9 @@ var buildListeningHistory = function() {
         });
 
 
-        var context = $.extend(APP_CONFIG, song);
+        var context = $.extend(APP_CONFIG, song, {
+            'mixtapeName': makeMixtapeName(song)
+        });
         var html = JST.song(context);
         $songs.append(html);
     };

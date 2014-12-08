@@ -9,7 +9,7 @@
                 <div class="song-tags">
                     <h3 class="tag-header">Filed Under:</h3>
                     <ul class="list-unstyled no-click">
-                        <% for(var i = 0; i < genre_tags.length; i++) { %>
+                        <% for (var i = 0; i < genre_tags.length; i++) { %>
                             <li><%= genre_tags[i] %></li>
                         <% } %>
                     </ul>
@@ -18,12 +18,10 @@
                 <div class="review-wrapper">
                     <p class="review"><%= review %></p>
                     <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/<%= REVIEWER_IMAGES[reviewer] %>"></span> <span class="name"><%= reviewer %></span>
-                    <% for(var i = 0; i < REVIEWER_TAGS.length; i++) {
-                        if (reviewer === REVIEWER_TAGS[i]) { %>
-                            <a href="#" class="reviewer-link" data-tag="<%= reviewer %>"><span class="icon-play"></span> Play <%= reviewer.split(' ')[0] %>&rsquo;<% if (reviewer.split(' ')[0][reviewer.split(' ')[0].length - 1] !== 's' ) { %>s<% }%> mixtape</a>
-                            </p>
-                        <% }
-                    } %>
+                    <% if (mixtapeName) { %>
+                        <a href="#" class="reviewer-link" data-tag="<%= reviewer %>"><span class="icon-play"></span> Play <%= mixtapeName %> mixtape</a>
+                        </p>
+                    <% } %>
                 </div>
 
                 <ul class="song-tools list-unstyled">
