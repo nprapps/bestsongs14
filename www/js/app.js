@@ -716,7 +716,6 @@ var updateTagDisplay = function() {
         $currentDj.text('All our favorite songs');
         $shuffleSongs.removeClass('disabled');
     } else {
-        console.log(selectedTag);
         if (selectedTag == '\\m/ >_< \\m/') {
             var tag = selectedTag;
         } else {
@@ -924,8 +923,7 @@ var onWindowResize = function(e) {
  * Document scrolled
  */
 var onDocumentScroll = _.throttle(function(e) {
-        console.log('throttled')
-        toggleHistoryButton();
+    toggleHistoryButton();
 }, 200);
 
 /*
