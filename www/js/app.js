@@ -826,10 +826,10 @@ var hideWelcome  = function() {
         timing: 'ease-in-out',
         begin: function() {
             $('.landing-wrapper').hide().css('height', '');
-            $(this).find('.tip-three').velocity('fadeOut', {
-                duration: 300
+            $(this).find('.tip-three').removeClass('show');
+            $(this).find('.done').velocity('fadeIn', {
+                delay: 500
             });
-            $(this).find('.done').velocity('fadeIn');
             $(this).find('.poster').addClass('shrink');
         },
         complete: function() {
