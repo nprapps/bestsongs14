@@ -847,6 +847,24 @@ var swapTapeDeck = function() {
     $landing.find('.poster-static').css('opacity', 0);
     $landing.find('.poster').css('opacity', 1);
     $landing.addClass('start');
+
+    $landing.find('.loading').velocity('fadeOut', {
+        delay: 4000,
+        complete: function() {
+            $(this).text('Turn up your volume');
+        }
+    })
+
+    $landing.find('.loading').velocity('fadeIn');
+
+    $landing.find('.loading').velocity('fadeOut', {
+        delay: 4000,
+        complete: function() {
+            $(this).text('Turn down the lights');
+        }
+    })
+
+    $landing.find('.loading').velocity('fadeIn');
 }
 
 
