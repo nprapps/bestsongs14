@@ -805,9 +805,6 @@ var hideWelcome  = function() {
 
     $fixedHeader.show();
     $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
-    var stateObj = {
-        foo: 'bar'
-    }
 
     $('.poster').velocity({
         bottom: '5rem',
