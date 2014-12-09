@@ -778,7 +778,6 @@ var updateTagDisplay = function() {
         var tag = null;
         if (selectedTag == '\\m/ >_< \\m/') {
             tag = selectedTag;
-            console.log('fire');
         } else {
             tag = selectedTag
 
