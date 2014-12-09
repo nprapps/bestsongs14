@@ -792,21 +792,20 @@ var hideWelcome  = function() {
     $fixedHeader.show();
     $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
 
-    $('.poster').velocity({
+    $landing.velocity({
         bottom: '5rem',
         height: '4rem',
     }, {
         duration: 1000,
-        delay: 1000,
         timing: 'ease-in-out',
         begin: function() {
-            $('.landing-wrapper').hide();
+            $('.landing-wrapper').hide().css('height', '');
             $(this).find('.loading').velocity('fadeOut');
             $(this).find('.done').velocity('fadeIn');
-            $(this).addClass('shrink');
+            $(this).find('.poster').addClass('shrink');
         },
         complete: function() {
-            $(this).velocity('fadeOut', {
+            $landing.velocity('fadeOut', {
                 delay: 2000,
                 duration: 1000,
                 complete: function() {

@@ -116,12 +116,13 @@ h1,h2,h3,h4,h5,h6 {
 	clear: both;
 	display: none;
 	position: absolute;
-	top: 0;
+	height: 100%;
 	right: 0;
 	bottom: 0;
 	left: 0;
 	z-index: 600;
-	overflow: scroll;
+	overflow: hidden;
+	background: rgba(0,0,0,0.5);
 
 	@media screen and (max-width: @screen-xs-max){
 		text-align: left;
@@ -266,13 +267,14 @@ h1,h2,h3,h4,h5,h6 {
 	display: block;
 
 	.poster {
+		position: fixed;
 		display: none;
 	}
 }
 
 .poster,
 .poster-static {
-	position: fixed;
+	position: absolute;
 	height: 100%;
 	bottom: 0;
 }
