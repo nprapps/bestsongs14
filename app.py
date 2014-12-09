@@ -27,6 +27,7 @@ def index():
 
     with open('data/songs.json') as f:
         context['song_data'] = f.read()
+        context['total_songs'] = len(json.loads(context['song_data']))
 
     return make_response(render_template('index.html', **context))
 
