@@ -277,6 +277,14 @@ var playNextSong = function() {
         }
     });
 
+    // some mixtape curators have not reviewed anything
+    // in this case, just use the normal filter
+    if (firstReviewerSong && !nextSong) {
+        var nextSong = _.find(playlist, function(song) {
+            return !(_.contains(playedSongs, song['id']));
+        });
+    }
+
     firstReviewerSong = false;
 
     if (nextSong) {
@@ -703,6 +711,7 @@ var onReviewerClick = function(e) {
     e.preventDefault();
 
     var reviewer = $(this).data('tag');
+    console.log(reviewer);
     firstReviewerSong = true;
     switchTag(reviewer);
     toggleFilterPanel();
