@@ -823,7 +823,7 @@ var hideWelcome  = function() {
             $(this).addClass('shrink');
         },
         complete: function() {
-            $landing.velocity('fadeOut', {
+            $(this).velocity('fadeOut', {
                 delay: 2000,
                 duration: 1000,
                 complete: function() {
