@@ -321,6 +321,7 @@ var playNextSong = function() {
 
         hideWelcome();
     } else {
+        setCurrentSongHeight();
         $html.find('.container-fluid').css('height', songHeight);
         $html.prev().velocity("scroll", {
             duration: 350,
@@ -388,7 +389,10 @@ var preloadSongImages = function() {
  *  Set the height of the currently playing song to fill the viewport.
  */
 var setCurrentSongHeight = function(){
-    songHeight = $(window).height() - $player.height() - $fixedHeader.height() - $fixedControls.height();
+    windowHeight = Modernizr.touch? window.screen.availHeight||$(window.height) : $(window.height);
+    songHeight = windowHeight - $player.height() - $fixedHeader.height() - $fixedControls.height();
+    console.log(songHeight)
+
 
     // if (is_small_screen){
     //     songHeight += $fixedHeader.height();
@@ -814,8 +818,9 @@ var onShuffleSongsClick = function(e) {
  */
 var hideWelcome  = function() {
     $('.songs, .player-container').show();
-
     $fixedHeader.show();
+    setCurrentSongHeight();
+
     $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
 
     $landing.velocity({
