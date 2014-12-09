@@ -805,9 +805,6 @@ var hideWelcome  = function() {
 
     $fixedHeader.show();
     $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
-    var stateObj = {
-        foo: 'bar'
-    }
 
     $('.poster').velocity({
         bottom: '5rem',
@@ -825,10 +822,13 @@ var hideWelcome  = function() {
         complete: function() {
             $landing.velocity('fadeOut', {
                 delay: 2000,
-                duration: 1000
+                duration: 1000,
+                complete: function() {
+                    $('.poster').removeClass('shrink').attr('style','');
+                }
             });
         }
-    })
+    });
 
     onWelcome = false;
 
@@ -861,7 +861,7 @@ var onContinueButtonClick = function(e) {
     e.preventDefault();
     buildPlaylist();
     updateTagDisplay();
-    hideWelcome();
+    $landing.velocity('fadeOut');
     playNextSong();
 }
 
