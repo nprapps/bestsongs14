@@ -15,7 +15,6 @@
 
 {% for genre, songs in songs|groupby('genre1') %}
 	<a name="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}"></a>
-	<h3 class="edTag" id="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}">{{ genre }}</h3>
 	{% for song in songs %}
 		<p><strong>{{ song.artist }}, "{{ song.title }}"</strong></p>
 		<p>{{ song.review }}</p>
