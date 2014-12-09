@@ -1,5 +1,4 @@
 <div class="app-promo">
-	<h2>The Perfect Mixtape</h2>
 	<p>Listen to the full list or filter the playlist by genre or reviewer in our app.</p>
 	<p><a href="http://apps.npr.org/best-songs-2014/"><strong>Launch the app!</strong></a></p>
 </div>
@@ -15,13 +14,12 @@
 </p>
 
 {% for genre, songs in songs|groupby('genre1') %}
-	<hr />
 	<a name="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}"></a>
 	<h3 class="edTag" id="genre-{{ genre|lower|replace(' ', '')|replace('/','') }}">{{ genre }}</h3>
 	{% for song in songs %}
 		<p><strong>{{ song.artist }}, "{{ song.title }}"</strong></p>
 		<p>{{ song.review }}</p>
-		<p><em>– {{ song.reviewer }}</em></p>
+		<p><em>– {{ song.reviewer }}{% if song.reviewer_affiliation %}, {{ song.reviewer_affiliation }} {% endif %}</em></p>
 	{% endfor %}
 {% endfor %}
 
