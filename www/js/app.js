@@ -803,14 +803,30 @@ var onShuffleSongsClick = function(e) {
 var hideWelcome  = function() {
     $('.songs, .player-container').show();
 
-    $landing.velocity('fadeOut', {
+    $fixedHeader.show();
+    $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
+    var stateObj = {
+        foo: 'bar'
+    }
+
+    $('.poster').velocity({
+        bottom: '5rem',
+        height: '4rem',
+    }, {
         duration: 1000,
+        delay: 1000,
+        timing: 'ease-in-out',
         begin: function() {
-            $fixedHeader.show();
-            $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
-            var stateObj = {
-                foo: 'bar'
-            }
+            $('.landing-wrapper').hide();
+            $(this).find('.loading').velocity('fadeOut');
+            $(this).find('.done').velocity('fadeIn');
+            $(this).addClass('shrink');
+        },
+        complete: function() {
+            $landing.velocity('fadeOut', {
+                delay: 2000,
+                duration: 1000
+            });
         }
     })
 
