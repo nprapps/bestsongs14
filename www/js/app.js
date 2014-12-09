@@ -9,27 +9,21 @@ var $playerArtist = null;
 var $playerTitle = null;
 var $currentTime = null;
 var $allTags = null;
-var $reviewerButtons = null;
 var $playlistLength = null;
 var $totalSongs = null;
 var $skip = null;
 var $songs = null;
-var $playlistLengthWarning = null;
 var $landing = null;
 var $genreFilters = null;
-var $landingGenreButtons = null;
-var $playedSongsLength = null;
 var $reviewerFilters = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
 var $shuffleSongs = null;
-var $stack = null;
 var $player = null;
 var $play = null;
 var $pause = null;
 var $filtersButton = null;
-var $filtersContainer = null;
 var $currentDj = null;
 var $fixedControls = null;
 var $historyButton = null;
@@ -76,10 +70,8 @@ var onDocumentLoad = function(e) {
     $playerTitle = $('.player .song-title');
     $allTags = $('.playlist-filters li a');
     $currentTime = $('.current-time');
-    $landingGenreButtons = $('.landing .tags a');
     $playlistLength = $('.playlist-length');
     $totalSongs = $('.total-songs');
-    $playlistLengthWarning = $('.warning');
     $tagsWrapper = $('.tags-wrapper');
     $landing = $('.landing');
     $genreFilters = $('.genre li a.genre-btn');
@@ -88,12 +80,10 @@ var onDocumentLoad = function(e) {
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
     $shuffleSongs = $('.shuffle-songs');
-    $stack = $('.stack');
     $player = $('.player-container')
     $play = $('.play');
     $pause = $('.pause');
     $filtersButton = $('.js-toggle-filters');
-    $filtersContainer = $('.stack .playlist-filters');
     $currentDj = $('.current-dj');
     $fixedControls = $('.fixed-controls');
     $historyButton = $('.js-show-history');
@@ -106,7 +96,6 @@ var onDocumentLoad = function(e) {
     $shareModal.on('hidden.bs.modal', onShareModalHidden);
     $goButton.on('click', onGoButtonClick);
     $continueButton.on('click', onContinueButtonClick);
-    $landingGenreButtons.on('click', onLandingGenreClick);
     $genreFilters.on('click', onGenreClick);
     $reviewerFilters.on('click', onReviewerClick);
     $skip.on('click', onSkipClick);
@@ -805,9 +794,6 @@ var hideWelcome  = function() {
 
     $fixedHeader.show();
     $songs.find('.song').last().velocity("scroll", { duration: 750, offset: -fixedHeaderHeight });
-    var stateObj = {
-        foo: 'bar'
-    }
 
     $('.poster').velocity({
         bottom: '5rem',
@@ -866,19 +852,6 @@ var onContinueButtonClick = function(e) {
     updateTagDisplay();
     $landing.velocity('fadeOut');
     playNextSong();
-}
-
-/*
- * Begin playback in a specific genre tag.
- */
-var onLandingGenreClick = function(e) {
-    e.preventDefault();
-    swapTapeDeck();
-    var tag = $(this).data('tag');
-    switchTag(tag, true);
-    playIntroAudio();
-
-    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'landing-genre-select', $(this).data('tag')]);
 }
 
 /*
