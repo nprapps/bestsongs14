@@ -215,19 +215,16 @@ var playIntroAudio = function() {
 
     inPreroll = true;
 
+    if (!onWelcome) {
+        $('.stack .poster').velocity('fadeIn');
+        $skipsRemaining.hide();
+    }
+
     $audioPlayer.jPlayer('setMedia', {
         mp3: 'http://podcastdownload.npr.org/anon.npr-mp3' + audioFile
     });
     $playerArtist.text('');
     $playerTitle.text('');
-
-    if (!onWelcome) {
-        $('.stack .poster').css({
-            'opacity': 1,
-            'display': 'block'
-        });
-        $skipsRemaining.hide();
-    }
 
     if (!NO_AUDIO){
         $audioPlayer.jPlayer('play');
@@ -330,6 +327,9 @@ var playNextSong = function() {
                 $(document).off('scroll');
             },
             complete: function() {
+                $('.stack .poster').velocity('fadeOut', {
+                    duration: 500
+                });
                 $html.prev().find('.container-fluid').css('height', '0');
                 $html.prev().find('.song-info').css('min-height', 0);
                 $html.prev().css('min-height', '0').addClass('small');
@@ -337,14 +337,11 @@ var playNextSong = function() {
                     .velocity('fadeIn', {
                         duration: 300,
                         complete: function(){
-                            $(this).velocity("scroll", {
+                                $(this).velocity("scroll", {
                                 duration: 500,
                                 offset: -fixedHeaderHeight,
                                 delay: 300,
                                 complete: function() {
-                                    $('.stack .poster').velocity('fadeOut', {
-                                        duration: 1000
-                                    });
                                     $(document).on('scroll', onDocumentScroll);
 
                                     if (playedSongs.length > 1) {
