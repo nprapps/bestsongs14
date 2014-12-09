@@ -389,14 +389,8 @@ var preloadSongImages = function() {
  *  Set the height of the currently playing song to fill the viewport.
  */
 var setCurrentSongHeight = function(){
-    windowHeight = Modernizr.touch? window.screen.availHeight||$(window.height) : $(window.height);
+    windowHeight = Modernizr.touch ? window.screen.availHeight||$(window).height() : $(window).height();
     songHeight = windowHeight - $player.height() - $fixedHeader.height() - $fixedControls.height();
-    console.log(songHeight)
-
-
-    // if (is_small_screen){
-    //     songHeight += $fixedHeader.height();
-    // }
 
     $songs.children().last().find('.container-fluid').css('height', songHeight);
     $songs.children().last().css('min-height', songHeight);
