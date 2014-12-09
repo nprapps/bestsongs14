@@ -822,10 +822,13 @@ var hideWelcome  = function() {
         complete: function() {
             $landing.velocity('fadeOut', {
                 delay: 2000,
-                duration: 1000
+                duration: 1000,
+                complete: function() {
+                    $('.poster').removeClass('shrink').attr('style','');
+                }
             });
         }
-    })
+    });
 
     onWelcome = false;
 
@@ -858,7 +861,7 @@ var onContinueButtonClick = function(e) {
     e.preventDefault();
     buildPlaylist();
     updateTagDisplay();
-    hideWelcome();
+    $landing.velocity('fadeOut');
     playNextSong();
 }
 
