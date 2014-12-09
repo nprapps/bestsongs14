@@ -11,6 +11,7 @@ import os
 from fabric.api import task, local
 from facebook import GraphAPI
 from twitter import Twitter, OAuth
+from smartypants import smartypants
 import requests
 
 import app_config
@@ -61,6 +62,15 @@ def clean_songs(verify):
             if row['song_art']:
                 name, ext = os.path.splitext(row['song_art'])
                 row['song_art'] = '%s-s500%s' % (name, ext)
+
+            if row['title']:
+                row['title'] = smartypants(row['title'])
+
+            if row['artist']:
+                row['artist'] = smartypants(row['artist'])
+
+            if row['review']:
+                row['review'] = smartypants(row['review'])
                 
             # Verify links
             if verify:

@@ -16,6 +16,7 @@ var $songs = null;
 var $landing = null;
 var $genreFilters = null;
 var $reviewerFilters = null;
+var $filtersPanel = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
@@ -76,6 +77,7 @@ var onDocumentLoad = function(e) {
     $landing = $('.landing');
     $genreFilters = $('.genre li a.genre-btn');
     $reviewerFilters = $('.reviewer li a');
+    $filtersPanel = $('.playlist-filters');
     $fixedHeader = $('.fixed-header');
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
@@ -484,10 +486,12 @@ var onPauseClick = function(e) {
 var onFiltersButtonClick = function(e) {
     e.preventDefault();
     toggleFilterPanel();
+    $filtersPanel.scrollTop(0);
 }
 
 var toggleFilterPanel = function() {
     if (!$fixedControls.hasClass('expand')) {
+
         $fixedControls.addClass('expand');
     } else {
         $fixedControls.removeClass('expand');
@@ -820,13 +824,15 @@ var hideWelcome  = function() {
         timing: 'ease-in-out',
         begin: function() {
             $('.landing-wrapper').hide().css('height', '');
-            $(this).find('.loading').velocity('fadeOut');
+            $(this).find('.tip-three').velocity('fadeOut', {
+                duration: 300
+            });
             $(this).find('.done').velocity('fadeIn');
             $(this).find('.poster').addClass('shrink');
         },
         complete: function() {
             $landing.velocity('fadeOut', {
-                delay: 2000,
+                delay: 3000,
                 duration: 1000,
                 complete: function() {
                     $('.poster').removeClass('shrink').attr('style','');
@@ -848,23 +854,23 @@ var swapTapeDeck = function() {
     $landing.find('.poster').css('opacity', 1);
     $landing.addClass('start');
 
-    $landing.find('.loading').velocity('fadeOut', {
-        delay: 4000,
-        complete: function() {
-            $(this).text('Turn up your volume');
-        }
-    })
+    $landing.find('.tip-one').addClass('show');
 
-    $landing.find('.loading').velocity('fadeIn');
+    _.delay(function() {
+        $landing.find('.tip-one').removeClass('show');
+    }, 4000);
 
-    $landing.find('.loading').velocity('fadeOut', {
-        delay: 4000,
-        complete: function() {
-            $(this).text('Turn down the lights');
-        }
-    })
+    _.delay(function() {
+        $landing.find('.tip-two').addClass('show');
+    }, 5000);
 
-    $landing.find('.loading').velocity('fadeIn');
+    _.delay(function() {
+        $landing.find('.tip-two').removeClass('show');
+    }, 9000);
+
+    _.delay(function() {
+        $landing.find('.tip-three').addClass('show');
+    }, 10000);
 }
 
 

@@ -65,6 +65,12 @@
     -webkit-transform: translateY(-50%);
 }
 
+.vertical-center-3d {
+    position: relative;
+    top: 50%;
+    .translate3d(0, -50%, 0);
+}
+
 
 // Global variables
 @img-root: "../img";
@@ -368,7 +374,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .poster p {
-	.vertical-center;
+	.vertical-center-3d;
 	position: absolute;
 	width: 100%;
 	z-index: 100;
@@ -377,9 +383,11 @@ h1,h2,h3,h4,h5,h6 {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 5vw;
+	opacity: 0;
+	.transition(opacity 1s ease-in-out);
 
-	&.done {
-		opacity: 0;
+	&.show {
+		opacity: 1;
 	}
 }
 
@@ -558,6 +566,7 @@ h1,h2,h3,h4,h5,h6 {
 // --------------------------------------------------
 
 .show-history,
+.show-history:hover,
 .show-history:focus,
 .show-history:visited {
 	.transition(all 0.2s ease-in-out);
@@ -1359,6 +1368,10 @@ h1,h2,h3,h4,h5,h6 {
 		font-size: @font-size-base * 0.785;
 		letter-spacing: 0.1rem;
 		// .transition(opacity 0.2s ease-in-out);
+	}
+
+	li a:hover {
+		text-decoration: none;
 	}
 
     li a[data-tag^="\\m/"] {
