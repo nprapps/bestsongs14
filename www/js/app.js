@@ -771,14 +771,15 @@ var updateTagDisplay = function() {
     $allTags.filter('[data-tag="' + selectedTag + '"]').removeClass('disabled');
 
     if (selectedTag === null) {
-        $currentDj.text('All our favorite songs');
+        var allSongsText = 'All our favorite songs'.toUpperCase();
+        $currentDj.text(allSongsText);
         $shuffleSongs.removeClass('disabled');
     } else {
         var tag = null;
         if (selectedTag == '\\m/ >_< \\m/') {
             tag = selectedTag;
         } else {
-            tag = selectedTag.toUpperCase();
+            tag = selectedTag
 
             if (_.contains(APP_CONFIG.REVIEWER_TAGS, selectedTag)) {
                 if (selectedTag[selectedTag.length - 1] == 's') {
@@ -787,6 +788,7 @@ var updateTagDisplay = function() {
                     tag += '\u2019' + 's Mixtape';
                 }
             }
+            tag = tag.toUpperCase();
         }
 
         $currentDj.text(tag);
