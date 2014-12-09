@@ -16,6 +16,7 @@ var $songs = null;
 var $landing = null;
 var $genreFilters = null;
 var $reviewerFilters = null;
+var $filtersPanel = null;
 var $fixedHeader = null;
 var $landingReturnDeck = null;
 var $landingFirstDeck = null;
@@ -76,6 +77,7 @@ var onDocumentLoad = function(e) {
     $landing = $('.landing');
     $genreFilters = $('.genre li a.genre-btn');
     $reviewerFilters = $('.reviewer li a');
+    $filtersPanel = $('.playlist-filters');
     $fixedHeader = $('.fixed-header');
     $landingReturnDeck = $('.landing-return-deck');
     $landingFirstDeck = $('.landing-firstload-deck');
@@ -484,10 +486,12 @@ var onPauseClick = function(e) {
 var onFiltersButtonClick = function(e) {
     e.preventDefault();
     toggleFilterPanel();
+    $filtersPanel.scrollTop(0);
 }
 
 var toggleFilterPanel = function() {
     if (!$fixedControls.hasClass('expand')) {
+
         $fixedControls.addClass('expand');
     } else {
         $fixedControls.removeClass('expand');
