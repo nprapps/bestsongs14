@@ -211,7 +211,7 @@ TAG_AUDIO_INTROS = {
     'Jason King': '/npr/specialmusic/2014/12/20141208_specialmusic_jason.mp3',
     'Felix Contreras': '/npr/specialmusic/2014/12/20141208_specialmusic_felix.mp3',
     'Jasmine Garsd': '/npr/specialmusic/2014/12/20141208_specialmusic_jasmine.mp3',
-    'Jason Bentley': '',
+    'Jason Bentley': '/npr/specialmusic/2014/12/20141209_specialmusic_jasonbentleycurator.mp3',
     'David Dye': '/npr/specialmusic/2014/12/20141208_specialmusic_david.mp3',
     'Rita Houston': '/npr/specialmusic/2014/12/20141208_specialmusic_rita.mp3',
     'Kevin Cole': '/npr/specialmusic/2014/12/20141208_specialmusic_kevin.mp3',
