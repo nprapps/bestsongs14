@@ -298,8 +298,8 @@ var playNextSong = function() {
     var $html = $(JST.song(context));
     $songs.append($html);
 
-    $playerArtist.text(nextSong['artist']);
-    $playerTitle.text(nextSong['title']);
+    $playerArtist.html(nextSong['artist']);
+    $playerTitle.html(nextSong['title']);
     document.title = nextSong['artist'] + ' \u2014 \u2018' + nextSong['title'] + '\u2019 | ' + COPY.content['project_name'];
     $skipsRemaining.show();
 
