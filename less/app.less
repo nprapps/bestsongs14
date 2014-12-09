@@ -558,6 +558,7 @@ h1,h2,h3,h4,h5,h6 {
 // --------------------------------------------------
 
 .show-history,
+.show-history:hover,
 .show-history:focus,
 .show-history:visited {
 	.transition(all 0.2s ease-in-out);
@@ -1359,6 +1360,10 @@ h1,h2,h3,h4,h5,h6 {
 		font-size: @font-size-base * 0.785;
 		letter-spacing: 0.1rem;
 		// .transition(opacity 0.2s ease-in-out);
+	}
+
+	li a:hover {
+		text-decoration: none;
 	}
 
     li a[data-tag^="\\m/"] {
