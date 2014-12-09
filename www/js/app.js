@@ -327,7 +327,7 @@ var playNextSong = function() {
             },
             complete: function() {
                 $html.prev().find('.container-fluid').css('height', '0');
-                $html.prev().find('.song-info').css('min-height', $html.prev().find('.song-info').outerHeight());
+                $html.prev().find('.song-info').css('min-height', 0);
                 $html.prev().css('min-height', '0').addClass('small');
                 $html.css('min-height', songHeight)
                     .velocity('fadeIn', {

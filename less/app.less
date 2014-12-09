@@ -524,6 +524,7 @@ h1,h2,h3,h4,h5,h6 {
 	text-decoration: none;
 	.scale(1);
 	.translate(0,0);
+	opacity: 1;
 
 	.no-touch & {
 		&:hover {
@@ -535,6 +536,7 @@ h1,h2,h3,h4,h5,h6 {
 
 	&.offscreen {
 		.scale(0);
+		opacity: 0;
 	}
 
 	@media screen and (max-width: @screen-xs-max){
