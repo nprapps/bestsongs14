@@ -197,14 +197,17 @@ var onTimeUpdate = function(e) {
 var playIntroAudio = function() {
     var audioFile = null;
 
+    // if on welcome screen, play the intro audio
     if (onWelcome) {
         audioFile = APP_CONFIG.WELCOME_AUDIO;
     }
 
+    // if we have a selected tag, find its audio
     if (selectedTag && !onWelcome) {
         audioFile = APP_CONFIG.TAG_AUDIO_INTROS[selectedTag];
     }
 
+    // if there is no audio (i.e. genres), just play the next song
     if (!audioFile) {
         playNextSong();
         return;
@@ -255,6 +258,8 @@ var makeMixtapeName = function(song) {
  * Play the next song in the playlist.
  */
 var playNextSong = function() {
+    // if this is the first song in a curator playlist
+    // get one reviewed by the curator
     var nextSong = _.find(playlist, function(song) {
         if (!firstReviewerSong) {
             return !(_.contains(playedSongs, song['id']));
@@ -273,6 +278,8 @@ var playNextSong = function() {
 
     firstReviewerSong = false;
 
+    // check if we can play the song legally (4 times per 3 hours)
+    // if we don't have a song, get a new playlist
     if (nextSong) {
         var canPlaySong = checkSongHistory(nextSong);
         if (!canPlaySong) {
@@ -356,6 +363,9 @@ var playNextSong = function() {
     preloadSongImages();
 }
 
+/*
+ * Preload song art and reviewer headshot to make things smoother.
+ */
 var preloadSongImages = function() {
     var nextSong = _.find(playlist, function(song) {
         return !(_.contains(playedSongs, song['id']));
@@ -449,7 +459,7 @@ var updateTotalSongsPlayed = function() {
 }
 
 /*
- * Play the appropriate player
+ * Play the song, show the pause button
  */
 var onPlayClick = function(e) {
     e.preventDefault();
@@ -459,7 +469,7 @@ var onPlayClick = function(e) {
 }
 
 /*
- * Pause the appropriate player
+ * Pause the song, show the play button
  */
 var onPauseClick = function(e) {
     e.preventDefault();
@@ -657,6 +667,10 @@ var buildPlaylist = function() {
     updatePlaylistLength();
 }
 
+
+/*
+ * Shuffle the entire list of songs.
+ */
 var shuffleSongs = function() {
     SONG_DATA = _.shuffle(SONG_DATA);
 }
@@ -703,6 +717,9 @@ var onReviewerClick = function(e) {
     toggleFilterPanel();
 }
 
+/*
+ * Handle clicks on inline reviewer links in song jst.
+ */
 var onReviewerLinkClick = function(e) {
     e.preventDefault();
 
@@ -721,6 +738,9 @@ var onGenreClick = function(e) {
     toggleFilterPanel();
 }
 
+/*
+ * Switch the selectedTag, update the display and build the new playlist
+ */
 var switchTag = function(tag, noAutoplay) {
     if (selectedTag === tag && tag !== null) {
         return;
@@ -820,6 +840,9 @@ var hideWelcome  = function() {
     $(document).keydown(onDocumentKeyDown);
 }
 
+/*
+ * Animate the tape deck after landing click
+ */
 var swapTapeDeck = function() {
     $landing.find('.poster-static').css('opacity', 0);
     $landing.find('.poster').css('opacity', 1);
@@ -828,7 +851,7 @@ var swapTapeDeck = function() {
 
 
 /*
- * Begin shuffled playback.
+ * Begin shuffled playback from the landing screen.
  */
 var onGoButtonClick = function(e) {
     e.preventDefault();
@@ -842,6 +865,9 @@ var onGoButtonClick = function(e) {
     _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'shuffle']);
 }
 
+/*
+ * Resume listening from the landing screen.
+ */
 var onContinueButtonClick = function(e) {
     e.preventDefault();
     buildPlaylist();
@@ -885,6 +911,9 @@ var onDocumentKeyDown = function(e) {
     return true;
 }
 
+/*
+ * Track Amazon clicks on songs.
+ */
 var onAmazonClick = function(e) {
     var thisSong = getSong($(this));
 
@@ -893,6 +922,9 @@ var onAmazonClick = function(e) {
     e.stopPropagation();
 }
 
+/*
+ * Track iTunes clicks on songs.
+ */
 var oniTunesClick = function(e) {
     var thisSong = getSong($(this));
 
@@ -901,6 +933,9 @@ var oniTunesClick = function(e) {
     e.stopPropagation();
 }
 
+/*
+ * Track Rdio clicks on songs.
+ */
 var onRdioClick = function(e) {
     var thisSong = getSong($(this));
 
@@ -909,6 +944,9 @@ var onRdioClick = function(e) {
     e.stopPropagation();
 }
 
+/*
+ * Track Spotify clicks on songs.
+ */
 var onSpotifyClick = function(e) {
     var thisSong = getSong($(this));
 
@@ -917,6 +955,10 @@ var onSpotifyClick = function(e) {
     e.stopPropagation();
 }
 
+/*
+ * Helper function for getting the song artist and title.
+ * For analytics tracking.
+ */
 var getSong = function($el) {
     var thisArtist = $el.parents('.song').find('.song-info .artist').text();
     var thisTitle = $el.parents('.song').find('.song-info .song-title').text();
