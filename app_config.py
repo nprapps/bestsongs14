@@ -133,19 +133,19 @@ REVIEWER_TAGS = [
     'Bob Boilen',
     'Robin Hilton',
     'Ann Powers',
+    'Rita Houston',
+    'Jason Bentley',
+    'Kevin Cole',
+    'David Dye',
     'Stephen Thompson',
     'Anastasia Tsioulcas',
     'Tom Huizenga',
     'Patrick Jarenwattananon',
-    'Lars Gotrich',
     'Frannie Kelley',
     'Jason King',
     'Felix Contreras',
     'Jasmine Garsd',
-    'Jason Bentley',
-    'David Dye',
-    'Rita Houston',
-    'Kevin Cole'
+    'Lars Gotrich',
 ]
 
 REVIEWER_IMAGES = {
