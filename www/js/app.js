@@ -768,6 +768,8 @@ var switchTag = function(tag, noAutoplay) {
     if (noAutoplay !== true) {
         playIntroAudio();
     }
+
+    _gaq.push(['_trackEvent', APP_CONFIG.PROJECT_SLUG, 'switch-tag', selectedTag]);
 }
 
 /*

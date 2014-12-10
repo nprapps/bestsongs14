@@ -19,7 +19,7 @@
                     <h4>On Tumblr</h4>
 
                     <p class="share-story">
-                        <a href="http://www.tumblr.com/share/photo?source={{ COPY.share.tumblr_image_url|urlencode }}&amp;caption={{ COPY.share.tumblr_image_caption|urlencode }}&amp;clickthru={{ COPY.share.share_url|urlencode }}" target="_blank"><i class="fa fa-tumblr share-icon"></i> <b>Share story on Tumblr</b></a>
+                        <a href="http://www.tumblr.com/share/photo?source={{ COPY.share.tumblr_image_url|urlencode }}&amp;caption={{ COPY.share.tumblr_image_caption|urlencode }}&amp;clickthru={{ COPY.share.share_url|urlencode }}" target="_blank" onclick="_gaq.push(['_trackEvent', '{{ PROJECT_SLUG }}', 'tumblr', 'share-discuss']);"><i class="fa fa-tumblr share-icon"></i> <b>Share story on Tumblr</b></a>
                     </p>
                 </div>
 
