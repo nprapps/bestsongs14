@@ -364,8 +364,6 @@ The Google Analytics events tracked in this application are:
 |bestsongs14|open-share-discuss||||
 |bestsongs14|close-share-discuss||||
 |bestsongs14|summary-copied||||
-|bestsongs14|featured-tweet-action|`action`||``tweet_url``|
-|bestsongs14|featured-facebook-action|`action`||``post_url``|
 |bestsongs14|shuffle||||
 |bestsongs14|song-skip|`playerArtist.text()` + ' - ' + `playerTitle.text()`|`usedSkips.length`||||
 |bestsongs14|switch-tag|`selectedTag`||||
@@ -377,3 +375,4 @@ The Google Analytics events tracked in this application are:
 |bestsongs14|spotify-click|`artist` + `title`||||
 
 
+**Note:** `tumblr` and `switch-tag` we're added ~6 hours after launch.
