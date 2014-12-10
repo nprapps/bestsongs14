@@ -45,7 +45,7 @@ def seamus():
         for song in songs_data:
             song['song_art'] = song['song_art'].replace('-s500', '-s200')
 
-        songs = sorted(songs_data, key=lambda k: (k['artist'].lower()[4:] if k['artist'].lower().startswith('the') else k['artist'].lower()))
+        songs = sorted(songs_data, key=lambda k: (k['artist'].lower()[4:] if k['artist'].lower().startswith('the ') else k['artist'].lower()))
 
     context['songs'] = songs
 
