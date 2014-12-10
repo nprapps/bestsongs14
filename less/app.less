@@ -167,7 +167,6 @@ h1,h2,h3,h4,h5,h6 {
 
 	.landing-content {
 		background: @white;
-		// .vertical-center;
 		display: table-cell;
 		vertical-align: middle;
 	}
@@ -368,6 +367,7 @@ h1,h2,h3,h4,h5,h6 {
 		.done:before {
 			content: '\f106';
 			font-family: 'FontAwesome';
+			font-size: 2.5rem;
 			.vertical-center-3d;
 			position: absolute;
 			left: 0;
@@ -696,7 +696,6 @@ h1,h2,h3,h4,h5,h6 {
 
 
 		@media screen and (orientation: portrait){
-			vertical-align: top;
 			margin-left: 0.5rem;
 			margin-right: 0.5rem;
 		}
@@ -1173,10 +1172,8 @@ h1,h2,h3,h4,h5,h6 {
 		width: 5.1rem;
 		height: 4rem;
 		line-height: 4rem;
-		// background: rgba(0,0,0,0.1);
 		color: #666;
 		text-align: center;
-		// margin-right: @grid-gutter-width;
 
 		&:after {
 			content: '\f106';
@@ -1184,12 +1181,6 @@ h1,h2,h3,h4,h5,h6 {
 				content: '\f107';
 			}
 		}
-
-	    // @media screen and (max-width: @screen-xs-max){
-	    // 	left: auto;
-	    // 	right: 0;
-	    // 	width: 4rem;
-	    // }
 	}
 
 	.song-count,
