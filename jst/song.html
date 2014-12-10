@@ -17,7 +17,7 @@
 
                 <div class="review-wrapper">
                     <p class="review"><%= review %></p>
-                    <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/headshots/<%= REVIEWER_IMAGES[reviewer] %>"></span> <span class="name"><%= reviewer %><% if (reviewer_affiliation) { %>, <%= reviewer_affiliation %><% } %></span>
+                    <p class="byline"><span class="mug"><img src="<%= S3_BASE_URL %>/assets/img/headshots/<%= REVIEWER_IMAGES[reviewer] %>"></span> <span class="name"><%= reviewer %><% if (reviewer_affiliation) { %>, <a href="<%= affiliate_link %>" target="_blank"><%= reviewer_affiliation %></a><% } %></span>
                     <% if (mixtapeName) { %>
                         <a href="#" class="reviewer-link" data-tag="<%= reviewer %>"><span class="icon-play"></span> Play <%= mixtapeName %> mixtape</a>
                         </p>
