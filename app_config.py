@@ -186,7 +186,7 @@ REVIEWER_BIOS = {
     'Tom Huizenga': 'Co-host of the blog Deceptive Cadence, ears wide open',
     'Patrick Jarenwattananon': 'Jazz producer with an Internet connection',
     'Lars Gotrich': 'Beer drinker, BBQ eater',
-    'Frannie Kelley': 'Editor and Co-host of Microphone Check',
+    'Frannie Kelley': 'Editor and co-host of Microphone Check',
     'Jason King': 'Host and curator of NPR&B',
     'Felix Contreras': 'Dad, drummer, Deadhead',
     'Jasmine Garsd': 'Co-host of NPR&rsquo;s Alt.Latino',
