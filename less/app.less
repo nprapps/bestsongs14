@@ -363,6 +363,16 @@ h1,h2,h3,h4,h5,h6 {
 	}
 
 	&.shrink {
+		cursor: pointer;
+
+		.done:before {
+			content: '\f106';
+			font-family: 'FontAwesome';
+			.vertical-center-3d;
+			position: absolute;
+			left: 0;
+			width: 5.1rem;
+		}
 
 		&:before {
 			opacity: 0;
@@ -373,8 +383,6 @@ h1,h2,h3,h4,h5,h6 {
 			opacity: 0;
 		}
 	}
-
-
 }
 
 .poster p {

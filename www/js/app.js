@@ -114,6 +114,7 @@ var onDocumentLoad = function(e) {
     $songs.on('click', '.song-tools .rdio', onRdioClick);
     $songs.on('click', '.song-tools .spotify', onSpotifyClick);
     $songs.on('click', '.byline .reviewer-link', onReviewerLinkClick);
+    $landing.on('click', '.poster.shrink', onFilterTipClick);
 
     // configure ZeroClipboard on share panel
     ZeroClipboard.config({ swfPath: 'js/lib/ZeroClipboard.swf' });
@@ -487,6 +488,14 @@ var onFiltersButtonClick = function(e) {
     $filtersPanel.scrollTop(0);
 }
 
+var onFilterTipClick = function(e) {
+    e.preventDefault();
+    toggleFilterPanel();
+    $(this).velocity('fadeOut', {
+        duration: 300
+    });
+}
+
 var toggleFilterPanel = function() {
     if (!$fixedControls.hasClass('expand')) {
 
@@ -833,7 +842,7 @@ var hideWelcome  = function() {
         },
         complete: function() {
             $landing.velocity('fadeOut', {
-                delay: 3000,
+                delay: 4000,
                 duration: 1000,
                 complete: function() {
                     $('.poster').removeClass('shrink').attr('style','');
