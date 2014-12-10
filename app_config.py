@@ -182,7 +182,7 @@ REVIEWER_BIOS = {
     'Robin Hilton': 'Co-host, All Songs Considered. Crying on the outside; laughing on the inside',
     'Ann Powers': 'Critic, meaning-monger, melody freak',
     'Stephen Thompson': 'Likes writing, talking, melancholy, misanthropy, these songs, you',
-    'Anastasia Tsioulcas': 'Co-host of the blog Deceptive Cadence, musical omnivore.',
+    'Anastasia Tsioulcas': 'Co-host of the blog Deceptive Cadence, musical omnivore',
     'Tom Huizenga': 'Co-host of the blog Deceptive Cadence, ears wide open',
     'Patrick Jarenwattananon': 'Jazz producer with an Internet connection',
     'Lars Gotrich': 'Beer drinker, BBQ eater',
