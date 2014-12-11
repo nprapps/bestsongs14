@@ -1,9 +1,4 @@
-Copyright 2014 NPR.  All rights reserved.  No part of these materials may be reproduced, modified, stored in a retrieval system, or retransmitted, in any form or by any means, electronic, mechanical or otherwise, without prior written permission from NPR.
-
-(Want to use this code? Send an email to nprapps@npr.org!)
-
-
-bestsongs14
+Songs We Love 2014
 ========================
 
 * [What is this?](#what-is-this)
@@ -30,7 +25,9 @@ bestsongs14
 What is this?
 -------------
 
-**TKTK: Describe bestsongs14 here.**
+NPR's [Songs We Love 2014](http://apps.npr.org/best-songs-2014/).
+
+This code is open source under the MIT license. See `LICENSE` for complete details.
 
 Assumptions
 -----------
