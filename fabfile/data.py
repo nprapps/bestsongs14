@@ -7,8 +7,6 @@ import csv
 from datetime import datetime
 import json
 import os
-import sys
-from urlparse import urlparse
 
 from fabric.api import task, local
 from facebook import GraphAPI
@@ -17,7 +15,6 @@ from smartypants import smartypants
 import requests
 from rdioapi import Rdio
 import spotipy
-import spotipy.util as util
 
 import app_config
 import copytext
