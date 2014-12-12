@@ -1,9 +1,13 @@
 Fabric==1.4.3
 Flask==0.9
+GDAL==1.11.0
 Jinja2==2.6
 MarkupSafe==0.23
 PyYAML==3.11
+Pygments==1.6
+Rdio==0.3.0
 Werkzeug==0.8.3
+argparse==1.2.1
 awscli==1.2.10
 bcdoc==0.12.0
 boto==2.25.0
@@ -18,6 +22,8 @@ google-api-python-client==1.2
 httplib2==0.9
 jmespath==0.2.1
 nose==1.2.1
+numpy==1.8.2
+oauth2==1.5.211
 odict==1.5.1
 openpyxl==1.8.5
 ply==3.4
@@ -29,8 +35,13 @@ rsa==3.1.2
 six==1.5.2
 slimit==0.7.4
 smartypants==1.8.6
+spotipy==2.2.0
 ssh==1.7.14
+stevedore==0.15
 termcolor==1.1.0
 twitter==1.14.3
+virtualenv==1.11.6
+virtualenv-clone==0.2.5
+virtualenvwrapper==4.3.1
 wheel==0.23.0
 wsgiref==0.1.2

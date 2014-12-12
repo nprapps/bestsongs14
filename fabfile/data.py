@@ -7,12 +7,17 @@ import csv
 from datetime import datetime
 import json
 import os
+import sys
+from urlparse import urlparse
 
 from fabric.api import task, local
 from facebook import GraphAPI
 from twitter import Twitter, OAuth
 from smartypants import smartypants
 import requests
+from rdioapi import Rdio
+import spotipy
+import spotipy.util as util
 
 import app_config
 import copytext
@@ -141,6 +146,54 @@ def clean_songs(verify):
             output.append(row)
 
     return output
+
+@task
+def generate_rdio_playlist():
+    """
+    Generate a list of Rdio track IDs
+    """
+
+    state = {}
+    rdio_api = Rdio(
+        secrets['RDIO_CONSUMER_KEY'],
+        secrets['RDIO_CONSUMER_SECRET'],
+        state
+    )
+    songs = []
+
+    with open('data/songs.csv') as f:
+        rows = csv.DictReader(f)
+
+        for row in rows:
+            if row['rdio']:
+                song_object = rdio_api.getObjectFromUrl(url=row['rdio'])
+                if song_object['type'] == 't':
+                    songs.append(song_object['key'])
+
+    print ','.join(songs)
+
+@task
+def generate_spotify_playlist():
+    """
+    Generate a list of Spotify track IDs
+    """
+
+    sp = spotipy.Spotify()
+    songs = []
+
+    with open('data/songs.csv') as f:
+        rows = csv.DictReader(f)
+
+        for row in rows:
+            if row['spotify'] and "track" in row['spotify']:
+                try:
+                    song_object = sp.track(track_id=row['spotify'])
+                    if song_object['track_number']:
+                        songs.append(song_object['uri'])
+                except:
+                    print 'invalid ID'
+
+    print ','.join(songs)
 
 @task
 def update_featured_social():
