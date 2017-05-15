@@ -7,6 +7,7 @@ Commands related to the syncing assets.
 from glob import glob
 import os
 
+from boto.s3.connection import OrdinaryCallingFormat
 import boto
 from fabric.api import prompt, task
 import app_config
@@ -179,7 +180,7 @@ def _assets_get_bucket():
     """
     Get a reference to the assets bucket.
     """
-    s3 = boto.connect_s3()
+    s3 = boto.connect_s3(calling_format=OrdinaryCallingFormat())
 
     return s3.get_bucket(app_config.ASSETS_S3_BUCKET['bucket_name'])
 
