@@ -77,7 +77,7 @@ Then bootstrap the project:
 
 ```
 cd bestsongs14
-mkvirtualenv --no-site-packages bestsongs14
+mkvirtualenv bestsongs14
 pip install -r requirements.txt
 npm install
 fab update
